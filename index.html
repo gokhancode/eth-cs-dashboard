@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ETH CS — Semester 2 Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0a0a0f;
+  --bg2: #12121a;
+  --bg3: #1a1a26;
+  --border: #2a2a3a;
+  --text: #e4e4ef;
+  --text2: #9090a8;
+  --accent: #6366f1;
+  --accent2: #818cf8;
+  --green: #22c55e;
+  --orange: #f59e0b;
+  --red: #ef4444;
+  --cyan: #06b6d4;
+  --pp: #8b5cf6;
+  --aw: #f59e0b;
+  --an: #ef4444;
+  --ddca: #06b6d4;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'Inter',sans-serif; background:var(--bg); color:var(--text); min-height:100vh; }
+a { color:var(--accent2); text-decoration:none; }
+a:hover { text-decoration:underline; }
+
+/* NAV */
+.nav { position:sticky; top:0; z-index:100; background:rgba(10,10,15,0.92); backdrop-filter:blur(16px); border-bottom:1px solid var(--border); padding:0 24px; }
+.nav-inner { max-width:1400px; margin:0 auto; display:flex; align-items:center; gap:24px; height:56px; }
+.nav-logo { font-weight:800; font-size:18px; letter-spacing:-0.5px; }
+.nav-logo span { color:var(--accent); }
+.nav-tabs { display:flex; gap:4px; }
+.nav-tab { padding:8px 16px; border-radius:8px; cursor:pointer; font-size:14px; font-weight:500; color:var(--text2); transition:all 0.2s; }
+.nav-tab:hover { background:var(--bg3); color:var(--text); }
+.nav-tab.active { background:var(--accent); color:#fff; }
+.nav-clock { margin-left:auto; font-size:13px; color:var(--text2); font-variant-numeric:tabular-nums; }
+
+/* MAIN */
+.main { max-width:1400px; margin:0 auto; padding:24px; }
+.section { display:none; }
+.section.active { display:block; }
+
+/* CARDS */
+.grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(340px,1fr)); gap:16px; margin-top:16px; }
+.card { background:var(--bg2); border:1px solid var(--border); border-radius:12px; padding:20px; transition:all 0.2s; }
+.card:hover { border-color:var(--accent); transform:translateY(-2px); }
+.card-header { display:flex; align-items:center; gap:10px; margin-bottom:12px; }
+.card-icon { width:40px; height:40px; border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:20px; }
+.card-title { font-weight:700; font-size:16px; }
+.card-sub { font-size:13px; color:var(--text2); }
+.card-body { font-size:14px; line-height:1.6; color:var(--text2); }
+.badge { display:inline-block; padding:2px 8px; border-radius:6px; font-size:11px; font-weight:600; }
+
+/* SCHEDULE */
+.schedule-grid { display:grid; grid-template-columns:80px repeat(5,1fr); gap:2px; margin-top:16px; }
+.schedule-header { background:var(--bg3); padding:10px; text-align:center; font-weight:600; font-size:13px; border-radius:8px; }
+.schedule-time { background:var(--bg2); padding:10px 8px; font-size:12px; color:var(--text2); display:flex; align-items:center; justify-content:center; border-radius:8px; }
+.schedule-cell { min-height:60px; border-radius:8px; padding:8px; font-size:12px; display:flex; flex-direction:column; justify-content:center; }
+.schedule-cell.empty { background:var(--bg2); }
+.schedule-cell .course-name { font-weight:600; font-size:12px; margin-bottom:2px; }
+.schedule-cell .course-detail { font-size:11px; opacity:0.8; }
+
+/* COURSE PAGE */
+.course-hero { padding:32px; border-radius:16px; margin-bottom:24px; }
+.course-hero h1 { font-size:28px; font-weight:800; margin-bottom:8px; }
+.course-hero p { font-size:15px; opacity:0.9; }
+.info-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:16px; margin-top:16px; }
+.info-card { background:var(--bg2); border:1px solid var(--border); border-radius:12px; padding:16px; }
+.info-card h3 { font-size:14px; font-weight:700; margin-bottom:10px; color:var(--accent2); }
+.info-card ul { list-style:none; }
+.info-card li { padding:6px 0; font-size:13px; color:var(--text2); border-bottom:1px solid var(--border); }
+.info-card li:last-child { border:none; }
+.info-card li strong { color:var(--text); }
+
+/* RECORDINGS */
+.video-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:16px; margin-top:16px; }
+.video-card { background:var(--bg2); border:1px solid var(--border); border-radius:12px; overflow:hidden; cursor:pointer; transition:all 0.2s; }
+.video-card:hover { border-color:var(--accent); transform:translateY(-2px); }
+.video-thumb { width:100%; aspect-ratio:16/9; background:var(--bg3); display:flex; align-items:center; justify-content:center; font-size:48px; position:relative; }
+.video-thumb::after { content:'▶'; position:absolute; font-size:36px; color:white; opacity:0.8; }
+.video-info { padding:12px; }
+.video-info h4 { font-size:14px; font-weight:600; margin-bottom:4px; }
+.video-info p { font-size:12px; color:var(--text2); }
+
+/* RESOURCES */
+.resource-list { margin-top:16px; }
+.resource-item { display:flex; align-items:center; gap:12px; padding:12px 16px; background:var(--bg2); border:1px solid var(--border); border-radius:10px; margin-bottom:8px; transition:all 0.2s; }
+.resource-item:hover { border-color:var(--accent); }
+.resource-icon { font-size:24px; width:40px; text-align:center; }
+.resource-text h4 { font-size:14px; font-weight:600; }
+.resource-text p { font-size:12px; color:var(--text2); }
+
+/* TABS INSIDE COURSE */
+.course-tabs { display:flex; gap:4px; margin:16px 0; flex-wrap:wrap; }
+.course-tab { padding:6px 14px; border-radius:8px; cursor:pointer; font-size:13px; font-weight:500; color:var(--text2); background:var(--bg2); border:1px solid var(--border); transition:all 0.2s; }
+.course-tab:hover { color:var(--text); border-color:var(--text2); }
+.course-tab.active { background:var(--accent); color:#fff; border-color:var(--accent); }
+.course-content { display:none; }
+.course-content.active { display:block; }
+
+/* STAFF TABLE */
+.staff-table { width:100%; border-collapse:separate; border-spacing:0; margin-top:12px; }
+.staff-table th { text-align:left; padding:10px 12px; font-size:12px; font-weight:600; color:var(--text2); text-transform:uppercase; letter-spacing:0.5px; border-bottom:1px solid var(--border); }
+.staff-table td { padding:10px 12px; font-size:13px; border-bottom:1px solid var(--border); }
+.staff-table tr:hover td { background:var(--bg3); }
+
+/* BACK BTN */
+.back-btn { display:inline-flex; align-items:center; gap:6px; padding:8px 16px; border-radius:8px; background:var(--bg2); border:1px solid var(--border); color:var(--text2); cursor:pointer; font-size:13px; margin-bottom:16px; transition:all 0.2s; }
+.back-btn:hover { border-color:var(--accent); color:var(--text); }
+
+/* RESPONSIVE */
+@media(max-width:768px) {
+  .schedule-grid { grid-template-columns:60px repeat(5,1fr); font-size:11px; }
+  .nav-tabs { overflow-x:auto; }
+  .grid { grid-template-columns:1fr; }
+}
+
+/* WEEK INDICATOR */
+.week-num { background:var(--accent); color:#fff; padding:4px 12px; border-radius:20px; font-size:12px; font-weight:600; display:inline-block; margin-bottom:16px; }
+
+/* SEARCH */
+.search-box { background:var(--bg2); border:1px solid var(--border); border-radius:10px; padding:10px 16px; width:100%; max-width:400px; color:var(--text); font-size:14px; font-family:inherit; margin-bottom:16px; }
+.search-box:focus { outline:none; border-color:var(--accent); }
+.search-box::placeholder { color:var(--text2); }
+
+h2 { font-size:22px; font-weight:700; margin-bottom:4px; }
+h2 + p { color:var(--text2); font-size:14px; margin-bottom:16px; }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <div class="nav-logo"><span>ETH</span> CS S2</div>
+    <div class="nav-tabs">
+      <div class="nav-tab active" onclick="showSection('overview')">Overview</div>
+      <div class="nav-tab" onclick="showSection('schedule')">Schedule</div>
+      <div class="nav-tab" onclick="showSection('pp')">Parallel Prog</div>
+      <div class="nav-tab" onclick="showSection('aw')">Algo & Prob</div>
+      <div class="nav-tab" onclick="showSection('analysis')">Analysis I</div>
+      <div class="nav-tab" onclick="showSection('ddca')">DDCA</div>
+      <div class="nav-tab" onclick="showSection('resources')">Resources</div>
+    </div>
+    <div class="nav-clock" id="clock"></div>
+  </div>
+</nav>
+
+<div class="main">
+
+<!-- ==================== OVERVIEW ==================== -->
+<div class="section active" id="sec-overview">
+  <div id="week-indicator" class="week-num"></div>
+  <h2>Semester 2 Dashboard</h2>
+  <p>Spring 2026 — ETH Zurich Computer Science</p>
+  <div class="grid">
+    <div class="card" onclick="showSection('pp')" style="cursor:pointer">
+      <div class="card-header">
+        <div class="card-icon" style="background:rgba(139,92,246,0.15);color:var(--pp)">🔀</div>
+        <div>
+          <div class="card-title">Parallel Programming</div>
+          <div class="card-sub">252-0029-00L · 7 ECTS</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <strong>Hoefler & Solenthaler</strong><br>
+        Mon & Tue 10:15–12:00 · HG F5/F7<br>
+        <span class="badge" style="background:rgba(139,92,246,0.2);color:var(--pp)">100% Final Exam</span>
+      </div>
+    </div>
+    <div class="card" onclick="showSection('aw')" style="cursor:pointer">
+      <div class="card-header">
+        <div class="card-icon" style="background:rgba(245,158,11,0.15);color:var(--aw)">🎲</div>
+        <div>
+          <div class="card-title">Algorithms & Probability</div>
+          <div class="card-sub">252-0030-00L · 7 ECTS</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <strong>Kyng, Steger & Welzl</strong><br>
+        Tue & Thu 14:15–16:00 · HG F5/F7<br>
+        <span class="badge" style="background:rgba(245,158,11,0.2);color:var(--aw)">Written Exam</span>
+      </div>
+    </div>
+    <div class="card" onclick="showSection('analysis')" style="cursor:pointer">
+      <div class="card-header">
+        <div class="card-icon" style="background:rgba(239,68,68,0.15);color:var(--an)">📐</div>
+        <div>
+          <div class="card-title">Analysis I</div>
+          <div class="card-sub">401-0212-16L · 7 ECTS</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <strong>D-Math Faculty</strong><br>
+        Check VVZ for exact schedule<br>
+        <span class="badge" style="background:rgba(239,68,68,0.2);color:var(--an)">Written Exam</span>
+      </div>
+    </div>
+    <div class="card" onclick="showSection('ddca')" style="cursor:pointer">
+      <div class="card-header">
+        <div class="card-icon" style="background:rgba(6,182,212,0.15);color:var(--ddca)">🔧</div>
+        <div>
+          <div class="card-title">Digital Design & Computer Architecture</div>
+          <div class="card-sub">227-0003-10V · 7 ECTS</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <strong>Onur Mutlu & Sadrosadati</strong><br>
+        Thu & Fri 14:15–16:00 · HG F7<br>
+        <span class="badge" style="background:rgba(6,182,212,0.2);color:var(--ddca)">Labs + Exam</span>
+      </div>
+    </div>
+  </div>
+
+  <h2 style="margin-top:32px">⚠️ Basisprüfung</h2>
+  <p>All first-year courses (Sem 1 + 2) form one block exam. Weighted avg ≥ 4.0 required. Two attempts total.</p>
+  <div class="card" style="border-color:var(--orange);max-width:600px">
+    <div class="card-body">
+      <strong style="color:var(--orange)">Total: 56 ECTS (28 per semester)</strong><br>
+      Fail rate: ~30-40%. This is the hardest filter at ETH.<br>
+      If you fail, you repeat the ENTIRE first year block.<br><br>
+      <strong>Exam session:</strong> Late July / Early August 2026
+    </div>
+  </div>
+</div>
+
+<!-- ==================== SCHEDULE ==================== -->
+<div class="section" id="sec-schedule">
+  <h2>Weekly Schedule</h2>
+  <p>Spring 2026 — All times in CET/CEST</p>
+  <div class="schedule-grid">
+    <div class="schedule-header"></div>
+    <div class="schedule-header">Mon</div>
+    <div class="schedule-header">Tue</div>
+    <div class="schedule-header">Wed</div>
+    <div class="schedule-header">Thu</div>
+    <div class="schedule-header">Fri</div>
+
+    <div class="schedule-time">08–10</div>
+    <div class="schedule-cell empty"></div>
+    <div class="schedule-cell empty"></div>
+    <div class="schedule-cell empty"></div>
+    <div class="schedule-cell empty"></div>
+    <div class="schedule-cell" style="background:rgba(6,182,212,0.15);border-left:3px solid var(--ddca)">
+      <div class="course-name" style="color:var(--ddca)">DDCA Lab</div>
+      <div class="course-detail">08:15–10:00 · HG D11/D12/E26/E27</div>
+    </div>
+
+    <div class="schedule-time">10–12</div>
+    <div class="schedule-cell" style="background:rgba(139,92,246,0.15);border-left:3px solid var(--pp)">
+      <div class="course-name" style="color:var(--pp)">Parallel Prog</div>
+      <div class="course-detail">10:15–12:00 · HG F5/F7</div>
+    </div>
+    <div class="schedule-cell" style="background:rgba(139,92,246,0.15);border-left:3px solid var(--pp)">
+      <div class="course-name" style="color:var(--pp)">Parallel Prog</div>
+      <div class="course-detail">10:15–12:00 · HG F5/F7</div>
+    </div>
+    <div class="schedule-cell empty"></div>
+    <div class="schedule-cell empty"></div>
+    <div class="schedule-cell" style="background:rgba(139,92,246,0.1);border-left:3px solid var(--pp)">
+      <div class="course-name" style="color:var(--pp)">PP Exercise</div>
+      <div class="course-detail">10:15–12:00</div>
+    </div>
+
+    <div class="schedule-time">12–14</div>
+    <div class="schedule-cell empty"></div>
+    <div class="schedule-cell empty"></div>
+    <div class="schedule-cell empty"></div>
+    <div class="schedule-cell empty"></div>
+    <div class="schedule-cell empty"></div>
+
+    <div class="schedule-time">14–16</div>
+    <div class="schedule-cell empty"></div>
+    <div class="schedule-cell" style="background:rgba(245,158,11,0.15);border-left:3px solid var(--aw)">
+      <div class="course-name" style="color:var(--aw)">Algo & Prob</div>
+      <div class="course-detail">14:15–16:00 · HG F5/F7</div>
+    </div>
+    <div class="schedule-cell empty"></div>
+    <div class="schedule-cell" style="background:rgba(6,182,212,0.15);border-left:3px solid var(--ddca)">
+      <div class="course-name" style="color:var(--ddca)">DDCA Lecture</div>
+      <div class="course-detail">14:15–16:00 · HG F7</div>
+    </div>
+    <div class="schedule-cell" style="background:rgba(6,182,212,0.15);border-left:3px solid var(--ddca)">
+      <div class="course-name" style="color:var(--ddca)">DDCA Lecture</div>
+      <div class="course-detail">14:15–16:00 · HG F7</div>
+    </div>
+
+    <div class="schedule-time">16–18</div>
+    <div class="schedule-cell empty"></div>
+    <div class="schedule-cell" style="background:rgba(6,182,212,0.1);border-left:3px solid var(--ddca)">
+      <div class="course-name" style="color:var(--ddca)">DDCA Lab</div>
+      <div class="course-detail">16:15–18:00 · HG E19/E26/E27</div>
+    </div>
+    <div class="schedule-cell" style="background:rgba(139,92,246,0.1);border-left:3px solid var(--pp)">
+      <div class="course-name" style="color:var(--pp)">PP Exercise</div>
+      <div class="course-detail">16:15–18:00</div>
+    </div>
+    <div class="schedule-cell empty"></div>
+    <div class="schedule-cell empty"></div>
+  </div>
+  <p style="margin-top:16px;font-size:12px;color:var(--text2)">* Analysis I schedule not shown — check <a href="https://www.vvz.ethz.ch" target="_blank">VVZ</a> for exact times. Typically Mon/Wed or Tue/Thu mornings.</p>
+</div>
+
+<!-- ==================== PARALLEL PROGRAMMING ==================== -->
+<div class="section" id="sec-pp">
+  <button class="back-btn" onclick="showSection('overview')">← Back</button>
+  <div class="course-hero" style="background:linear-gradient(135deg,rgba(139,92,246,0.2),rgba(139,92,246,0.05))">
+    <h1>🔀 Parallel Programming</h1>
+    <p>252-0029-00L · 7 ECTS · Hoefler & Solenthaler · Spring 2026</p>
+  </div>
+  <div class="course-tabs">
+    <div class="course-tab active" onclick="showCourseTab('pp','info')">Info</div>
+    <div class="course-tab" onclick="showCourseTab('pp','lectures')">Lectures</div>
+    <div class="course-tab" onclick="showCourseTab('pp','exercises')">Exercises</div>
+    <div class="course-tab" onclick="showCourseTab('pp','staff')">Staff</div>
+    <div class="course-tab" onclick="showCourseTab('pp','resources')">Resources</div>
+  </div>
+
+  <div class="course-content active" id="pp-info">
+    <div class="info-grid">
+      <div class="info-card">
+        <h3>📅 Schedule</h3>
+        <ul>
+          <li><strong>Lectures:</strong> Mon 10:15–12:00, Tue 10:15–12:00</li>
+          <li><strong>Location:</strong> HG F5 & HG F7</li>
+          <li><strong>Exercises:</strong> Wed 16:15–18:00, Fri 10:15–12:00</li>
+          <li><strong>Moodle:</strong> <a href="https://moodle-app2.let.ethz.ch/course/view.php?id=27855" target="_blank">Open Moodle</a></li>
+          <li><strong>Course Page:</strong> <a href="https://spcl.inf.ethz.ch/Teaching/2026-pp/" target="_blank">SPCL Website</a></li>
+        </ul>
+      </div>
+      <div class="info-card">
+        <h3>📝 Grading</h3>
+        <ul>
+          <li><strong>100% Final Exam</strong> (written, centralized)</li>
+          <li>Exercises are NOT graded</li>
+          <li>But DO them — they're essential prep</li>
+        </ul>
+      </div>
+      <div class="info-card">
+        <h3>📚 Topics</h3>
+        <ul>
+          <li>Java Threads & Synchronization</li>
+          <li>Parallel Architectures (hardware)</li>
+          <li>Basic Parallelism Concepts</li>
+          <li>Divide & Conquer, Executor Service</li>
+          <li>DAG & ForkJoin Framework</li>
+          <li>Parallel Algorithms</li>
+          <li>Shared Memory, Locks, Data Races</li>
+          <li>Virtual Threads</li>
+        </ul>
+      </div>
+      <div class="info-card">
+        <h3>📖 Textbooks</h3>
+        <ul>
+          <li><strong>Java Concurrency in Practice</strong> — Goetz et al.</li>
+          <li><strong>Art of Multiprocessor Programming</strong> — Herlihy & Shavit (<a href="https://library.ethz.ch" target="_blank">ETH Library online</a>)</li>
+          <li><strong>Intro to Java Programming</strong> — Daniel Liang</li>
+          <li><a href="http://greenteapress.com/semaphores/" target="_blank">Little Book of Semaphores</a> (free)</li>
+          <li><a href="http://homes.cs.washington.edu/~djg/teachingMaterials/spac/sophomoricParallelismAndConcurrency.pdf" target="_blank">Sophomoric Parallelism</a> (free PDF)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="course-content" id="pp-lectures">
+    <h3 style="margin-bottom:12px">Lecture Schedule</h3>
+    <table class="staff-table">
+      <tr><th>#</th><th>Topic</th><th>Part</th></tr>
+      <tr><td>1</td><td>Introduction & Course Overview</td><td>Hoefler</td></tr>
+      <tr><td>2</td><td>Java Recap and JVM Overview</td><td>Hoefler</td></tr>
+      <tr><td>3</td><td>Introduction to Threads and Synchronization (I)</td><td>Hoefler</td></tr>
+      <tr><td>4</td><td>Introduction to Threads and Synchronization (II)</td><td>Hoefler</td></tr>
+      <tr><td>5</td><td>Introduction to Threads and Synchronization (III)</td><td>Hoefler</td></tr>
+      <tr><td>6</td><td>Parallel Architectures: Hardware Level</td><td>Hoefler</td></tr>
+      <tr><td>7</td><td>Basic Concepts in Parallelism</td><td>Solenthaler</td></tr>
+      <tr><td>8</td><td>Divide & Conquer and Executor Service</td><td>Solenthaler</td></tr>
+      <tr><td>9</td><td>DAG and ForkJoin Framework</td><td>Solenthaler</td></tr>
+      <tr><td>10</td><td>Parallel Algorithms (I)</td><td>Solenthaler</td></tr>
+      <tr><td>11</td><td>Parallel Algorithms (II)</td><td>Solenthaler</td></tr>
+      <tr><td>12</td><td>Shared Memory Concurrency, Locks & Data Races</td><td>Solenthaler</td></tr>
+      <tr><td>13</td><td>Virtual Threads</td><td>Solenthaler</td></tr>
+      <tr><td>14</td><td>Exam Preparation (First Half)</td><td>Both</td></tr>
+    </table>
+    <p style="margin-top:16px;font-size:13px;color:var(--text2)">All lecture materials on <a href="https://moodle-app2.let.ethz.ch/course/view.php?id=27855" target="_blank">Moodle</a></p>
+  </div>
+
+  <div class="course-content" id="pp-exercises">
+    <h3 style="margin-bottom:12px">Exercise Sessions</h3>
+    <div class="info-grid">
+      <div class="info-card">
+        <h3>Wednesday 16:15–18:00</h3>
+        <ul>
+          <li>Check Moodle for room assignments</li>
+          <li>Exercise sheets released weekly</li>
+          <li>Not graded but essential for exam</li>
+        </ul>
+      </div>
+      <div class="info-card">
+        <h3>Friday 10:15–12:00</h3>
+        <ul>
+          <li>Alternative time slot</li>
+          <li>Same content as Wednesday</li>
+          <li>Pick whichever fits your schedule</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="course-content" id="pp-staff">
+    <h3 style="margin-bottom:12px">Teaching Staff</h3>
+    <table class="staff-table">
+      <tr><th>Role</th><th>Name</th><th>Email</th></tr>
+      <tr><td><span class="badge" style="background:rgba(139,92,246,0.2);color:var(--pp)">Lecturer</span></td><td>Torsten Hoefler</td><td>—</td></tr>
+      <tr><td><span class="badge" style="background:rgba(139,92,246,0.2);color:var(--pp)">Lecturer</span></td><td>Barbara Solenthaler</td><td>—</td></tr>
+      <tr><td><span class="badge" style="background:rgba(34,197,94,0.2);color:var(--green)">Head TA</span></td><td>Jackson Stanhope (1st half)</td><td>jackson.stanhope@inf.ethz.ch</td></tr>
+      <tr><td><span class="badge" style="background:rgba(34,197,94,0.2);color:var(--green)">Head TA</span></td><td>Timo Schneider (2nd half)</td><td>timo.schneider@inf.ethz.ch</td></tr>
+    </table>
+  </div>
+
+  <div class="course-content" id="pp-resources">
+    <h3 style="margin-bottom:12px">Resources & Past Material</h3>
+    <div class="resource-list">
+      <a href="https://moodle-app2.let.ethz.ch/course/view.php?id=27855" target="_blank" class="resource-item">
+        <div class="resource-icon">📚</div>
+        <div class="resource-text"><h4>Moodle (Spring 2026)</h4><p>Official slides, exercises, announcements</p></div>
+      </a>
+      <a href="https://spcl.inf.ethz.ch/Teaching/2026-pp/" target="_blank" class="resource-item">
+        <div class="resource-icon">🌐</div>
+        <div class="resource-text"><h4>SPCL Course Page</h4><p>Schedule, overview, textbook list</p></div>
+      </a>
+      <a href="https://www.studocu.com/de-ch/course/eidgenossische-technische-hochschule-zurich/parallel-programming/2330574" target="_blank" class="resource-item">
+        <div class="resource-icon">📝</div>
+        <div class="resource-text"><h4>Studocu — Past Exams & Notes</h4><p>Community-shared materials, summaries, old exams</p></div>
+      </a>
+      <a href="http://greenteapress.com/semaphores/" target="_blank" class="resource-item">
+        <div class="resource-icon">📖</div>
+        <div class="resource-text"><h4>Little Book of Semaphores (Free)</h4><p>Essential supplementary reading</p></div>
+      </a>
+      <a href="http://homes.cs.washington.edu/~djg/teachingMaterials/spac/sophomoricParallelismAndConcurrency.pdf" target="_blank" class="resource-item">
+        <div class="resource-icon">📄</div>
+        <div class="resource-text"><h4>Sophomoric Parallelism & Concurrency</h4><p>Free PDF — great intro to concepts</p></div>
+      </a>
+      <a href="https://www.sri.inf.ethz.ch/teaching/pp2019" target="_blank" class="resource-item">
+        <div class="resource-icon">📁</div>
+        <div class="resource-text"><h4>Past Course (2019 — SRI Lab)</h4><p>Older version with Hoefler, may have extra resources</p></div>
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== ALGORITHMS & PROBABILITY ==================== -->
+<div class="section" id="sec-aw">
+  <button class="back-btn" onclick="showSection('overview')">← Back</button>
+  <div class="course-hero" style="background:linear-gradient(135deg,rgba(245,158,11,0.2),rgba(245,158,11,0.05))">
+    <h1>🎲 Algorithms & Probability</h1>
+    <p>252-0030-00L · 7 ECTS · Kyng, Steger & Welzl · Spring 2026</p>
+  </div>
+  <div class="course-tabs">
+    <div class="course-tab active" onclick="showCourseTab('aw','info')">Info</div>
+    <div class="course-tab" onclick="showCourseTab('aw','lectures')">Lectures</div>
+    <div class="course-tab" onclick="showCourseTab('aw','exercises')">Exercises</div>
+    <div class="course-tab" onclick="showCourseTab('aw','resources')">Resources</div>
+  </div>
+
+  <div class="course-content active" id="aw-info">
+    <div class="info-grid">
+      <div class="info-card">
+        <h3>📅 Schedule</h3>
+        <ul>
+          <li><strong>Lectures:</strong> Tue & Thu (check VVZ for exact times)</li>
+          <li><strong>Location:</strong> HG F5 / HG F7</li>
+          <li><strong>Language:</strong> German</li>
+          <li><strong>VVZ:</strong> <a href="https://www.vvz.ethz.ch" target="_blank">Course Catalogue</a></li>
+        </ul>
+      </div>
+      <div class="info-card">
+        <h3>📝 Grading</h3>
+        <ul>
+          <li><strong>Written Exam</strong> at end of semester</li>
+          <li>Part of Basisprüfung block</li>
+        </ul>
+      </div>
+      <div class="info-card">
+        <h3>📚 Topics</h3>
+        <ul>
+          <li>Randomized algorithms</li>
+          <li>Probabilistic analysis</li>
+          <li>Advanced graph algorithms</li>
+          <li>Hashing techniques</li>
+          <li>Load balancing</li>
+          <li>Markov chains & random walks</li>
+          <li>Probabilistic data structures</li>
+        </ul>
+      </div>
+      <div class="info-card">
+        <h3>👨‍🏫 Professors</h3>
+        <ul>
+          <li><strong>Rasmus Kyng</strong> — Graph algorithms, spectral methods</li>
+          <li><strong>Angelika Steger</strong> — Combinatorics, random structures</li>
+          <li><strong>Emo Welzl</strong> — Computational geometry, combinatorics</li>
+          <li>Three professors each teach a section</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="course-content" id="aw-lectures">
+    <h3>Lecture Topics (typical structure)</h3>
+    <p style="color:var(--text2);font-size:13px;margin:12px 0">Each professor covers their specialty area. Topics may vary by year.</p>
+    <table class="staff-table">
+      <tr><th>Block</th><th>Professor</th><th>Topics</th></tr>
+      <tr><td>1</td><td>Kyng</td><td>Graph algorithms, shortest paths, flows</td></tr>
+      <tr><td>2</td><td>Steger</td><td>Randomized algorithms, probability basics, hashing</td></tr>
+      <tr><td>3</td><td>Welzl</td><td>Geometric algorithms, probabilistic method</td></tr>
+    </table>
+  </div>
+
+  <div class="course-content" id="aw-exercises">
+    <h3>Exercise Sessions</h3>
+    <div class="info-card" style="margin-top:12px">
+      <h3>Weekly Exercises</h3>
+      <ul>
+        <li>Check Moodle/myStudies for room assignments and TAs</li>
+        <li>Exercise sheets released weekly</li>
+        <li>Solutions typically discussed in following session</li>
+        <li>Old exercise sheets are great exam prep</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="course-content" id="aw-resources">
+    <h3 style="margin-bottom:12px">Resources</h3>
+    <div class="resource-list">
+      <a href="https://www.studocu.com/de-ch/course/eidgenossische-technische-hochschule-zurich/algorithms-and-probability/2330652" target="_blank" class="resource-item">
+        <div class="resource-icon">📝</div>
+        <div class="resource-text"><h4>Studocu — Past Exams & Notes</h4><p>14+ community resources, exercise solutions, summaries</p></div>
+      </a>
+      <a href="https://liblor.github.io/ethz-course-list/" target="_blank" class="resource-item">
+        <div class="resource-icon">💬</div>
+        <div class="resource-text"><h4>ETH Course Reviews</h4><p>Student reviews and tips for this course</p></div>
+      </a>
+      <a href="https://vis.ethz.ch" target="_blank" class="resource-item">
+        <div class="resource-icon">📁</div>
+        <div class="resource-text"><h4>VIS Exam Collection</h4><p>Old exams with solutions (VIS login required)</p></div>
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== ANALYSIS I ==================== -->
+<div class="section" id="sec-analysis">
+  <button class="back-btn" onclick="showSection('overview')">← Back</button>
+  <div class="course-hero" style="background:linear-gradient(135deg,rgba(239,68,68,0.2),rgba(239,68,68,0.05))">
+    <h1>📐 Analysis I</h1>
+    <p>401-0212-16L · 7 ECTS · D-Math · Spring 2026</p>
+  </div>
+  <div class="course-tabs">
+    <div class="course-tab active" onclick="showCourseTab('analysis','info')">Info</div>
+    <div class="course-tab" onclick="showCourseTab('analysis','recordings')">Recordings</div>
+    <div class="course-tab" onclick="showCourseTab('analysis','resources')">Resources</div>
+  </div>
+
+  <div class="course-content active" id="analysis-info">
+    <div class="info-grid">
+      <div class="info-card">
+        <h3>📅 Schedule</h3>
+        <ul>
+          <li><strong>Check VVZ for Spring 2026 times</strong></li>
+          <li><strong>Location:</strong> HG F1 (typically)</li>
+          <li><strong>Language:</strong> German</li>
+          <li><strong>Exercises:</strong> Weekly, check myStudies</li>
+        </ul>
+      </div>
+      <div class="info-card">
+        <h3>📚 Topics</h3>
+        <ul>
+          <li>Functions & limits</li>
+          <li>Sequences & series</li>
+          <li>Power series</li>
+          <li>Differential calculus (1 variable)</li>
+          <li>Integral calculus (1 variable)</li>
+          <li>Taylor series</li>
+        </ul>
+      </div>
+      <div class="info-card">
+        <h3>⚠️ Difficulty Warning</h3>
+        <ul>
+          <li style="color:var(--red)"><strong>One of the highest fail rates</strong></li>
+          <li>Pure math — different from CS courses</li>
+          <li>Do ALL exercise sheets</li>
+          <li>Form a study group</li>
+          <li>Old exams are essential</li>
+        </ul>
+      </div>
+      <div class="info-card">
+        <h3>📝 Grading</h3>
+        <ul>
+          <li><strong>Written Exam</strong></li>
+          <li>Part of Basisprüfung block</li>
+          <li>No midterms typically</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="course-content" id="analysis-recordings">
+    <h3 style="margin-bottom:12px">Lecture Recordings (Past Years)</h3>
+    <div class="video-grid">
+      <a href="https://video.ethz.ch/lectures/d-math/2025/spring/401-0212-16L" target="_blank" class="video-card">
+        <div class="video-thumb" style="background:rgba(239,68,68,0.1)">📐</div>
+        <div class="video-info"><h4>Analysis I — Spring 2025</h4><p>ETH Video Portal · Full lecture series</p></div>
+      </a>
+      <a href="https://video.ethz.ch/lectures/d-math/2023/spring/401-0212-16L.html" target="_blank" class="video-card">
+        <div class="video-thumb" style="background:rgba(239,68,68,0.1)">📐</div>
+        <div class="video-info"><h4>Analysis I — Spring 2023</h4><p>ETH Video Portal · Full lecture series</p></div>
+      </a>
+      <a href="https://video.ethz.ch/lectures/d-math/2021/spring/401-0212-16L.html" target="_blank" class="video-card">
+        <div class="video-thumb" style="background:rgba(239,68,68,0.1)">📐</div>
+        <div class="video-info"><h4>Analysis I — Spring 2021</h4><p>ETH Video Portal · Full lecture series</p></div>
+      </a>
+    </div>
+  </div>
+
+  <div class="course-content" id="analysis-resources">
+    <h3 style="margin-bottom:12px">Resources</h3>
+    <div class="resource-list">
+      <a href="https://www.studocu.com/de-ch/course/eidgenossische-technische-hochschule-zurich/analysis-i/2330681" target="_blank" class="resource-item">
+        <div class="resource-icon">📝</div>
+        <div class="resource-text"><h4>Studocu — Past Exams & Notes</h4><p>Practice problems, tutorial notes, lecture summaries</p></div>
+      </a>
+      <a href="https://vis.ethz.ch" target="_blank" class="resource-item">
+        <div class="resource-icon">📁</div>
+        <div class="resource-text"><h4>VIS Exam Collection</h4><p>Essential for exam prep — old exams with solutions</p></div>
+      </a>
+      <a href="https://metaphor.ethz.ch/x/2022/fs/401-0212-16L/" target="_blank" class="resource-item">
+        <div class="resource-icon">🌐</div>
+        <div class="resource-text"><h4>Metaphor Course Page (2022)</h4><p>Past course page with extra resources</p></div>
+      </a>
+      <a href="https://github.com/bktllr/eth-summaries" target="_blank" class="resource-item">
+        <div class="resource-icon">📄</div>
+        <div class="resource-text"><h4>ETH Summaries (GitHub)</h4><p>Community summaries for all CS courses including Analysis I</p></div>
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== DDCA ==================== -->
+<div class="section" id="sec-ddca">
+  <button class="back-btn" onclick="showSection('overview')">← Back</button>
+  <div class="course-hero" style="background:linear-gradient(135deg,rgba(6,182,212,0.2),rgba(6,182,212,0.05))">
+    <h1>🔧 Digital Design & Computer Architecture</h1>
+    <p>227-0003-10V · 7 ECTS · Onur Mutlu & Sadrosadati · Spring 2026</p>
+  </div>
+  <div class="course-tabs">
+    <div class="course-tab active" onclick="showCourseTab('ddca','info')">Info</div>
+    <div class="course-tab" onclick="showCourseTab('ddca','recordings')">Recordings</div>
+    <div class="course-tab" onclick="showCourseTab('ddca','labs')">Labs</div>
+    <div class="course-tab" onclick="showCourseTab('ddca','staff')">Staff</div>
+    <div class="course-tab" onclick="showCourseTab('ddca','resources')">Resources</div>
+  </div>
+
+  <div class="course-content active" id="ddca-info">
+    <div class="info-grid">
+      <div class="info-card">
+        <h3>📅 Schedule</h3>
+        <ul>
+          <li><strong>Lectures:</strong> Thu 14:15–16:00, Fri 14:15–16:00</li>
+          <li><strong>Location:</strong> HG F7 (overflow: HG F5)</li>
+          <li><strong>Livestream:</strong> <a href="https://youtube.com/live/M2rdcGH53k4" target="_blank">YouTube Live</a></li>
+          <li><strong>Wiki:</strong> <a href="https://safari.ethz.ch/ddca/spring2026/" target="_blank">Course Wiki</a></li>
+          <li><strong>Moodle:</strong> <a href="https://moodle-app2.let.ethz.ch/course/view.php?id=27943" target="_blank">Open Moodle</a></li>
+        </ul>
+      </div>
+      <div class="info-card">
+        <h3>📚 Topics</h3>
+        <ul>
+          <li>Boolean algebra & logic gates</li>
+          <li>Transistors & CMOS</li>
+          <li>Combinational & sequential logic</li>
+          <li>Finite state machines</li>
+          <li>Hardware Description Languages (SystemVerilog)</li>
+          <li>ISA & RISC-V</li>
+          <li>Single-cycle & pipelined processors</li>
+          <li>Memory hierarchy & caches</li>
+          <li>Out-of-order execution</li>
+        </ul>
+      </div>
+      <div class="info-card">
+        <h3>📝 Grading</h3>
+        <ul>
+          <li><strong>Labs + Final Exam</strong></li>
+          <li>Labs are significant — you build a CPU!</li>
+          <li>Part of Basisprüfung block</li>
+        </ul>
+      </div>
+      <div class="info-card">
+        <h3>💡 Pro Tips</h3>
+        <ul>
+          <li>Prof. Mutlu is legendary — engaging lecturer</li>
+          <li>ALL lectures on YouTube (every year!)</li>
+          <li>Start labs EARLY — hardware debugging is slow</li>
+          <li>Watch past years' videos for review</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="course-content" id="ddca-recordings">
+    <h3 style="margin-bottom:12px">Lecture Recordings</h3>
+    <div class="video-grid">
+      <a href="https://youtube.com/live/M2rdcGH53k4" target="_blank" class="video-card">
+        <div class="video-thumb" style="background:rgba(6,182,212,0.1)">🔴</div>
+        <div class="video-info"><h4>DDCA Spring 2026 — LIVE</h4><p>Current semester livestream</p></div>
+      </a>
+      <a href="https://www.youtube.com/watch?v=EbvYrjx26QI" target="_blank" class="video-card">
+        <div class="video-thumb" style="background:rgba(6,182,212,0.1)">🔧</div>
+        <div class="video-info"><h4>L2: Transistors, Gates, Combinational Logic (2026)</h4><p>Spring 2026 recording</p></div>
+      </a>
+      <a href="https://www.youtube.com/playlist?list=PL5Q2soXY2Zi-NVn779PBtYziKiW-zdW5i" target="_blank" class="video-card">
+        <div class="video-thumb" style="background:rgba(6,182,212,0.1)">📺</div>
+        <div class="video-info"><h4>Full Playlist — Spring 2024</h4><p>Complete lecture series (backup reference)</p></div>
+      </a>
+      <a href="https://www.youtube.com/playlist?list=PL5Q2soXY2Zi-EImKxYYY1SZuGiOAOBKaf" target="_blank" class="video-card">
+        <div class="video-thumb" style="background:rgba(6,182,212,0.1)">📺</div>
+        <div class="video-info"><h4>Full Playlist — Spring 2023</h4><p>Complete lecture series</p></div>
+      </a>
+      <a href="https://www.youtube.com/watch?v=LbC0EZY8yw4" target="_blank" class="video-card">
+        <div class="video-thumb" style="background:rgba(6,182,212,0.1)">📺</div>
+        <div class="video-info"><h4>Lecture 1: Introduction (Spring 2021)</h4><p>Classic version — same great content</p></div>
+      </a>
+    </div>
+  </div>
+
+  <div class="course-content" id="ddca-labs">
+    <h3 style="margin-bottom:12px">Lab Sessions</h3>
+    <div class="info-grid">
+      <div class="info-card">
+        <h3>🕐 Tuesday 16:15–18:00</h3>
+        <ul>
+          <li>HG E19, HG E26.1, HG E26.3, HG E27</li>
+        </ul>
+      </div>
+      <div class="info-card">
+        <h3>🕐 Wednesday 16:15–18:00</h3>
+        <ul>
+          <li>HG E19, HG E26.1, HG E26.3, HG E27</li>
+        </ul>
+      </div>
+      <div class="info-card">
+        <h3>🕐 Friday 08:15–10:00</h3>
+        <ul>
+          <li>HG D11, HG D12, HG E26.3, HG E27</li>
+        </ul>
+      </div>
+      <div class="info-card">
+        <h3>🕐 Friday 10:15–12:00</h3>
+        <ul>
+          <li>HG E19, HG E26.1, HG E26.3, HG E27</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="course-content" id="ddca-staff">
+    <h3 style="margin-bottom:12px">Teaching Staff</h3>
+    <table class="staff-table">
+      <tr><th>Role</th><th>Name</th><th>Email</th><th>Office</th></tr>
+      <tr><td><span class="badge" style="background:rgba(6,182,212,0.2);color:var(--ddca)">Prof</span></td><td>Onur Mutlu</td><td>onur.mutlu@safari.ethz.ch</td><td>—</td></tr>
+      <tr><td><span class="badge" style="background:rgba(6,182,212,0.2);color:var(--ddca)">Prof</span></td><td>Mohammad Sadrosadati</td><td>mohammad.sadrosadati@safari.ethz.ch</td><td>ETZ F76</td></tr>
+      <tr><td><span class="badge" style="background:rgba(34,197,94,0.2);color:var(--green)">Head TA</span></td><td>Ataberk Olgun</td><td>ataberk.olgun@safari.ethz.ch</td><td>ETZ H61.2</td></tr>
+      <tr><td><span class="badge" style="background:rgba(34,197,94,0.2);color:var(--green)">Head TA</span></td><td>Konstantina Koliogeorgi</td><td>kkoliogeorgi@ethz.ch</td><td>ETZ F76</td></tr>
+      <tr><td><span class="badge" style="background:var(--bg3);color:var(--text2)">TA</span></td><td>Rahul Bera</td><td>rahbera@ethz.ch</td><td>ETZ F76</td></tr>
+      <tr><td><span class="badge" style="background:var(--bg3);color:var(--text2)">TA</span></td><td>Konstantinos Kanellopoulos</td><td>konstantinos.kanellopoulos@inf.ethz.ch</td><td>ETZ F76</td></tr>
+      <tr><td><span class="badge" style="background:var(--bg3);color:var(--text2)">TA</span></td><td>Nika Mansouri Ghiasi</td><td>mnika@student.ethz.ch</td><td>ETZ F76</td></tr>
+      <tr><td><span class="badge" style="background:var(--bg3);color:var(--text2)">TA</span></td><td>Rakesh Nadig</td><td>nadigr@ethz.ch</td><td>ETZ F76</td></tr>
+      <tr><td><span class="badge" style="background:var(--bg3);color:var(--text2)">TA</span></td><td>Nisa Bostanci</td><td>nisa.bostanci@safari.ethz.ch</td><td>ETZ F78</td></tr>
+      <tr><td><span class="badge" style="background:var(--bg3);color:var(--text2)">TA</span></td><td>İsmail Emir Yüksel</td><td>ismail.yuksel@safari.ethz.ch</td><td>ETZ F78</td></tr>
+      <tr><td><span class="badge" style="background:var(--bg3);color:var(--text2)">TA</span></td><td>Haocong Luo</td><td>haocong.luo@safari.ethz.ch</td><td>ETZ F78</td></tr>
+      <tr><td><span class="badge" style="background:var(--bg3);color:var(--text2)">TA</span></td><td>Mayank Kabra</td><td>kabram@ethz.ch</td><td>ETZ F78</td></tr>
+      <tr><td><span class="badge" style="background:var(--bg3);color:var(--text2)">TA</span></td><td>Andreas Kosmas Kakolyris</td><td>andreas.kakolyris@safari.ethz.ch</td><td>ETZ F78</td></tr>
+      <tr><td><span class="badge" style="background:var(--bg3);color:var(--text2)">TA</span></td><td>Zhiheng Yue</td><td>zhiyue@ethz.ch</td><td>ETZ F76</td></tr>
+      <tr><td><span class="badge" style="background:var(--bg3);color:var(--text2)">TA</span></td><td>Harshita Gupta</td><td>guptah@ethz.ch</td><td>ETZ F78</td></tr>
+      <tr><td><span class="badge" style="background:var(--bg3);color:var(--text2)">TA</span></td><td>Konstantinos Sgouras</td><td>ksgoura@ethz.ch</td><td>ETZ F78</td></tr>
+      <tr><td><span class="badge" style="background:var(--bg3);color:var(--text2)">TA</span></td><td>Harsh Songara</td><td>hsongara@ethz.ch</td><td>ETZ F78</td></tr>
+      <tr><td><span class="badge" style="background:var(--bg3);color:var(--text2)">TA</span></td><td>Maria Makeenkova</td><td>mmakeenkova@student.ethz.ch</td><td>ETZ F78</td></tr>
+      <tr><td><span class="badge" style="background:var(--bg3);color:var(--text2)">TA</span></td><td>Umut Baser</td><td>umutbbaser@gmail.com</td><td>ETZ F76</td></tr>
+      <tr><td><span class="badge" style="background:var(--bg3);color:var(--text2)">TA</span></td><td>Sahand Divsalar</td><td>divsalar12@gmail.com</td><td>ETZ F78</td></tr>
+      <tr><td><span class="badge" style="background:var(--bg3);color:var(--text2)">TA</span></td><td>Jikun Wang</td><td>jikunwango@gmail.com</td><td>ETZ F78</td></tr>
+      <tr><td><span class="badge" style="background:var(--bg3);color:var(--text2)">TA</span></td><td>Akmuhammet</td><td>akmuhammet99@gmail.com</td><td>ETZ F78</td></tr>
+      <tr><td><span class="badge" style="background:var(--bg3);color:var(--text2)">TA</span></td><td>Eirini</td><td>eirinitzermpou@gmail.com</td><td>ETZ F78</td></tr>
+    </table>
+  </div>
+
+  <div class="course-content" id="ddca-resources">
+    <h3 style="margin-bottom:12px">Resources</h3>
+    <div class="resource-list">
+      <a href="https://safari.ethz.ch/ddca/spring2026/" target="_blank" class="resource-item">
+        <div class="resource-icon">🌐</div>
+        <div class="resource-text"><h4>Course Wiki (Spring 2026)</h4><p>Official wiki with schedule, announcements, materials</p></div>
+      </a>
+      <a href="https://moodle-app2.let.ethz.ch/course/view.php?id=27943" target="_blank" class="resource-item">
+        <div class="resource-icon">📚</div>
+        <div class="resource-text"><h4>Moodle (Spring 2026)</h4><p>Slides, lab assignments, grading</p></div>
+      </a>
+      <a href="https://www.youtube.com/playlist?list=PL5Q2soXY2Zi-NVn779PBtYziKiW-zdW5i" target="_blank" class="resource-item">
+        <div class="resource-icon">📺</div>
+        <div class="resource-text"><h4>YouTube — Full 2024 Lecture Playlist</h4><p>All lectures recorded by Prof. Mutlu</p></div>
+      </a>
+      <a href="https://www.youtube.com/playlist?list=PL5Q2soXY2Zi-EImKxYYY1SZuGiOAOBKaf" target="_blank" class="resource-item">
+        <div class="resource-icon">📺</div>
+        <div class="resource-text"><h4>YouTube — Full 2023 Lecture Playlist</h4><p>Alternative year for different explanations</p></div>
+      </a>
+      <a href="https://safari.ethz.ch/ddca/?animal=ddca_ss25" target="_blank" class="resource-item">
+        <div class="resource-icon">📁</div>
+        <div class="resource-text"><h4>Course Wiki — Spring 2025</h4><p>Past year wiki with additional resources</p></div>
+      </a>
+      <a href="https://github.com/bktllr/eth-summaries" target="_blank" class="resource-item">
+        <div class="resource-icon">📄</div>
+        <div class="resource-text"><h4>ETH Summaries (GitHub)</h4><p>Community summaries including DDCA</p></div>
+      </a>
+      <a href="https://vis.ethz.ch" target="_blank" class="resource-item">
+        <div class="resource-icon">📝</div>
+        <div class="resource-text"><h4>VIS Exam Collection</h4><p>Old exams with solutions</p></div>
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== RESOURCES ==================== -->
+<div class="section" id="sec-resources">
+  <h2>🔗 All Resources</h2>
+  <p>Quick access to everything you need</p>
+  <input class="search-box" type="text" placeholder="Search resources..." oninput="filterResources(this.value)">
+  <div class="resource-list" id="all-resources">
+    <a href="https://www.vvz.ethz.ch" target="_blank" class="resource-item" data-tags="course catalogue vvz schedule">
+      <div class="resource-icon">📋</div>
+      <div class="resource-text"><h4>VVZ — Course Catalogue</h4><p>Official course schedules, rooms, and descriptions</p></div>
+    </a>
+    <a href="https://moodle-app2.let.ethz.ch" target="_blank" class="resource-item" data-tags="moodle learning materials exercises">
+      <div class="resource-icon">📚</div>
+      <div class="resource-text"><h4>Moodle</h4><p>All course materials, submissions, forums</p></div>
+    </a>
+    <a href="https://www.lehrbetrieb.ethz.ch/myStudies/" target="_blank" class="resource-item" data-tags="mystudies registration grades">
+      <div class="resource-icon">🎓</div>
+      <div class="resource-text"><h4>myStudies</h4><p>Course registration, grades, transcripts</p></div>
+    </a>
+    <a href="https://video.ethz.ch" target="_blank" class="resource-item" data-tags="video recordings lectures">
+      <div class="resource-icon">📺</div>
+      <div class="resource-text"><h4>ETH Video Portal</h4><p>All lecture recordings</p></div>
+    </a>
+    <a href="https://vis.ethz.ch" target="_blank" class="resource-item" data-tags="vis student organization exams">
+      <div class="resource-icon">🏛️</div>
+      <div class="resource-text"><h4>VIS — CS Student Association</h4><p>Old exams, summaries, events, community</p></div>
+    </a>
+    <a href="https://ethz.ch/students/en.html" target="_blank" class="resource-item" data-tags="student portal eth">
+      <div class="resource-icon">🌐</div>
+      <div class="resource-text"><h4>ETH Student Portal</h4><p>Central hub for all student services</p></div>
+    </a>
+    <a href="https://sslvpn.ethz.ch" target="_blank" class="resource-item" data-tags="vpn remote access network">
+      <div class="resource-icon">🔐</div>
+      <div class="resource-text"><h4>ETH VPN</h4><p>Access library resources off-campus</p></div>
+    </a>
+    <a href="https://library.ethz.ch" target="_blank" class="resource-item" data-tags="library books textbooks">
+      <div class="resource-icon">📖</div>
+      <div class="resource-text"><h4>ETH Library</h4><p>Textbooks, online resources, study spaces</p></div>
+    </a>
+    <a href="https://sis.id.ethz.ch/" target="_blank" class="resource-item" data-tags="print credit legi balance">
+      <div class="resource-icon">🖨️</div>
+      <div class="resource-text"><h4>Print Balance (SIS)</h4><p>Check and manage your printing credit</p></div>
+    </a>
+    <a href="https://inf.ethz.ch" target="_blank" class="resource-item" data-tags="department computer science">
+      <div class="resource-icon">💻</div>
+      <div class="resource-text"><h4>D-INFK — CS Department</h4><p>Department homepage, news, people</p></div>
+    </a>
+    <a href="https://www.foodtrucks-schweiz.ch/trucks/location/zuerich-hoenggerberg" target="_blank" class="resource-item" data-tags="food trucks campus lunch">
+      <div class="resource-icon">🍔</div>
+      <div class="resource-text"><h4>Food Trucks @ ETH</h4><p>Daily food truck schedule at Hönggerberg</p></div>
+    </a>
+    <a href="https://github.com/bktllr/eth-summaries" target="_blank" class="resource-item" data-tags="summaries github notes community">
+      <div class="resource-icon">📄</div>
+      <div class="resource-text"><h4>ETH Summaries (GitHub)</h4><p>Community summaries for all CS courses</p></div>
+    </a>
+    <a href="https://liblor.github.io/ethz-course-list/" target="_blank" class="resource-item" data-tags="reviews courses feedback">
+      <div class="resource-icon">💬</div>
+      <div class="resource-text"><h4>ETH Course Reviews</h4><p>Student reviews and tips for courses</p></div>
+    </a>
+    <a href="https://github.com/skius/eth-video-grabber" target="_blank" class="resource-item" data-tags="download videos offline tool">
+      <div class="resource-icon">⬇️</div>
+      <div class="resource-text"><h4>ETH Video Grabber</h4><p>Download lecture recordings for offline viewing</p></div>
+    </a>
+  </div>
+</div>
+
+</div>
+
+<script>
+// Navigation
+function showSection(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('sec-' + id).classList.add('active');
+  document.querySelectorAll('.nav-tab').forEach(t => {
+    if(t.textContent.toLowerCase().includes(id) || 
+       (id==='overview' && t.textContent==='Overview') ||
+       (id==='schedule' && t.textContent==='Schedule') ||
+       (id==='pp' && t.textContent==='Parallel Prog') ||
+       (id==='aw' && t.textContent.includes('Algo')) ||
+       (id==='analysis' && t.textContent.includes('Analysis')) ||
+       (id==='ddca' && t.textContent==='DDCA') ||
+       (id==='resources' && t.textContent==='Resources'))
+      t.classList.add('active');
+  });
+  window.scrollTo(0,0);
+}
+
+// Course inner tabs
+function showCourseTab(course, tab) {
+  const section = document.getElementById('sec-' + course);
+  section.querySelectorAll('.course-content').forEach(c => c.classList.remove('active'));
+  section.querySelectorAll('.course-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(course + '-' + tab).classList.add('active');
+  event.target.classList.add('active');
+}
+
+// Clock
+function updateClock() {
+  const now = new Date();
+  const zurich = new Intl.DateTimeFormat('en-GB', { 
+    timeZone:'Europe/Zurich', hour:'2-digit', minute:'2-digit', second:'2-digit',
+    weekday:'short', day:'numeric', month:'short'
+  }).format(now);
+  document.getElementById('clock').textContent = '🇨🇭 ' + zurich;
+}
+setInterval(updateClock, 1000);
+updateClock();
+
+// Week indicator
+function getWeekNum() {
+  const semStart = new Date('2026-02-16');
+  const now = new Date();
+  const diff = Math.floor((now - semStart) / (7*24*60*60*1000)) + 1;
+  return Math.max(1, Math.min(diff, 14));
+}
+document.getElementById('week-indicator').textContent = 'Week ' + getWeekNum() + ' of 14';
+
+// Resource search
+function filterResources(q) {
+  q = q.toLowerCase();
+  document.querySelectorAll('#all-resources .resource-item').forEach(item => {
+    const text = item.textContent.toLowerCase() + (item.dataset.tags || '');
+    item.style.display = text.includes(q) ? 'flex' : 'none';
+  });
+}
+</script>
+</body>
+</html>
