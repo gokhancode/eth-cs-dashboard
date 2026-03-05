@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ETH CS — Semester 2 Dashboard</title>
+<title>ETH CS — Basisprüfung Dashboard</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
@@ -24,6 +24,10 @@
   --aw: #f59e0b;
   --an: #ef4444;
   --ddca: #06b6d4;
+  --ep: #10b981;
+  --ad: #f97316;
+  --dm: #a78bfa;
+  --la: #ec4899;
 }
 * { margin:0; padding:0; box-sizing:border-box; }
 body { font-family:'Inter',sans-serif; background:var(--bg); color:var(--text); min-height:100vh; }
@@ -146,6 +150,7 @@ h2 + p { color:var(--text2); font-size:14px; margin-bottom:16px; }
       <div class="nav-tab" onclick="showSection('analysis')">Analysis I</div>
       <div class="nav-tab" onclick="showSection('ddca')">DDCA</div>
       <div class="nav-tab" onclick="showSection('resources')">Resources</div>
+      <div class="nav-tab" onclick="showSection('sem1')" style="border-left:2px solid var(--border);margin-left:8px;padding-left:16px">📚 1st Semester</div>
     </div>
     <div class="nav-clock" id="clock"></div>
   </div>
@@ -1233,6 +1238,202 @@ h2 + p { color:var(--text2); font-size:14px; margin-bottom:16px; }
 
 </div>
 
+<!-- ===== 1ST SEMESTER (Retake) ===== -->
+<div class="section" id="sec-sem1">
+  <h1>📚 1st Semester — Retake Resources</h1>
+  <p>Everything you need for the Basisprüfung retake exams (Herbstsemester courses)</p>
+
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin-top:24px">
+    <div class="course-card" style="border-left:4px solid var(--ep)">
+      <h3 style="color:var(--ep)">🖥️ Introduction to Programming</h3>
+      <p>252-0027-00L · Object-oriented programming, contracts, design by contract, elementary data structures, recursion</p>
+      <div style="font-size:12px;color:var(--text2);margin-top:8px">Written exam · 120 min · German · No aids</div>
+    </div>
+    <div class="course-card" style="border-left:4px solid var(--ad)">
+      <h3 style="color:var(--ad)">🔍 Algorithms & Data Structures</h3>
+      <p>252-0026-00L · Divide-and-conquer, dynamic programming, graph algorithms, sorting, search trees, hashing</p>
+      <div style="font-size:12px;color:var(--text2);margin-top:8px">Written exam · 120 min · German · No aids</div>
+    </div>
+    <div class="course-card" style="border-left:4px solid var(--dm)">
+      <h3 style="color:var(--dm)">🧮 Discrete Mathematics</h3>
+      <p>252-0025-00L · Prof. Ueli Maurer · Sets, relations, number theory, algebra, logic, proof calculi</p>
+      <div style="font-size:12px;color:var(--text2);margin-top:8px">Written exam · 120 min · German</div>
+    </div>
+    <div class="course-card" style="border-left:4px solid var(--la)">
+      <h3 style="color:var(--la)">📐 Linear Algebra</h3>
+      <p>401-0131-00L · Vectors, matrices, LU/QR decomposition, eigenvalues, SVD, vector spaces, linear maps</p>
+      <div style="font-size:12px;color:var(--text2);margin-top:8px">Written exam · 120 min · German</div>
+    </div>
+  </div>
+
+  <h2 style="margin-top:32px">⭐ Top TA-Created Study Sites</h2>
+  <div class="resource-list">
+    <a href="https://discmath.ch/" target="_blank" class="resource-item" data-tags="discrete math TA website notes exercises explanations HS24 HS25">
+      <div class="resource-icon" style="color:var(--dm)">⭐</div>
+      <div class="resource-text"><h4>discmath.ch — TA-Built Discrete Math Site</h4><p>Created by TAs for HS24, maintained by HS25 TAs. Comprehensive notes and explanations!</p></div>
+    </a>
+    <a href="https://www.linearalgebra.ch/" target="_blank" class="resource-item" data-tags="linear algebra TA website notes exercises explanations HS25">
+      <div class="resource-icon" style="color:var(--la)">⭐</div>
+      <div class="resource-text"><h4>linearalgebra.ch — TA Exercise Session Notes</h4><p>TA-built site with exercise session notes based on Gärtner, Bandeira & Weismantel lectures</p></div>
+    </a>
+    <a href="https://www.zhangrui.ch/classes/f4sCnvvhy56qLCvFYIMew" target="_blank" class="resource-item" data-tags="rui zhang A&D algorithms data structures notes solutions mock exam quizzes">
+      <div class="resource-icon" style="color:var(--ad)">⭐</div>
+      <div class="resource-text"><h4>Rui Zhang — A&D (HS2024)</h4><p>VIS Award TA! 13 weeks: notes, solutions, mock exam, Kahoot quizzes, visualizations, exam tips</p></div>
+    </a>
+    <a href="https://cs.shivi.io/" target="_blank" class="resource-item" data-tags="shivram sambhus lecture notes all courses first year ersti guide">
+      <div class="resource-icon">⭐</div>
+      <div class="resource-text"><h4>Shivram Sambhus — CS Notes (cs.shivi.io)</h4><p>21K+ visitors/month! Full lecture notes for all ETH CS courses + Ersti Guide</p></div>
+    </a>
+    <a href="https://linalg-website-demo.vercel.app/" target="_blank" class="resource-item" data-tags="joshua gao linear algebra TA personal website exercise materials">
+      <div class="resource-icon" style="color:var(--la)">👤</div>
+      <div class="resource-text"><h4>Joshua Gao — Linear Algebra TA Site</h4><p>Personal teaching website for Linear Algebra exercise class</p></div>
+    </a>
+  </div>
+
+  <h2 style="margin-top:32px">📺 Lecture Recordings</h2>
+  <div class="resource-list">
+    <a href="https://video.ethz.ch/lectures/d-infk/2024/autumn/252-0027-00L.html" target="_blank" class="resource-item" data-tags="intro programming recordings video 2024 HS24 lectures">
+      <div class="resource-icon" style="color:var(--ep)">📺</div>
+      <div class="resource-text"><h4>Intro to Programming — Recordings (HS2024)</h4><p>Full lecture recordings on ETH Video Portal</p></div>
+    </a>
+    <a href="https://video.ethz.ch/lectures/d-infk/2023/autumn/252-0026-00L.html" target="_blank" class="resource-item" data-tags="algorithms data structures recordings video 2023 HS23 lectures">
+      <div class="resource-icon" style="color:var(--ad)">📺</div>
+      <div class="resource-text"><h4>Algorithms & Data Structures — Recordings (HS2023)</h4><p>Full lecture recordings on ETH Video Portal</p></div>
+    </a>
+    <a href="https://video.ethz.ch/lectures/d-infk/2024/autumn/252-0025-01L" target="_blank" class="resource-item" data-tags="discrete math recordings video 2024 HS24 lectures Maurer">
+      <div class="resource-icon" style="color:var(--dm)">📺</div>
+      <div class="resource-text"><h4>Discrete Mathematics — Recordings (HS2024)</h4><p>Full lecture recordings on ETH Video Portal</p></div>
+    </a>
+    <a href="https://video.ethz.ch/lectures/d-math/2023/autumn/401-0131-00L.html" target="_blank" class="resource-item" data-tags="linear algebra recordings video 2023 HS23 lectures">
+      <div class="resource-icon" style="color:var(--la)">📺</div>
+      <div class="resource-text"><h4>Linear Algebra — Recordings (HS2023)</h4><p>Full lecture recordings on ETH Video Portal</p></div>
+    </a>
+  </div>
+
+  <h2 style="margin-top:32px">📝 Official Course Pages & Past Materials</h2>
+  <div class="resource-list">
+    <a href="https://cadmo.ethz.ch/education/lectures/HS23/DA/index.html" target="_blank" class="resource-item" data-tags="A&D CADMO 2023 exercises course page official algorithms data structures">
+      <div class="resource-icon" style="color:var(--ad)">📄</div>
+      <div class="resource-text"><h4>A&D Course Page (CADMO HS2023)</h4><p>Full exercise list, course info, and TA contacts</p></div>
+    </a>
+    <a href="https://acl.inf.ethz.ch/teaching/ad/" target="_blank" class="resource-item" data-tags="A&D ACL all years algorithms data structures course info">
+      <div class="resource-icon" style="color:var(--ad)">📄</div>
+      <div class="resource-text"><h4>A&D — ACL Teaching Archive</h4><p>Algorithms and Data Structures archive (all years) from Advanced Computing Lab</p></div>
+    </a>
+    <a href="https://crypto.ethz.ch/teaching/DM24/" target="_blank" class="resource-item" data-tags="discrete math 2024 HS24 Ueli Maurer crypto.ethz official exercises">
+      <div class="resource-icon" style="color:var(--dm)">📄</div>
+      <div class="resource-text"><h4>Discrete Math Course Page (HS2024)</h4><p>Prof. Maurer's official page at crypto.ethz.ch — exercises and announcements</p></div>
+    </a>
+    <a href="https://crypto.ethz.ch/teaching/DM23/" target="_blank" class="resource-item" data-tags="discrete math 2023 HS23 Ueli Maurer crypto.ethz exercises">
+      <div class="resource-icon" style="color:var(--dm)">📄</div>
+      <div class="resource-text"><h4>Discrete Math Course Page (HS2023)</h4><p>Previous year for extra practice</p></div>
+    </a>
+    <a href="https://crypto.ethz.ch/teaching/DM23/ln/DM23_LN_q23nvf.pdf" target="_blank" class="resource-item" data-tags="discrete math lecture notes script Ueli Maurer PDF official">
+      <div class="resource-icon" style="color:var(--dm)">📕</div>
+      <div class="resource-text"><h4>Discrete Math — Official Lecture Notes (PDF)</h4><p>Prof. Maurer's complete lecture notes/script</p></div>
+    </a>
+    <a href="https://igl.ethz.ch/teaching/linear-algebra/la2022/" target="_blank" class="resource-item" data-tags="linear algebra IGL 2022 course page exercises solutions past exams">
+      <div class="resource-icon" style="color:var(--la)">📄</div>
+      <div class="resource-text"><h4>Linear Algebra Course Page (IGL HS2022)</h4><p>Full exercises, solutions, old exams — Bernd Gärtner & Olga Sorkine-Hornung</p></div>
+    </a>
+    <a href="https://people.math.ethz.ch/~abandeira/LA23_notes_part_II.pdf" target="_blank" class="resource-item" data-tags="linear algebra lecture notes Part II 2023 Bandeira PDF eigenvectors SVD">
+      <div class="resource-icon" style="color:var(--la)">📕</div>
+      <div class="resource-text"><h4>Linear Algebra — Lecture Notes Part II (Bandeira 2023)</h4><p>Official lecture notes covering projections, SVD, eigenvalues, least squares</p></div>
+    </a>
+    <a href="https://ti.inf.ethz.ch/ew/courses/LA23/slides/vectors_handout.pdf" target="_blank" class="resource-item" data-tags="linear algebra CS lens slides 2023 handout computer science perspective">
+      <div class="resource-icon" style="color:var(--la)">📕</div>
+      <div class="resource-text"><h4>Linear Algebra — "CS Lens" Slides (2023)</h4><p>Computer science perspective on linear algebra topics</p></div>
+    </a>
+    <a href="https://lec.inf.ethz.ch/DA/2021/slides/daAll.en.handout.pdf" target="_blank" class="resource-item" data-tags="A&D all slides PDF Felix Friedrich 2021 handout algorithms data structures">
+      <div class="resource-icon" style="color:var(--ad)">📕</div>
+      <div class="resource-text"><h4>A&D — Complete Slide Deck (Felix Friedrich 2021)</h4><p>ALL lecture slides in one PDF — great for review</p></div>
+    </a>
+    <a href="https://people.inf.ethz.ch/wirth/AD.pdf" target="_blank" class="resource-item" data-tags="niklaus wirth algorithms data structures classic textbook PDF free">
+      <div class="resource-icon" style="color:var(--ad)">📕</div>
+      <div class="resource-text"><h4>Niklaus Wirth — "Algorithms & Data Structures" (Free PDF)</h4><p>Classic textbook by ETH legend Niklaus Wirth — free PDF from his ETH page</p></div>
+    </a>
+  </div>
+
+  <h2 style="margin-top:32px">📖 VISki Wiki Pages</h2>
+  <p>Community-written summaries, old exams, and proposed solutions</p>
+  <div class="resource-list">
+    <a href="https://wiki.vis.ethz.ch/Einf%C3%BChrung_in_die_Programmierung" target="_blank" class="resource-item" data-tags="VISki intro programming summaries old exams solutions EP">
+      <div class="resource-icon" style="color:var(--ep)">📖</div>
+      <div class="resource-text"><h4>VISki — Introduction to Programming</h4><p>Summaries, old exams, proposed solutions, other materials</p></div>
+    </a>
+    <a href="https://wiki.vis.ethz.ch/Zusammenfassung_Einf%C3%BChrung_in_die_Programmierung" target="_blank" class="resource-item" data-tags="VISki intro programming summary detailed zusammenfassung contracts loops OOP">
+      <div class="resource-icon" style="color:var(--ep)">📋</div>
+      <div class="resource-text"><h4>VISki — EP Full Summary</h4><p>Detailed community summary covering contracts, invariants, loops, OOP</p></div>
+    </a>
+    <a href="https://wiki.vis.ethz.ch/Diskrete_Mathematik" target="_blank" class="resource-item" data-tags="VISki discrete math summaries old exams solutions DM Maurer">
+      <div class="resource-icon" style="color:var(--dm)">📖</div>
+      <div class="resource-text"><h4>VISki — Discrete Mathematics</h4><p>Summaries, alte Prüfungen, Lösungsvorschläge, other materials</p></div>
+    </a>
+    <a href="https://wiki.vis.ethz.ch/Zusammenfassung_Diskrete_Mathematik" target="_blank" class="resource-item" data-tags="VISki discrete math summary Florian Bütler Adrian Hirt zusammenfassung">
+      <div class="resource-icon" style="color:var(--dm)">📋</div>
+      <div class="resource-text"><h4>VISki — DM Summaries Collection</h4><p>Multiple summaries: Florian Bütler HS17, Adrian Hirt, and more</p></div>
+    </a>
+    <a href="https://wiki.vis.ethz.ch/Lineare_Algebra" target="_blank" class="resource-item" data-tags="VISki linear algebra summaries old exams Stanford CalPoly practice LA">
+      <div class="resource-icon" style="color:var(--la)">📖</div>
+      <div class="resource-text"><h4>VISki — Linear Algebra</h4><p>Summaries + old exams (incl. Stanford & CalPoly practice exams!)</p></div>
+    </a>
+    <a href="https://wiki.vis.ethz.ch/Zusammenfassung_Lineare_Algebra" target="_blank" class="resource-item" data-tags="VISki linear algebra full summary zusammenfassung matrices eigenvalues SVD">
+      <div class="resource-icon" style="color:var(--la)">📋</div>
+      <div class="resource-text"><h4>VISki — Linear Algebra Full Summary</h4><p>Detailed community summary: matrices, eigenvalues, SVD, proofs</p></div>
+    </a>
+  </div>
+
+  <h2 style="margin-top:32px">📋 GitHub Summaries & Student Resources</h2>
+  <div class="resource-list">
+    <a href="https://github.com/OpenCoreCH/ethz_cs_summaries" target="_blank" class="resource-item" data-tags="OpenCoreCH summaries ALL courses A&D EP DM LA typed handwritten BSc MSc">
+      <div class="resource-icon">⭐</div>
+      <div class="resource-text"><h4>OpenCoreCH — Complete ETH CS Summaries</h4><p>A&D, EP, DM, LinAlg, PP, DDCA, Analysis + more — typed & handwritten cheat sheets</p></div>
+    </a>
+    <a href="https://github.com/andbloch/eth-dm-summary" target="_blank" class="resource-item" data-tags="andbloch discrete math summary Ueli Maurer 2014 LaTeX PDF github">
+      <div class="resource-icon" style="color:var(--dm)">📋</div>
+      <div class="resource-text"><h4>Andreas Bloch — Discrete Math Summary (LaTeX)</h4><p>Detailed typed summary of Maurer's Discrete Mathematics course</p></div>
+    </a>
+    <a href="https://andbloch.github.io/summaries/" target="_blank" class="resource-item" data-tags="andbloch summaries page discrete math analysis cheat sheets github">
+      <div class="resource-icon">📋</div>
+      <div class="resource-text"><h4>Andreas Bloch — All ETH Summaries</h4><p>Collection: Discrete Math, Analysis I & II cheat sheets, and more</p></div>
+    </a>
+    <a href="https://github.com/lbrndnr/ethz-summaries-b15" target="_blank" class="resource-item" data-tags="lbrndnr Basisjahr 2015 all first year summaries cheat sheets LinAlg Analysis A&D DM EP">
+      <div class="resource-icon">📚</div>
+      <div class="resource-text"><h4>Basisjahr D-INFK 2015/16 — All Summaries</h4><p>Complete first year: LinAlg, Analysis, A&D, DM, EP cheat sheets & Aufgabensammlung</p></div>
+    </a>
+    <a href="https://github.com/famoser/eth-summaries" target="_blank" class="resource-item" data-tags="famoser eth summaries all courses github collection">
+      <div class="resource-icon">📚</div>
+      <div class="resource-text"><h4>famoser — ETH Course Summaries</h4><p>Another comprehensive collection of ETH CS course summaries</p></div>
+    </a>
+    <a href="https://github.com/bktllr/eth-summaries" target="_blank" class="resource-item" data-tags="bktllr summaries ALL first year EP A&D DM LA PP DDCA Analysis A&P">
+      <div class="resource-icon">📚</div>
+      <div class="resource-text"><h4>bktllr — ALL Basisjahr + 2nd Semester Summaries</h4><p>Complete set: EP, A&D, DM, LA, Analysis I, PP, DDCA, A&P — covers EVERYTHING</p></div>
+    </a>
+    <a href="https://github.com/soelmicheletti/eth-algodat" target="_blank" class="resource-item" data-tags="soel micheletti A&D exercise class notes TA Fall 2021 algorithms data structures">
+      <div class="resource-icon" style="color:var(--ad)">📝</div>
+      <div class="resource-text"><h4>Soel Micheletti — A&D Exercise Class Notes (TA 2021)</h4><p>TA-created notes for A&D exercise sessions</p></div>
+    </a>
+    <a href="https://cdn.vis.ethz.ch/luk/pvw_algorithmenunddatenstrukturen.pdf" target="_blank" class="resource-item" data-tags="A&D PVW script algorithms data structures VIS exam prep DP greedy">
+      <div class="resource-icon" style="color:var(--ad)">📕</div>
+      <div class="resource-text"><h4>A&D PVW-Skript (VIS)</h4><p>VIS exam prep script — DP, greedy, abstract data structures, exercises with solutions</p></div>
+    </a>
+    <a href="https://n.ethz.ch/~lteufelbe/coursereview/" target="_blank" class="resource-item" data-tags="course reviews ratings difficulty effort all ETH courses student feedback">
+      <div class="resource-icon">💬</div>
+      <div class="resource-text"><h4>ETH Course Reviews (Student Ratings)</h4><p>Difficulty ratings, effort estimates, and recommendations for all courses</p></div>
+    </a>
+    <a href="https://textbooks.inf.ethz.ch/lectures/1st-semester/176/" target="_blank" class="resource-item" data-tags="textbooks A&D algorithms data structures ETH library free">
+      <div class="resource-icon" style="color:var(--ad)">📚</div>
+      <div class="resource-text"><h4>ETH CS Library — A&D Textbooks</h4><p>Free access to recommended textbooks through ETH CS library</p></div>
+    </a>
+    <a href="https://textbooks.inf.ethz.ch/lectures/1st-semester/267/" target="_blank" class="resource-item" data-tags="textbooks discrete math ETH library free Maurer">
+      <div class="resource-icon" style="color:var(--dm)">📚</div>
+      <div class="resource-text"><h4>ETH CS Library — Discrete Math Textbooks</h4><p>Free access to recommended textbooks through ETH CS library</p></div>
+    </a>
+  </div>
+</div>
+
+</div>
+
 <script>
 // Navigation
 function showSection(id) {
@@ -1247,7 +1448,8 @@ function showSection(id) {
        (id==='aw' && t.textContent.includes('Algo')) ||
        (id==='analysis' && t.textContent.includes('Analysis')) ||
        (id==='ddca' && t.textContent==='DDCA') ||
-       (id==='resources' && t.textContent==='Resources'))
+       (id==='resources' && t.textContent==='Resources') ||
+       (id==='sem1' && t.textContent.includes('1st Semester')))
       t.classList.add('active');
   });
   window.scrollTo(0,0);
