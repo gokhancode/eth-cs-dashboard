@@ -42,11 +42,14 @@ a:hover { text-decoration:underline; }
 .nav-tabs { display:flex; gap:4px; }
 .nav-tab { padding:8px 16px; border-radius:8px; cursor:pointer; font-size:14px; font-weight:500; color:var(--text2); transition:all 0.2s; }
 .nav-tab:hover { background:var(--bg3); color:var(--text); }
+.sem1-tab { border-left:2px solid var(--border); margin-left:8px; padding-left:16px !important; }
 .nav-tab.active { background:var(--accent); color:#fff; }
 .nav-clock { margin-left:auto; font-size:13px; color:var(--text2); font-variant-numeric:tabular-nums; }
 
 /* MAIN */
 .main { max-width:1400px; margin:0 auto; padding:24px; }
+@media(max-width:768px) { .main { padding:16px 12px; } }
+@media(max-width:400px) { .main { padding:12px 8px; } }
 .section { display:none; }
 .section.active { display:block; }
 
@@ -120,9 +123,49 @@ a:hover { text-decoration:underline; }
 
 /* RESPONSIVE */
 @media(max-width:768px) {
-  .schedule-grid { grid-template-columns:60px repeat(5,1fr); font-size:11px; }
-  .nav-tabs { overflow-x:auto; }
+  .nav { padding:0 12px; }
+  .nav-inner { gap:12px; height:48px; }
+  .nav-logo { font-size:15px; white-space:nowrap; }
+  .nav-tabs { overflow-x:auto; -webkit-overflow-scrolling:touch; scrollbar-width:none; gap:2px; flex-shrink:1; min-width:0; }
+  .nav-tabs::-webkit-scrollbar { display:none; }
+  .nav-tab { padding:6px 10px; font-size:12px; white-space:nowrap; flex-shrink:0; border-radius:6px; }
+  .sem1-tab { border-left:none; margin-left:0; padding-left:10px !important; }
+  .container { padding:16px 12px; }
   .grid { grid-template-columns:1fr; }
+  .schedule-grid { grid-template-columns:50px repeat(5,1fr); font-size:10px; gap:1px; }
+  .schedule-header { padding:6px 2px; font-size:10px; }
+  .schedule-time { padding:6px 2px; font-size:10px; }
+  .schedule-cell { padding:4px; min-height:48px; }
+  .schedule-cell .course-name { font-size:10px; }
+  .schedule-cell .course-detail { font-size:9px; }
+  .course-card { padding:16px; }
+  .course-card h3 { font-size:16px; }
+  .resource-item { padding:12px; gap:10px; }
+  .resource-icon { font-size:20px; min-width:36px; }
+  .resource-text h4 { font-size:13px; }
+  .resource-text p { font-size:11px; }
+  .staff-table { display:block; overflow-x:auto; -webkit-overflow-scrolling:touch; }
+  .staff-table th, .staff-table td { padding:8px 6px; font-size:11px; white-space:nowrap; }
+  .course-tabs { gap:2px; }
+  .course-tab { padding:5px 10px; font-size:11px; }
+  h1 { font-size:22px; }
+  h2 { font-size:18px; }
+  h2 + p { font-size:12px; }
+  .week-num { font-size:11px; padding:3px 10px; }
+  .search-box { font-size:13px; padding:8px 12px; max-width:100%; }
+  .back-btn { font-size:12px; padding:6px 12px; }
+}
+@media(max-width:400px) {
+  .nav-logo { font-size:13px; }
+  .nav-tab { padding:5px 8px; font-size:11px; }
+  .container { padding:12px 8px; }
+  .schedule-grid { grid-template-columns:40px repeat(5,1fr); }
+  .schedule-header { font-size:9px; padding:4px 1px; }
+  .schedule-time { font-size:9px; }
+  .schedule-cell .course-name { font-size:9px; }
+  .schedule-cell .course-detail { font-size:8px; }
+  .resource-icon { font-size:18px; min-width:30px; }
+  .course-card h3 { font-size:14px; }
 }
 
 /* WEEK INDICATOR */
@@ -150,7 +193,7 @@ h2 + p { color:var(--text2); font-size:14px; margin-bottom:16px; }
       <div class="nav-tab" onclick="showSection('analysis')">Analysis I</div>
       <div class="nav-tab" onclick="showSection('ddca')">DDCA</div>
       <div class="nav-tab" onclick="showSection('resources')">Resources</div>
-      <div class="nav-tab" onclick="showSection('sem1')" style="border-left:2px solid var(--border);margin-left:8px;padding-left:16px">📚 1st Semester</div>
+      <div class="nav-tab sem1-tab" onclick="showSection('sem1')">📚 1st Sem</div>
     </div>
     <div class="nav-clock" id="clock"></div>
   </div>
@@ -1449,7 +1492,7 @@ function showSection(id) {
        (id==='analysis' && t.textContent.includes('Analysis')) ||
        (id==='ddca' && t.textContent==='DDCA') ||
        (id==='resources' && t.textContent==='Resources') ||
-       (id==='sem1' && t.textContent.includes('1st Semester')))
+       (id==='sem1' && t.textContent.includes('1st Sem')))
       t.classList.add('active');
   });
   window.scrollTo(0,0);
