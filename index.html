@@ -8,11 +8,11 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,300;0,400;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg: #F9F8F6;
-  --fg: #1A1A1A;
-  --muted-bg: #EBE5DE;
-  --muted: #5A5651;
-  --gold: #D4AF37;
+  --bg: #FAFAF8;
+  --fg: #2C2C2C;
+  --muted-bg: #EEEBE6;
+  --muted: #7A756F;
+  --gold: #B8982E;
   --white: #FFFFFF;
 }
 * { margin:0; padding:0; box-sizing:border-box; }
@@ -24,6 +24,8 @@ body {
   min-height:100vh;
   -webkit-font-smoothing:antialiased;
   -moz-osx-font-smoothing:grayscale;
+  line-height:1.6;
+  font-size:14px;
 }
 
 /* NOISE TEXTURE */
@@ -33,7 +35,7 @@ body::after {
   inset:0;
   pointer-events:none;
   z-index:50;
-  opacity:0.02;
+  opacity:0.015;
   background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
@@ -53,7 +55,7 @@ body::after {
   top:0;
   bottom:0;
   width:1px;
-  background:rgba(26,26,26,0.06);
+  background:rgba(44,44,44,0.06);
 }
 .gridlines::before { content:''; left:25%; }
 .gridlines::after { content:''; right:25%; }
@@ -70,7 +72,7 @@ nav {
   z-index:40;
   background:rgba(249,248,246,0.92);
   backdrop-filter:blur(16px);
-  border-bottom:1px solid rgba(26,26,26,0.15);
+  border-bottom:1px solid rgba(44,44,44,0.1);
 }
 .nav-inner {
   max-width:1600px;
@@ -132,7 +134,7 @@ nav {
 
 /* HERO SECTION */
 .hero {
-  padding:clamp(48px,8vw,120px) 0 clamp(40px,6vw,80px);
+  padding:clamp(40px,5vw,72px) 0 clamp(32px,4vw,56px);
 }
 .hero-overline {
   font-size:10px;
@@ -153,7 +155,7 @@ nav {
 }
 .hero h1 {
   font-family:'Playfair Display',serif;
-  font-size:clamp(2.5rem,6vw,5.5rem);
+  font-size:clamp(2.2rem,5vw,4.2rem);
   font-weight:700;
   line-height:0.95;
   letter-spacing:-0.02em;
@@ -177,7 +179,7 @@ nav {
   text-transform:uppercase;
   letter-spacing:0.15em;
   color:var(--fg);
-  border:1px solid rgba(26,26,26,0.25);
+  border:1px solid rgba(44,44,44,0.13);
   padding:8px 18px;
   margin-top:24px;
 }
@@ -187,18 +189,18 @@ nav {
   display:grid;
   grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
   gap:0;
-  border-top:1px solid rgba(26,26,26,0.1);
+  border-top:1px solid rgba(44,44,44,0.08);
 }
 .course-card {
   padding:clamp(24px,3vw,40px);
-  border-bottom:1px solid rgba(26,26,26,0.1);
-  border-right:1px solid rgba(26,26,26,0.1);
+  border-bottom:1px solid rgba(44,44,44,0.08);
+  border-right:1px solid rgba(44,44,44,0.08);
   cursor:pointer;
   transition:background 0.7s ease-out;
   position:relative;
 }
 .course-card:hover {
-  background:rgba(212,175,55,0.03);
+  background:rgba(184,152,46,0.025);
 }
 .course-card .overline {
   font-size:11px;
@@ -235,10 +237,10 @@ nav {
 
 /* ACCORDION */
 details {
-  border-top:1px solid rgba(26,26,26,0.15);
+  border-top:1px solid rgba(44,44,44,0.1);
 }
 details:last-child {
-  border-bottom:1px solid rgba(26,26,26,0.15);
+  border-bottom:1px solid rgba(44,44,44,0.1);
 }
 summary {
   cursor:pointer;
@@ -254,7 +256,7 @@ summary::-webkit-details-marker { display:none; }
 summary:hover { color:var(--gold); }
 summary .label {
   font-family:'Playfair Display',serif;
-  font-size:clamp(1rem,1.5vw,1.25rem);
+  font-size:clamp(0.95rem,1.3vw,1.15rem);
   font-weight:600;
 }
 summary .cnt {
@@ -268,7 +270,7 @@ summary .cnt {
 summary .icon {
   width:28px;
   height:28px;
-  border:1px solid rgba(26,26,26,0.25);
+  border:1px solid rgba(44,44,44,0.13);
   display:flex;
   align-items:center;
   justify-content:center;
@@ -297,7 +299,7 @@ details[open] summary .icon {
   justify-content:space-between;
   align-items:baseline;
   padding:12px 0;
-  border-bottom:1px solid rgba(26,26,26,0.1);
+  border-bottom:1px solid rgba(44,44,44,0.08);
   font-size:14px;
 }
 .row:last-child { border:none; }
@@ -310,7 +312,7 @@ details[open] summary .icon {
   align-items:center;
   gap:16px;
   padding:14px 0;
-  border-bottom:1px solid rgba(26,26,26,0.1);
+  border-bottom:1px solid rgba(44,44,44,0.08);
   text-decoration:none;
   color:var(--fg);
   transition:all 0.5s ease-out;
@@ -337,13 +339,13 @@ th {
   text-transform:uppercase;
   letter-spacing:0.2em;
   color:var(--muted);
-  border-bottom:1px solid rgba(26,26,26,0.2);
+  border-bottom:1px solid rgba(44,44,44,0.12);
 }
 td {
   padding:12px 0;
   padding-right:16px;
   font-size:14px;
-  border-bottom:1px solid rgba(26,26,26,0.1);
+  border-bottom:1px solid rgba(44,44,44,0.08);
 }
 tr:hover td { color:var(--gold); transition:color 0.5s ease-out; }
 
@@ -353,10 +355,10 @@ tr:hover td { color:var(--gold); transition:color 0.5s ease-out; }
   grid-template-columns:64px repeat(5,1fr);
   gap:1px;
   background:rgba(26,26,26,0.08);
-  border:1px solid rgba(26,26,26,0.15);
+  border:1px solid rgba(44,44,44,0.1);
 }
 .sh {
-  background:var(--fg);
+  background:#3D3D3D;
   color:var(--bg);
   padding:14px 8px;
   text-align:center;
@@ -385,7 +387,7 @@ tr:hover td { color:var(--gold); transition:color 0.5s ease-out; }
   min-height:64px;
   transition:background 0.7s ease-out;
 }
-.sc:hover { background:rgba(212,175,55,0.04); }
+.sc:hover { background:rgba(184,152,46,0.03); }
 .sc.empty { background:var(--bg); }
 .sc .cn {
   font-family:'Playfair Display',serif;
@@ -401,7 +403,7 @@ tr:hover td { color:var(--gold); transition:color 0.5s ease-out; }
 /* COURSE PAGE HERO */
 .course-hero {
   padding:clamp(40px,6vw,80px) 0 clamp(32px,4vw,48px);
-  border-bottom:1px solid rgba(26,26,26,0.1);
+  border-bottom:1px solid rgba(44,44,44,0.08);
   margin-bottom:0;
 }
 .course-hero .overline {
@@ -423,7 +425,7 @@ tr:hover td { color:var(--gold); transition:color 0.5s ease-out; }
 }
 .course-hero h1 {
   font-family:'Playfair Display',serif;
-  font-size:clamp(2rem,4.5vw,3.5rem);
+  font-size:clamp(1.8rem,3.5vw,2.8rem);
   font-weight:700;
   line-height:0.95;
   letter-spacing:-0.02em;
@@ -496,7 +498,7 @@ tr:hover td { color:var(--gold); transition:color 0.5s ease-out; }
   text-transform:uppercase;
   letter-spacing:0.12em;
   padding:4px 10px;
-  border:1px solid rgba(26,26,26,0.2);
+  border:1px solid rgba(44,44,44,0.12);
 }
 .badge.gold { border-color:var(--gold); color:var(--gold); }
 .badge.muted { color:var(--muted); }
@@ -505,7 +507,7 @@ tr:hover td { color:var(--gold); transition:color 0.5s ease-out; }
 .search-input {
   background:transparent;
   border:none;
-  border-bottom:1px solid rgba(26,26,26,0.2);
+  border-bottom:1px solid rgba(44,44,44,0.12);
   padding:12px 0;
   width:100%;
   max-width:400px;
@@ -673,7 +675,7 @@ tr:hover td { color:var(--gold); transition:color 0.5s ease-out; }
       <div class="sc" style="border-left:2px solid var(--fg)"><div class="cn">Parallel Prog</div><div class="cd">HG F5/F7</div></div>
       <div class="sc" style="border-left:2px solid var(--muted)"><div class="cn">Analysis I</div><div class="cd">HG F1/F3</div></div>
       <div class="sc" style="border-left:2px solid var(--muted)"><div class="cn">A&P Lecture</div><div class="cd">HG F5/F7</div></div>
-      <div class="sc" style="border-left:1px solid rgba(26,26,26,0.2)"><div class="cn" style="color:var(--muted)">PP Exercise</div><div class="cd">10:15</div></div>
+      <div class="sc" style="border-left:1px solid rgba(44,44,44,0.12)"><div class="cn" style="color:var(--muted)">PP Exercise</div><div class="cd">10:15</div></div>
 
       <div class="st">12–14</div>
       <div class="sc empty"></div><div class="sc empty"></div><div class="sc empty"></div><div class="sc empty"></div><div class="sc empty"></div>
@@ -686,10 +688,10 @@ tr:hover td { color:var(--gold); transition:color 0.5s ease-out; }
       <div class="sc" style="border-left:2px solid var(--gold)"><div class="cn">DDCA Lecture</div><div class="cd">HG F7</div></div>
 
       <div class="st">16–18</div>
-      <div class="sc" style="border-left:1px solid rgba(26,26,26,0.2)"><div class="cn" style="color:var(--muted)">Analysis Ex</div><div class="cd">(or Tue)</div></div>
-      <div class="sc" style="border-left:1px solid rgba(26,26,26,0.2)"><div class="cn" style="color:var(--muted)">DDCA Lab</div><div class="cd">HG E19/E26</div></div>
-      <div class="sc" style="border-left:1px solid rgba(26,26,26,0.2)"><div class="cn" style="color:var(--muted)">PP Exercise</div><div class="cd">16:15</div></div>
-      <div class="sc" style="border-left:1px solid rgba(26,26,26,0.2)"><div class="cn" style="color:var(--muted)">A&P Exercise</div><div class="cd">16:15</div></div>
+      <div class="sc" style="border-left:1px solid rgba(44,44,44,0.12)"><div class="cn" style="color:var(--muted)">Analysis Ex</div><div class="cd">(or Tue)</div></div>
+      <div class="sc" style="border-left:1px solid rgba(44,44,44,0.12)"><div class="cn" style="color:var(--muted)">DDCA Lab</div><div class="cd">HG E19/E26</div></div>
+      <div class="sc" style="border-left:1px solid rgba(44,44,44,0.12)"><div class="cn" style="color:var(--muted)">PP Exercise</div><div class="cd">16:15</div></div>
+      <div class="sc" style="border-left:1px solid rgba(44,44,44,0.12)"><div class="cn" style="color:var(--muted)">A&P Exercise</div><div class="cd">16:15</div></div>
       <div class="sc empty"></div>
     </div>
   </div>
