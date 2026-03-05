@@ -577,84 +577,6 @@ tr:hover td { background:var(--moss-light); border-radius:8px; }
   .sched { grid-template-columns:36px repeat(5,1fr); }
   .sh { font-size:8px; padding:6px 1px; }
 }
-
-/* DESKTOP: fit home in viewport, no scroll */
-@media(min-width:1024px) {
-  #p-home {
-    height:calc(100vh - 76px);
-    display:flex;
-    flex-direction:column;
-    overflow:hidden;
-  }
-  #p-home .hero {
-    padding:clamp(20px,2.5vh,40px) 0 clamp(12px,1.5vh,24px);
-  }
-  #p-home .hero h1 {
-    font-size:clamp(1.6rem,3vw,2.6rem);
-    margin-bottom:8px;
-  }
-  #p-home .hero-sub {
-    font-size:14px;
-    line-height:1.5;
-  }
-  #p-home .week-pill {
-    margin-top:12px;
-    padding:6px 14px;
-    font-size:11px;
-  }
-  #p-home .courses {
-    grid-template-columns:repeat(4,1fr);
-    gap:12px;
-    margin-top:4px;
-  }
-  #p-home .cc {
-    padding:16px;
-  }
-  #p-home .cc h3 { font-size:1rem; }
-  #p-home .cc p { font-size:12px; line-height:1.4; }
-  #p-home .cc .ects { margin-top:8px; font-size:10px; padding:3px 10px; }
-  #p-home .cc .overline { font-size:9px; margin-bottom:4px; }
-
-  /* Bottom section: exam + 1st sem side by side */
-  #p-home .home-bottom {
-    padding:12px 0 0 !important;
-    flex:1;
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:12px;
-    align-content:start;
-    min-height:0;
-  }
-  #p-home .moss-section {
-    margin:0;
-    padding:20px 24px;
-    border-radius:1.2rem;
-  }
-  #p-home .moss-section h2 { font-size:1rem; margin-bottom:8px; }
-  #p-home .moss-section .row { padding:5px 0; font-size:12px; }
-  #p-home .moss-section .row .l { font-size:11px; }
-  #p-home .moss-section table { margin-top:8px; }
-  #p-home .moss-section table th { font-size:9px; padding:5px 4px; }
-  #p-home .moss-section table td { font-size:11px; padding:5px 4px; }
-  #p-home .moss-section .muted { font-size:11px; margin-top:6px; }
-
-  #p-home details { margin:0; }
-  #p-home details summary { padding:12px 16px; font-size:13px; }
-  #p-home details summary .label { font-size:0.9rem; }
-  #p-home .dd-content { max-height:calc(100vh - 500px); overflow-y:auto; }
-  #p-home .dd-content .link { padding:8px 10px; margin-bottom:2px; }
-  #p-home .dd-content .link-title { font-size:13px; }
-  #p-home .dd-content .link .meta { font-size:11px; }
-  #p-home .dd-content .link .ico { width:30px; height:30px; font-size:14px; }
-}
-
-/* ULTRAWIDE: more horizontal, even more compact */
-@media(min-width:1024px) and (min-aspect-ratio:2/1) {
-  .wrap { max-width:1200px; }
-  #p-home .courses { gap:16px; }
-  #p-home .cc { padding:20px; }
-  #p-home .cc h3 { font-size:1.1rem; }
-}
 </style>
 </head>
 <body>
@@ -717,7 +639,7 @@ tr:hover td { background:var(--moss-light); border-radius:8px; }
     </div>
   </div>
 
-  <div class="home-bottom" style="padding:32px 0">
+  <div style="padding:32px 0">
     <div class="moss-section">
       <h2>⚠️ Examination Rules</h2>
       <div class="row"><span class="l">Total ECTS</span><span class="v">56 credits (28/sem)</span></div>
