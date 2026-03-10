@@ -823,6 +823,11 @@ tr:hover td { background:var(--moss-light); border-radius:8px; }
       <a class="link" href="https://github.com/thom/parallel-programming-teaching" target="_blank"><span class="ico">💻</span><div><div class="link-title">TA Recitation Materials</div><div class="meta">GitHub</div></div></a>
     </div>
   </details>
+  <details open><summary><span class="chevron">›</span><span class="label">Lecture Tracker</span><span class="cnt" id="pp-progress">0/28</span></summary>
+    <div class="dd-content">
+      <div class="tracker" id="track-pp" data-course="pp" data-total="28"></div>
+    </div>
+  </details>
   <details><summary><span class="chevron">›</span><span class="label">Textbooks</span></summary>
     <div class="dd-content">
       <div class="row"><span class="l">Primary</span><span class="v">Java Concurrency in Practice</span></div>
@@ -872,6 +877,11 @@ tr:hover td { background:var(--moss-light); border-radius:8px; }
       <a class="link" href="https://vis.ethz.ch" target="_blank"><span class="ico">📁</span><div><div class="link-title">VIS Exam Collection</div><div class="meta">Old exams + solutions</div></div></a>
     </div>
   </details>
+  <details open><summary><span class="chevron">›</span><span class="label">Lecture Tracker</span><span class="cnt" id="aw-progress">0/28</span></summary>
+    <div class="dd-content">
+      <div class="tracker" id="track-aw" data-course="aw" data-total="28"></div>
+    </div>
+  </details>
 </div>
 
 <!-- ANALYSIS -->
@@ -910,6 +920,11 @@ tr:hover td { background:var(--moss-light); border-radius:8px; }
       <a class="link" href="https://www.studocu.com/de-ch/course/eidgenossische-technische-hochschule-zurich/analysis-i/2330681" target="_blank"><span class="ico">📝</span><div><div class="link-title">Studocu — Analysis I</div><div class="meta">Practice & summaries</div></div></a>
       <a class="link" href="https://vis.ethz.ch" target="_blank"><span class="ico">📁</span><div><div class="link-title">VIS Exam Collection</div><div class="meta">Old exams + solutions</div></div></a>
       <a class="link" href="https://github.com/bktllr/eth-summaries" target="_blank"><span class="ico">📄</span><div><div class="link-title">ETH Summaries</div><div class="meta">Community collection</div></div></a>
+    </div>
+  </details>
+  <details open><summary><span class="chevron">›</span><span class="label">Lecture Tracker</span><span class="cnt" id="an-progress">0/28</span></summary>
+    <div class="dd-content">
+      <div class="tracker" id="track-an" data-course="an" data-total="28"></div>
     </div>
   </details>
 </div>
@@ -981,6 +996,11 @@ tr:hover td { background:var(--moss-light); border-radius:8px; }
       <tr><td><span class="badge">TA</span></td><td>Haocong Luo</td><td>haocong.luo@safari.ethz.ch</td></tr>
       <tr><td><span class="badge">TA</span></td><td>Mayank Kabra</td><td>kabram@ethz.ch</td></tr>
       <tr><td colspan="3" style="font-size:12px;color:var(--muted);padding-top:8px">+ 10 more — see <a href="https://safari.ethz.ch/ddca/spring2026/" target="_blank">course wiki</a></td></tr></table>
+    </div>
+  </details>
+  <details open><summary><span class="chevron">›</span><span class="label">Lecture Tracker</span><span class="cnt" id="ddca-progress">0/28</span></summary>
+    <div class="dd-content">
+      <div class="tracker" id="track-ddca" data-course="ddca" data-total="28"></div>
     </div>
   </details>
 </div>
@@ -1122,6 +1142,152 @@ function loadPlan(){
   document.getElementById('weekly-goals').value=d.weekly||'';
 }
 loadPlan();
+
+// === LECTURE TRACKER ===
+const TRACK_KEY='gkhn-lectures';
+
+const lectureData={
+  pp:[
+    {w:1,d:'Mon',t:'Intro & Overview'},
+    {w:1,d:'Tue',t:'Java Recap, JVM'},
+    {w:2,d:'Mon',t:'Threads & Sync I'},
+    {w:2,d:'Tue',t:'Threads & Sync II'},
+    {w:3,d:'Mon',t:'Threads & Sync III'},
+    {w:3,d:'Tue',t:'Parallel Architectures'},
+    {w:4,d:'Mon',t:'Basic Parallelism'},
+    {w:4,d:'Tue',t:'Divide & Conquer, Executor'},
+    {w:5,d:'Mon',t:'DAG & ForkJoin'},
+    {w:5,d:'Tue',t:'Parallel Algorithms I'},
+    {w:6,d:'Mon',t:'Parallel Algorithms II'},
+    {w:6,d:'Tue',t:'Shared Memory, Locks'},
+    {w:7,d:'Mon',t:'Virtual Threads'},
+    {w:7,d:'Tue',t:'TBD'},
+    {w:8,d:'Mon',t:'TBD'},{w:8,d:'Tue',t:'TBD'},
+    {w:9,d:'Mon',t:'TBD'},{w:9,d:'Tue',t:'TBD'},
+    {w:10,d:'Mon',t:'TBD'},{w:10,d:'Tue',t:'TBD'},
+    {w:11,d:'Mon',t:'TBD'},{w:11,d:'Tue',t:'TBD'},
+    {w:12,d:'Mon',t:'TBD'},{w:12,d:'Tue',t:'TBD'},
+    {w:13,d:'Mon',t:'TBD'},{w:13,d:'Tue',t:'TBD'},
+    {w:14,d:'Mon',t:'Exam Prep'},{w:14,d:'Tue',t:'Exam Prep'},
+  ],
+  aw:[
+    {w:1,d:'Tue',t:'Lecture 1'},{w:1,d:'Thu',t:'Lecture 2'},
+    {w:2,d:'Tue',t:'Lecture 3'},{w:2,d:'Thu',t:'Lecture 4'},
+    {w:3,d:'Tue',t:'Lecture 5'},{w:3,d:'Thu',t:'Lecture 6'},
+    {w:4,d:'Tue',t:'Lecture 7'},{w:4,d:'Thu',t:'Lecture 8'},
+    {w:5,d:'Tue',t:'Lecture 9'},{w:5,d:'Thu',t:'Lecture 10'},
+    {w:6,d:'Tue',t:'Lecture 11'},{w:6,d:'Thu',t:'Lecture 12'},
+    {w:7,d:'Tue',t:'Lecture 13'},{w:7,d:'Thu',t:'Lecture 14'},
+    {w:8,d:'Tue',t:'Lecture 15'},{w:8,d:'Thu',t:'Lecture 16'},
+    {w:9,d:'Tue',t:'Lecture 17'},{w:9,d:'Thu',t:'Lecture 18'},
+    {w:10,d:'Tue',t:'Lecture 19'},{w:10,d:'Thu',t:'Lecture 20'},
+    {w:11,d:'Tue',t:'Lecture 21'},{w:11,d:'Thu',t:'Lecture 22'},
+    {w:12,d:'Tue',t:'Lecture 23'},{w:12,d:'Thu',t:'Lecture 24'},
+    {w:13,d:'Tue',t:'Lecture 25'},{w:13,d:'Thu',t:'Lecture 26'},
+    {w:14,d:'Tue',t:'Lecture 27'},{w:14,d:'Thu',t:'Lecture 28'},
+  ],
+  an:[
+    {w:1,d:'Mon',t:'Lecture 1'},{w:1,d:'Wed',t:'Lecture 2'},
+    {w:2,d:'Mon',t:'Lecture 3'},{w:2,d:'Wed',t:'Lecture 4'},
+    {w:3,d:'Mon',t:'Lecture 5'},{w:3,d:'Wed',t:'Lecture 6'},
+    {w:4,d:'Mon',t:'Lecture 7'},{w:4,d:'Wed',t:'Lecture 8'},
+    {w:5,d:'Mon',t:'Lecture 9'},{w:5,d:'Wed',t:'Lecture 10'},
+    {w:6,d:'Mon',t:'Lecture 11'},{w:6,d:'Wed',t:'Lecture 12'},
+    {w:7,d:'Mon',t:'Lecture 13'},{w:7,d:'Wed',t:'Lecture 14'},
+    {w:8,d:'Mon',t:'Lecture 15'},{w:8,d:'Wed',t:'Lecture 16'},
+    {w:9,d:'Mon',t:'Lecture 17'},{w:9,d:'Wed',t:'Lecture 18'},
+    {w:10,d:'Mon',t:'Lecture 19'},{w:10,d:'Wed',t:'Lecture 20'},
+    {w:11,d:'Mon',t:'Lecture 21'},{w:11,d:'Wed',t:'Lecture 22'},
+    {w:12,d:'Mon',t:'Lecture 23'},{w:12,d:'Wed',t:'Lecture 24'},
+    {w:13,d:'Mon',t:'Lecture 25'},{w:13,d:'Wed',t:'Lecture 26'},
+    {w:14,d:'Mon',t:'Lecture 27'},{w:14,d:'Wed',t:'Lecture 28'},
+  ],
+  ddca:[
+    {w:1,d:'Thu',t:'Lecture 1'},{w:1,d:'Fri',t:'Lecture 2'},
+    {w:2,d:'Thu',t:'Lecture 3'},{w:2,d:'Fri',t:'Lecture 4'},
+    {w:3,d:'Thu',t:'Lecture 5'},{w:3,d:'Fri',t:'Lecture 6'},
+    {w:4,d:'Thu',t:'Lecture 7'},{w:4,d:'Fri',t:'Lecture 8'},
+    {w:5,d:'Thu',t:'Lecture 9'},{w:5,d:'Fri',t:'Lecture 10'},
+    {w:6,d:'Thu',t:'Lecture 11'},{w:6,d:'Fri',t:'Lecture 12'},
+    {w:7,d:'Thu',t:'Lecture 13'},{w:7,d:'Fri',t:'Lecture 14'},
+    {w:8,d:'Thu',t:'Lecture 15'},{w:8,d:'Fri',t:'Lecture 16'},
+    {w:9,d:'Thu',t:'Lecture 17'},{w:9,d:'Fri',t:'Lecture 18'},
+    {w:10,d:'Thu',t:'Lecture 19'},{w:10,d:'Fri',t:'Lecture 20'},
+    {w:11,d:'Thu',t:'Lecture 21'},{w:11,d:'Fri',t:'Lecture 22'},
+    {w:12,d:'Thu',t:'Lecture 23'},{w:12,d:'Fri',t:'Lecture 24'},
+    {w:13,d:'Thu',t:'Lecture 25'},{w:13,d:'Fri',t:'Lecture 26'},
+    {w:14,d:'Thu',t:'Lecture 27'},{w:14,d:'Fri',t:'Lecture 28'},
+  ],
+};
+
+function getTrackerState(){
+  try{return JSON.parse(localStorage.getItem(TRACK_KEY)||'{}');}catch(e){return {};}
+}
+
+function saveTrackerState(state){
+  localStorage.setItem(TRACK_KEY,JSON.stringify(state));
+}
+
+function updateProgress(course){
+  const state=getTrackerState();
+  const cs=state[course]||{};
+  const total=lectureData[course].length;
+  const done=Object.values(cs).filter(v=>v).length;
+  const el=document.getElementById(course+'-progress');
+  if(el) el.textContent=done+'/'+total;
+}
+
+function buildTracker(course){
+  const container=document.getElementById('track-'+course);
+  if(!container) return;
+  const state=getTrackerState();
+  const cs=state[course]||{};
+  const lectures=lectureData[course];
+  
+  let html='<div style="margin-bottom:12px;height:6px;background:var(--stone);border-radius:3px;overflow:hidden;"><div id="bar-'+course+'" style="height:100%;background:var(--moss);border-radius:3px;transition:width 0.3s;width:0%"></div></div>';
+  
+  let currentWeek=0;
+  lectures.forEach((lec,i)=>{
+    if(lec.w!==currentWeek){
+      if(currentWeek>0) html+='</div>';
+      currentWeek=lec.w;
+      const isPast=lec.w<=wk;
+      html+=`<div style="margin-bottom:2px;"><div style="font-size:11px;font-weight:600;color:var(--muted);padding:6px 0 2px;${isPast&&lec.w<wk?'':''}">Week ${lec.w}${lec.w<=wk?' ←':''}${lec.w>wk?' (upcoming)':''}</div>`;
+    }
+    const checked=cs[i]?'checked':'';
+    const opacity=cs[i]?'opacity:0.5;':'';
+    html+=`<label style="display:flex;align-items:center;gap:10px;padding:7px 10px;border-radius:8px;cursor:pointer;${opacity}transition:opacity 0.2s;background:${lec.w<=wk?'var(--stone)':'transparent'};" onmouseover="this.style.background='var(--stone)'" onmouseout="this.style.background='${lec.w<=wk?'var(--stone)':'transparent'}'">
+      <input type="checkbox" ${checked} onchange="toggleLec('${course}',${i},this)" style="width:16px;height:16px;accent-color:var(--moss);cursor:pointer;flex-shrink:0;">
+      <span style="font-size:12px;color:var(--muted);width:32px;flex-shrink:0;">${lec.d}</span>
+      <span style="font-size:13px;flex:1;">${lec.t}</span>
+    </label>`;
+  });
+  html+='</div>';
+  container.innerHTML=html;
+  updateBar(course);
+  updateProgress(course);
+}
+
+function toggleLec(course,idx,el){
+  const state=getTrackerState();
+  if(!state[course]) state[course]={};
+  state[course][idx]=el.checked;
+  saveTrackerState(state);
+  el.closest('label').style.opacity=el.checked?'0.5':'1';
+  updateBar(course);
+  updateProgress(course);
+}
+
+function updateBar(course){
+  const state=getTrackerState();
+  const cs=state[course]||{};
+  const total=lectureData[course].length;
+  const done=Object.values(cs).filter(v=>v).length;
+  const bar=document.getElementById('bar-'+course);
+  if(bar) bar.style.width=(done/total*100)+'%';
+}
+
+['pp','aw','an','ddca'].forEach(c=>buildTracker(c));
 
 </script>
 </body>
