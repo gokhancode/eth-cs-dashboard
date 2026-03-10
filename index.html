@@ -686,6 +686,35 @@ tr:hover td { background:var(--moss-light); border-radius:8px; }
     </div>
   </div>
 
+  <!-- DAILY PLANNER -->
+  <div style="margin:0 0 32px 0;background:var(--card);border:1px solid var(--border);border-radius:1.5rem;padding:28px 24px;">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+      <h2 style="font-family:'Fraunces',serif;font-size:1.4rem;">📝 Today's Plan</h2>
+      <div style="display:flex;gap:8px;">
+        <button onclick="clearPlan()" style="background:var(--stone);border:none;border-radius:8px;padding:6px 12px;font-size:12px;cursor:pointer;color:var(--muted);">Clear</button>
+        <button onclick="savePlan()" style="background:var(--moss);color:white;border:none;border-radius:8px;padding:6px 12px;font-size:12px;cursor:pointer;">Save</button>
+      </div>
+    </div>
+    <div style="font-size:12px;color:var(--muted);margin-bottom:14px;">Plan your day the evening before. If you don't finish something, the day is NOT ruined.</div>
+    
+    <div id="planner-slots" style="display:flex;flex-direction:column;gap:6px;">
+    </div>
+
+    <div style="margin-top:16px;display:flex;gap:8px;">
+      <button onclick="addSlot()" style="background:var(--moss-light);border:1px dashed var(--moss);border-radius:8px;padding:8px 16px;font-size:13px;cursor:pointer;color:var(--moss);flex:1;">+ Add time block</button>
+    </div>
+
+    <div style="margin-top:16px;border-top:1px solid var(--border);padding-top:14px;">
+      <div style="font-size:13px;font-weight:600;margin-bottom:8px;">🎯 Today's Goals</div>
+      <textarea id="daily-goals" placeholder="What do you need to accomplish today?" style="width:100%;min-height:60px;border:1px solid var(--border);border-radius:10px;padding:10px 12px;font-family:'Nunito',sans-serif;font-size:13px;resize:vertical;background:var(--stone);color:var(--fg);outline:none;" oninput="savePlan()"></textarea>
+    </div>
+
+    <div style="margin-top:12px;border-top:1px solid var(--border);padding-top:14px;">
+      <div style="font-size:13px;font-weight:600;margin-bottom:8px;">📅 Weekly Goals <span style="font-weight:400;color:var(--muted);">(set Sunday evening)</span></div>
+      <textarea id="weekly-goals" placeholder="What are your goals for this week?" style="width:100%;min-height:60px;border:1px solid var(--border);border-radius:10px;padding:10px 12px;font-family:'Nunito',sans-serif;font-size:13px;resize:vertical;background:var(--stone);color:var(--fg);outline:none;" oninput="savePlan()"></textarea>
+    </div>
+  </div>
+
   <div style="padding:32px 0">
     <details>
       <summary>
@@ -1030,6 +1059,69 @@ setInterval(()=>{
 },1000);
 const wk=Math.max(1,Math.min(Math.floor((new Date()-new Date('2026-02-16'))/(7*864e5))+1,14));
 document.getElementById('wk').textContent='Week '+wk+' of 14';
+
+// === DAILY PLANNER ===
+const PLAN_KEY='gkhn-plan';
+const today=new Date().toISOString().slice(0,10);
+
+function getStoredPlan(){
+  try{
+    const d=JSON.parse(localStorage.getItem(PLAN_KEY)||'{}');
+    if(d.date!==today){d.date=today;d.slots=[];d.goals='';} // reset daily on new day
+    if(!d.weekly) d.weekly='';
+    return d;
+  }catch(e){return {date:today,slots:[],goals:'',weekly:''};}
+}
+
+function savePlan(){
+  const slots=[];
+  document.querySelectorAll('.plan-slot').forEach(s=>{
+    const time=s.querySelector('.slot-time').value;
+    const task=s.querySelector('.slot-task').value;
+    const done=s.querySelector('.slot-check').checked;
+    if(time||task) slots.push({time,task,done});
+  });
+  const data={date:today,slots,goals:document.getElementById('daily-goals').value,weekly:document.getElementById('weekly-goals').value};
+  localStorage.setItem(PLAN_KEY,JSON.stringify(data));
+}
+
+function renderSlot(slot={time:'',task:'',done:false}){
+  const div=document.createElement('div');
+  div.className='plan-slot';
+  div.style.cssText='display:flex;align-items:center;gap:8px;';
+  div.innerHTML=`
+    <input type="checkbox" class="slot-check" ${slot.done?'checked':''} onchange="savePlan();this.parentElement.style.opacity=this.checked?'0.5':'1'" style="width:18px;height:18px;accent-color:var(--moss);cursor:pointer;flex-shrink:0;">
+    <input class="slot-time" value="${slot.time}" placeholder="08:00" style="width:60px;border:1px solid var(--border);border-radius:8px;padding:6px 8px;font-family:'Nunito',sans-serif;font-size:13px;text-align:center;background:var(--stone);color:var(--fg);outline:none;" oninput="savePlan()">
+    <input class="slot-task" value="${slot.task.replace(/"/g,'&quot;')}" placeholder="What are you doing?" style="flex:1;border:1px solid var(--border);border-radius:8px;padding:6px 10px;font-family:'Nunito',sans-serif;font-size:13px;background:var(--stone);color:var(--fg);outline:none;" oninput="savePlan()">
+    <button onclick="this.parentElement.remove();savePlan()" style="background:none;border:none;cursor:pointer;font-size:16px;color:var(--muted);padding:4px;">×</button>
+  `;
+  if(slot.done) div.style.opacity='0.5';
+  document.getElementById('planner-slots').appendChild(div);
+}
+
+function addSlot(){renderSlot();savePlan();}
+
+function clearPlan(){
+  if(!confirm('Clear today\'s plan?')) return;
+  document.getElementById('planner-slots').innerHTML='';
+  document.getElementById('daily-goals').value='';
+  savePlan();
+}
+
+function loadPlan(){
+  const d=getStoredPlan();
+  const container=document.getElementById('planner-slots');
+  container.innerHTML='';
+  if(d.slots.length===0){
+    // Default template
+    [{time:'08:00',task:''},{time:'10:00',task:''},{time:'12:00',task:'Lunch'},{time:'13:00',task:''},{time:'15:00',task:''},{time:'17:00',task:''}].forEach(s=>renderSlot(s));
+  } else {
+    d.slots.forEach(s=>renderSlot(s));
+  }
+  document.getElementById('daily-goals').value=d.goals||'';
+  document.getElementById('weekly-goals').value=d.weekly||'';
+}
+loadPlan();
 
 </script>
 </body>
