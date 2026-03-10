@@ -591,6 +591,11 @@ tr:hover td { background:var(--moss-light); border-radius:8px; }
       <div class="tab" onclick="go('aw')">A&P</div>
       <div class="tab" onclick="go('an')">Analysis</div>
       <div class="tab" onclick="go('ddca')">DDCA</div>
+      <div class="tab" style="opacity:0.4;font-size:10px;pointer-events:none;">|</div>
+      <div class="tab" onclick="go('dm')">DM</div>
+      <div class="tab" onclick="go('la')">LA</div>
+      <div class="tab" onclick="go('ad')">A&D</div>
+      <div class="tab" onclick="go('ep')">eProg</div>
       <div class="tab" onclick="go('res')">Resources</div>
     </div>
     <div class="clock" id="clock"></div>
@@ -656,6 +661,34 @@ tr:hover td { background:var(--moss-light); border-radius:8px; }
       <h3>Digital Design &<br>Computer Architecture</h3>
       <p>Mutlu & Sadrosadati<br>Thu + Fri · 14:15–16:00</p>
       <div class="ects">7 ECTS · 70/30</div>
+    </div>
+  </div>
+
+  <div style="margin-top:24px;margin-bottom:8px;font-family:'Fraunces',serif;font-size:1.1rem;color:var(--muted);padding-left:4px;">Semester 1 — Retake</div>
+  <div class="courses">
+    <div class="cc" onclick="go('dm')">
+      <div class="overline">252-0025-01L</div>
+      <h3>Discrete Mathematics</h3>
+      <p>U. Maurer<br>HS 2025</p>
+      <div class="ects">7 ECTS · 100% Exam</div>
+    </div>
+    <div class="cc" onclick="go('la')">
+      <div class="overline">401-0131-00L</div>
+      <h3>Linear Algebra</h3>
+      <p>T. Willwacher<br>HS 2025</p>
+      <div class="ects">7 ECTS · 100% Exam</div>
+    </div>
+    <div class="cc" onclick="go('ad')">
+      <div class="overline">252-0026-00L</div>
+      <h3>Algorithms &<br>Data Structures</h3>
+      <p>M. Ghaffari & A. Krause<br>HS 2025</p>
+      <div class="ects">7 ECTS · Exam + Bonus</div>
+    </div>
+    <div class="cc" onclick="go('ep')">
+      <div class="overline">252-0027-00L</div>
+      <h3>Introduction to<br>Programming</h3>
+      <p>T. Gross<br>HS 2025</p>
+      <div class="ects">7 ECTS · 100% Exam</div>
     </div>
   </div>
 
@@ -1123,6 +1156,126 @@ tr:hover td { background:var(--moss-light); border-radius:8px; }
   </details>
 </div>
 
+<!-- DISCRETE MATH -->
+<div class="page" id="p-dm">
+  <span class="back-link" onclick="go('home')">Back</span>
+  <div class="course-hero">
+    <div class="overline">252-0025-01L · 7 ECTS · Retake</div>
+    <h1>Discrete <em>Mathematics</em></h1>
+    <p class="subtitle">U. Maurer · HS 2025</p>
+  </div>
+  <details open><summary><span class="chevron">›</span><span class="label">Course Details</span></summary>
+    <div class="dd-content">
+      <div class="row"><span class="l">Exam</span><span class="v">120 min · Written</span></div>
+      <div class="row"><span class="l">Grading</span><span class="v">100% final exam</span></div>
+      <div class="row"><span class="l">Key Topics</span><span class="v">Logic, Proofs, Sets, Number Theory, Combinatorics, Graphs</span></div>
+    </div>
+  </details>
+  <details><summary><span class="chevron">›</span><span class="label">Review Tracker</span><span class="cnt" id="s1cnt2-dm">0/12</span></summary>
+    <div class="dd-content"><div id="s1track2-dm"></div></div>
+  </details>
+  <details><summary><span class="chevron">›</span><span class="label">Resources</span><span class="cnt">6</span></summary>
+    <div class="dd-content">
+      <a class="link" href="https://discmath.ch/" target="_blank"><span class="ico">🧮</span><div><div class="link-title">discmath.ch</div><div class="meta">TA-built — notes & explanations</div></div></a>
+      <a class="link" href="https://crypto.ethz.ch/teaching/DM24/" target="_blank"><span class="ico">📄</span><div><div class="link-title">Official Course Page (HS2024)</div><div class="meta">Prof. Maurer</div></div></a>
+      <a class="link" href="https://wiki.vis.ethz.ch/Diskrete_Mathematik" target="_blank"><span class="ico">📖</span><div><div class="link-title">VISki — DM</div><div class="meta">Summaries & old exams</div></div></a>
+      <a class="link" href="https://cs.shivi.io/" target="_blank"><span class="ico">📚</span><div><div class="link-title">cs.shivi.io</div><div class="meta">Full CS notes</div></div></a>
+      <a class="link" href="https://vis.ethz.ch" target="_blank"><span class="ico">📁</span><div><div class="link-title">VIS Exam Collection</div><div class="meta">Old exams + solutions</div></div></a>
+      <a class="link" href="https://github.com/OpenCoreCH/ethz_cs_summaries" target="_blank"><span class="ico">📋</span><div><div class="link-title">OpenCoreCH Summaries</div><div class="meta">Complete collection</div></div></a>
+    </div>
+  </details>
+</div>
+
+<!-- LINEAR ALGEBRA -->
+<div class="page" id="p-la">
+  <span class="back-link" onclick="go('home')">Back</span>
+  <div class="course-hero">
+    <div class="overline">401-0131-00L · 7 ECTS · Retake</div>
+    <h1>Linear <em>Algebra</em></h1>
+    <p class="subtitle">T. Willwacher · HS 2025</p>
+  </div>
+  <details open><summary><span class="chevron">›</span><span class="label">Course Details</span></summary>
+    <div class="dd-content">
+      <div class="row"><span class="l">Exam</span><span class="v">120 min · Written</span></div>
+      <div class="row"><span class="l">Grading</span><span class="v">100% final exam</span></div>
+      <div class="row"><span class="l">Key Topics</span><span class="v">Vectors, Matrices, Vector Spaces, Eigenvalues, SVD</span></div>
+    </div>
+  </details>
+  <details><summary><span class="chevron">›</span><span class="label">Review Tracker</span><span class="cnt" id="s1cnt2-la">0/14</span></summary>
+    <div class="dd-content"><div id="s1track2-la"></div></div>
+  </details>
+  <details><summary><span class="chevron">›</span><span class="label">Resources</span><span class="cnt">6</span></summary>
+    <div class="dd-content">
+      <a class="link" href="https://www.linearalgebra.ch/" target="_blank"><span class="ico">📐</span><div><div class="link-title">linearalgebra.ch</div><div class="meta">TA exercise session notes</div></div></a>
+      <a class="link" href="https://igl.ethz.ch/teaching/linear-algebra/la2022/" target="_blank"><span class="ico">📄</span><div><div class="link-title">IGL Course Page (2022)</div><div class="meta">Exercises, solutions, old exams</div></div></a>
+      <a class="link" href="https://wiki.vis.ethz.ch/Lineare_Algebra" target="_blank"><span class="ico">📖</span><div><div class="link-title">VISki — LinAlg</div><div class="meta">Summaries & old exams</div></div></a>
+      <a class="link" href="https://cs.shivi.io/" target="_blank"><span class="ico">📚</span><div><div class="link-title">cs.shivi.io</div><div class="meta">Full CS notes</div></div></a>
+      <a class="link" href="https://vis.ethz.ch" target="_blank"><span class="ico">📁</span><div><div class="link-title">VIS Exam Collection</div><div class="meta">Old exams + solutions</div></div></a>
+      <a class="link" href="https://github.com/OpenCoreCH/ethz_cs_summaries" target="_blank"><span class="ico">📋</span><div><div class="link-title">OpenCoreCH Summaries</div><div class="meta">Complete collection</div></div></a>
+    </div>
+  </details>
+</div>
+
+<!-- A&D -->
+<div class="page" id="p-ad">
+  <span class="back-link" onclick="go('home')">Back</span>
+  <div class="course-hero">
+    <div class="overline">252-0026-00L · 7 ECTS · Retake</div>
+    <h1>Algorithms & <em>Data Structures</em></h1>
+    <p class="subtitle">M. Ghaffari & A. Krause · HS 2025</p>
+  </div>
+  <details open><summary><span class="chevron">›</span><span class="label">Course Details</span></summary>
+    <div class="dd-content">
+      <div class="row"><span class="l">Exam</span><span class="v">120 min · Written</span></div>
+      <div class="row"><span class="l">Grading</span><span class="v">Exam + exercise bonus</span></div>
+      <div class="row"><span class="l">Key Topics</span><span class="v">Sorting, Trees, Graphs, DP, Hashing, Complexity</span></div>
+    </div>
+  </details>
+  <details><summary><span class="chevron">›</span><span class="label">Review Tracker</span><span class="cnt" id="s1cnt2-ad">0/13</span></summary>
+    <div class="dd-content"><div id="s1track2-ad"></div></div>
+  </details>
+  <details><summary><span class="chevron">›</span><span class="label">Resources</span><span class="cnt">6</span></summary>
+    <div class="dd-content">
+      <a class="link" href="https://www.zhangrui.ch/classes/f4sCnvvhy56qLCvFYIMew" target="_blank"><span class="ico">⭐</span><div><div class="link-title">Rui Zhang — A&D</div><div class="meta">VIS Award TA · Notes, mock exams, quizzes</div></div></a>
+      <a class="link" href="https://wiki.vis.ethz.ch/Algorithmen_und_Datenstrukturen" target="_blank"><span class="ico">📖</span><div><div class="link-title">VISki — A&D</div><div class="meta">Summaries & old exams</div></div></a>
+      <a class="link" href="https://cs.shivi.io/" target="_blank"><span class="ico">📚</span><div><div class="link-title">cs.shivi.io</div><div class="meta">Full CS notes</div></div></a>
+      <a class="link" href="https://vis.ethz.ch" target="_blank"><span class="ico">📁</span><div><div class="link-title">VIS Exam Collection</div><div class="meta">Old exams + solutions</div></div></a>
+      <a class="link" href="https://github.com/OpenCoreCH/ethz_cs_summaries" target="_blank"><span class="ico">📋</span><div><div class="link-title">OpenCoreCH Summaries</div><div class="meta">Complete collection</div></div></a>
+      <a class="link" href="https://www.studocu.com/de-ch/course/eidgenossische-technische-hochschule-zurich/algorithmen-und-datenstrukturen/2330593" target="_blank"><span class="ico">📝</span><div><div class="link-title">Studocu — A&D</div><div class="meta">Community notes</div></div></a>
+    </div>
+  </details>
+</div>
+
+<!-- eProg -->
+<div class="page" id="p-ep">
+  <span class="back-link" onclick="go('home')">Back</span>
+  <div class="course-hero">
+    <div class="overline">252-0027-00L · 7 ECTS · Retake</div>
+    <h1>Introduction to <em>Programming</em></h1>
+    <p class="subtitle">T. Gross · HS 2025</p>
+  </div>
+  <details open><summary><span class="chevron">›</span><span class="label">Course Details</span></summary>
+    <div class="dd-content">
+      <div class="row"><span class="l">Exam</span><span class="v">120 min · Written</span></div>
+      <div class="row"><span class="l">Grading</span><span class="v">100% final exam</span></div>
+      <div class="row"><span class="l">Language</span><span class="v">Java</span></div>
+      <div class="row"><span class="l">Key Topics</span><span class="v">OOP, Recursion, Collections, Algorithms, Design</span></div>
+    </div>
+  </details>
+  <details><summary><span class="chevron">›</span><span class="label">Review Tracker</span><span class="cnt" id="s1cnt2-ep">0/10</span></summary>
+    <div class="dd-content"><div id="s1track2-ep"></div></div>
+  </details>
+  <details><summary><span class="chevron">›</span><span class="label">Resources</span><span class="cnt">5</span></summary>
+    <div class="dd-content">
+      <a class="link" href="https://wiki.vis.ethz.ch/Einf%C3%BChrung_in_die_Programmierung" target="_blank"><span class="ico">📖</span><div><div class="link-title">VISki — eProg</div><div class="meta">Summaries & old exams</div></div></a>
+      <a class="link" href="https://cs.shivi.io/" target="_blank"><span class="ico">📚</span><div><div class="link-title">cs.shivi.io</div><div class="meta">Full CS notes</div></div></a>
+      <a class="link" href="https://vis.ethz.ch" target="_blank"><span class="ico">📁</span><div><div class="link-title">VIS Exam Collection</div><div class="meta">Old exams + solutions</div></div></a>
+      <a class="link" href="https://github.com/OpenCoreCH/ethz_cs_summaries" target="_blank"><span class="ico">📋</span><div><div class="link-title">OpenCoreCH Summaries</div><div class="meta">Complete collection</div></div></a>
+      <a class="link" href="https://www.studocu.com/de-ch/course/eidgenossische-technische-hochschule-zurich/einfuehrung-in-die-programmierung/2330587" target="_blank"><span class="ico">📝</span><div><div class="link-title">Studocu — eProg</div><div class="meta">Community notes</div></div></a>
+    </div>
+  </details>
+</div>
+
 <!-- RESOURCES -->
 <div class="page" id="p-res">
   <div class="course-hero">
@@ -1177,7 +1330,7 @@ tr:hover td { background:var(--moss-light); border-radius:8px; }
 </div>
 
 <script>
-const map={home:'Home',schedule:'Schedule',pp:'PP',aw:'A&P',an:'Analysis',ddca:'DDCA',res:'Resources'};
+const map={home:'Home',schedule:'Schedule',pp:'PP',aw:'A&P',an:'Analysis',ddca:'DDCA',dm:'DM',la:'LA',ad:'A&D',ep:'eProg',res:'Resources'};
 function go(id){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
@@ -1628,7 +1781,50 @@ function updateS1Progress(course){
   if(cnt) cnt.textContent=reviewed+'/'+total;
 }
 
-['dm','la','ad','ep'].forEach(c=>buildS1Track(c));
+['dm','la','ad','ep'].forEach(c=>{
+  buildS1Track(c);
+  // Also build in course pages (s1track2-*)
+  const container2=document.getElementById('s1track2-'+c);
+  if(container2){
+    const state=getS1State();
+    const cs=state[c]||{};
+    const topics=s1Topics[c];
+    let html='<div style="margin-bottom:10px;height:6px;background:var(--stone);border-radius:3px;overflow:hidden;"><div id="s1bar2-'+c+'" style="height:100%;background:var(--moss);border-radius:3px;width:0%;transition:width 0.3s;"></div></div>';
+    topics.forEach((topic,i)=>{
+      const reviewed=cs[i+'_rev']||false;
+      const practiced=cs[i+'_prac']||false;
+      const opacity=(reviewed&&practiced)?'opacity:0.4;':reviewed?'opacity:0.7;':'';
+      html+=`<div style="display:flex;align-items:center;gap:8px;padding:7px 10px;border-radius:8px;${opacity}background:var(--stone);margin-bottom:3px;">
+        <input type="checkbox" ${reviewed?'checked':''} onchange="toggleS1('${c}',${i},'rev',this);syncS1('${c}')" style="width:16px;height:16px;accent-color:var(--moss);cursor:pointer;" title="Reviewed">
+        <span style="font-size:13px;flex:1;">${topic}</span>
+        <label style="display:flex;align-items:center;gap:3px;font-size:11px;color:var(--muted);cursor:pointer;" title="Practiced exercises">
+          <input type="checkbox" ${practiced?'checked':''} onchange="toggleS1('${c}',${i},'prac',this);syncS1('${c}')" style="width:14px;height:14px;accent-color:var(--terra);cursor:pointer;">
+          practiced
+        </label>
+      </div>`;
+    });
+    container2.innerHTML=html;
+    const reviewed2=Object.keys(cs).filter(k=>k.endsWith('_rev')&&cs[k]).length;
+    const bar2=document.getElementById('s1bar2-'+c);
+    const cnt2=document.getElementById('s1cnt2-'+c);
+    if(bar2) bar2.style.width=(reviewed2/topics.length*100)+'%';
+    if(cnt2) cnt2.textContent=reviewed2+'/'+topics.length;
+  }
+});
+
+// Sync between home and course page trackers
+function syncS1(course){
+  updateS1Progress(course);
+  // Update course page bar+count too
+  const state=getS1State();
+  const cs=state[course]||{};
+  const total=s1Topics[course].length;
+  const reviewed=Object.keys(cs).filter(k=>k.endsWith('_rev')&&cs[k]).length;
+  const bar2=document.getElementById('s1bar2-'+course);
+  const cnt2=document.getElementById('s1cnt2-'+course);
+  if(bar2) bar2.style.width=(reviewed/total*100)+'%';
+  if(cnt2) cnt2.textContent=reviewed+'/'+total;
+}
 
 </script>
 </body>
