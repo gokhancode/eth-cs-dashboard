@@ -704,6 +704,33 @@ tr:hover td { background:var(--moss-light); border-radius:8px; }
     <div style="margin-top:14px;font-size:12px;color:rgba(255,255,255,0.5);text-align:center;">
       Daily goals ×7 → Weekly goals ×6 → 1/3 benchmark ×3 → Pass exams ✓
     </div>
+
+    <!-- CATCH-UP PLAN -->
+    <div style="margin-top:20px;background:rgba(255,255,255,0.06);border-radius:12px;padding:16px;">
+      <div style="font-weight:700;margin-bottom:10px;color:rgba(255,255,255,0.9);">🗓️ Recovery Plan — 8 Courses, 147 Days</div>
+      <div style="font-size:12px;color:rgba(255,255,255,0.7);line-height:1.9;">
+        <strong style="color:rgba(255,255,255,0.9);">Phase 1 — Now → Easter (4 weeks):</strong><br>
+        🔵 Catch up on S2 lectures (4 weeks behind = ~8 per course)<br>
+        🔵 Start attending ALL lectures from now on<br>
+        🔵 Weekends: 2h S1 review (DM + A&D first — they overlap with S2)<br><br>
+        
+        <strong style="color:rgba(255,255,255,0.9);">Phase 2 — Easter → Semester End (9 weeks):</strong><br>
+        🟡 Keep up with S2 lectures + sheets (no more falling behind)<br>
+        🟡 3h/week S1 review (rotate: DM → LinAlg → A&D → eProg)<br>
+        🟡 Start doing old exams for S1 courses<br><br>
+        
+        <strong style="color:rgba(255,255,255,0.9);">Phase 3 — Summer (10 weeks to Aug 4):</strong><br>
+        🔴 Full revision mode — all 8 courses<br>
+        🔴 Week 1-4: Deep review of weakest courses<br>
+        🔴 Week 5-8: Old exams under timed conditions<br>
+        🔴 Week 9-10: Final review + weak spots<br><br>
+        
+        <strong style="color:rgba(255,255,255,0.9);">📊 Daily Split (during semester):</strong><br>
+        Morning: S2 lectures / catch-up recordings<br>
+        Afternoon: S2 exercises + sheets<br>
+        Evening (1-2h): S1 review rotation
+      </div>
+    </div>
   </div>
 
   <!-- DAILY PLANNER -->
@@ -735,21 +762,72 @@ tr:hover td { background:var(--moss-light); border-radius:8px; }
     </div>
   </div>
 
+  <!-- SEMESTER 1 REVIEW -->
   <div style="padding:32px 0">
-    <details>
+    <details open>
       <summary>
         <span class="chevron">›</span>
-        <span class="label">First Semester Resources</span>
-        <span class="cnt">Retake Prep</span>
+        <span class="label">Semester 1 — Review Tracker</span>
+        <span class="cnt">Retake</span>
       </summary>
-      <div class="dd-content">
-        <a class="link" href="https://discmath.ch/" target="_blank"><span class="ico">🧮</span><div><div class="link-title">discmath.ch</div><div class="meta">TA-built Discrete Math — notes & explanations</div></div></a>
-        <a class="link" href="https://www.linearalgebra.ch/" target="_blank"><span class="ico">📐</span><div><div class="link-title">linearalgebra.ch</div><div class="meta">TA exercise session notes</div></div></a>
-        <a class="link" href="https://www.zhangrui.ch/classes/f4sCnvvhy56qLCvFYIMew" target="_blank"><span class="ico">⭐</span><div><div class="link-title">Rui Zhang — A&D</div><div class="meta">VIS Award TA · Notes, mock exams, quizzes</div></div></a>
-        <a class="link" href="https://cs.shivi.io/" target="_blank"><span class="ico">📚</span><div><div class="link-title">cs.shivi.io</div><div class="meta">Full CS notes · 21K visitors/month</div></div></a>
-        <a class="link" href="https://crypto.ethz.ch/teaching/DM24/" target="_blank"><span class="ico">📄</span><div><div class="link-title">Discrete Mathematics (HS2024)</div><div class="meta">Prof. Maurer's official page</div></div></a>
-        <a class="link" href="https://igl.ethz.ch/teaching/linear-algebra/la2022/" target="_blank"><span class="ico">📄</span><div><div class="link-title">Linear Algebra (HS2022)</div><div class="meta">IGL — exercises, solutions, old exams</div></div></a>
-        <a class="link" href="https://github.com/OpenCoreCH/ethz_cs_summaries" target="_blank"><span class="ico">📋</span><div><div class="link-title">OpenCoreCH — All ETH Summaries</div><div class="meta">Complete BSc collection</div></div></a>
+      <div class="dd-content" style="padding:0;">
+        
+        <!-- S1 Review Progress Overview -->
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px;margin-bottom:16px;padding:0 4px;">
+          <div style="background:var(--stone);border-radius:10px;padding:12px;text-align:center;">
+            <div style="font-size:13px;font-weight:600;">🧮 Disc. Math</div>
+            <div style="height:4px;background:var(--border);border-radius:2px;margin:6px 0;"><div id="s1bar-dm" style="height:100%;background:var(--moss);border-radius:2px;width:0%;transition:width 0.3s;"></div></div>
+            <div style="font-size:11px;color:var(--muted);" id="s1p-dm">0/12 topics</div>
+          </div>
+          <div style="background:var(--stone);border-radius:10px;padding:12px;text-align:center;">
+            <div style="font-size:13px;font-weight:600;">📐 Lin. Algebra</div>
+            <div style="height:4px;background:var(--border);border-radius:2px;margin:6px 0;"><div id="s1bar-la" style="height:100%;background:var(--terra);border-radius:2px;width:0%;transition:width 0.3s;"></div></div>
+            <div style="font-size:11px;color:var(--muted);" id="s1p-la">0/14 topics</div>
+          </div>
+          <div style="background:var(--stone);border-radius:10px;padding:12px;text-align:center;">
+            <div style="font-size:13px;font-weight:600;">⚡ A&D</div>
+            <div style="height:4px;background:var(--border);border-radius:2px;margin:6px 0;"><div id="s1bar-ad" style="height:100%;background:var(--burnt);border-radius:2px;width:0%;transition:width 0.3s;"></div></div>
+            <div style="font-size:11px;color:var(--muted);" id="s1p-ad">0/13 topics</div>
+          </div>
+          <div style="background:var(--stone);border-radius:10px;padding:12px;text-align:center;">
+            <div style="font-size:13px;font-weight:600;">💻 eProg</div>
+            <div style="height:4px;background:var(--border);border-radius:2px;margin:6px 0;"><div id="s1bar-ep" style="height:100%;background:var(--muted);border-radius:2px;width:0%;transition:width 0.3s;"></div></div>
+            <div style="font-size:11px;color:var(--muted);" id="s1p-ep">0/10 topics</div>
+          </div>
+        </div>
+
+        <!-- DM Topics -->
+        <details><summary><span class="chevron">›</span><span class="label">Discrete Mathematics</span><span class="cnt" id="s1cnt-dm">0/12</span></summary>
+          <div class="dd-content"><div id="s1track-dm"></div></div>
+        </details>
+        
+        <!-- LinAlg Topics -->
+        <details><summary><span class="chevron">›</span><span class="label">Linear Algebra</span><span class="cnt" id="s1cnt-la">0/14</span></summary>
+          <div class="dd-content"><div id="s1track-la"></div></div>
+        </details>
+        
+        <!-- A&D Topics -->
+        <details><summary><span class="chevron">›</span><span class="label">Algorithms & Data Structures</span><span class="cnt" id="s1cnt-ad">0/13</span></summary>
+          <div class="dd-content"><div id="s1track-ad"></div></div>
+        </details>
+        
+        <!-- eProg Topics -->
+        <details><summary><span class="chevron">›</span><span class="label">Intro to Programming</span><span class="cnt" id="s1cnt-ep">0/10</span></summary>
+          <div class="dd-content"><div id="s1track-ep"></div></div>
+        </details>
+
+        <!-- Resources -->
+        <details><summary><span class="chevron">›</span><span class="label">Resources</span><span class="cnt">7</span></summary>
+          <div class="dd-content">
+            <a class="link" href="https://discmath.ch/" target="_blank"><span class="ico">🧮</span><div><div class="link-title">discmath.ch</div><div class="meta">TA-built Discrete Math</div></div></a>
+            <a class="link" href="https://www.linearalgebra.ch/" target="_blank"><span class="ico">📐</span><div><div class="link-title">linearalgebra.ch</div><div class="meta">TA exercise session notes</div></div></a>
+            <a class="link" href="https://www.zhangrui.ch/classes/f4sCnvvhy56qLCvFYIMew" target="_blank"><span class="ico">⭐</span><div><div class="link-title">Rui Zhang — A&D</div><div class="meta">VIS Award TA · Notes, mock exams, quizzes</div></div></a>
+            <a class="link" href="https://cs.shivi.io/" target="_blank"><span class="ico">📚</span><div><div class="link-title">cs.shivi.io</div><div class="meta">Full CS notes · 21K/month</div></div></a>
+            <a class="link" href="https://crypto.ethz.ch/teaching/DM24/" target="_blank"><span class="ico">📄</span><div><div class="link-title">Discrete Mathematics (HS2024)</div><div class="meta">Prof. Maurer's official page</div></div></a>
+            <a class="link" href="https://igl.ethz.ch/teaching/linear-algebra/la2022/" target="_blank"><span class="ico">📄</span><div><div class="link-title">Linear Algebra (HS2022)</div><div class="meta">IGL — exercises, solutions, old exams</div></div></a>
+            <a class="link" href="https://github.com/OpenCoreCH/ethz_cs_summaries" target="_blank"><span class="ico">📋</span><div><div class="link-title">OpenCoreCH — All ETH Summaries</div><div class="meta">Complete BSc collection</div></div></a>
+          </div>
+        </details>
       </div>
     </details>
   </div>
@@ -1462,6 +1540,95 @@ function updateSheetProgress(course){
 }
 
 ['pp','aw','an','ddca'].forEach(c=>buildSheets(c));
+
+// === SEMESTER 1 REVIEW TRACKER ===
+const S1_KEY='gkhn-s1review';
+const s1Topics={
+  dm:[
+    'Propositional Logic','Predicate Logic','Proofs (Direct, Contradiction, Induction)',
+    'Sets & Relations','Functions & Cardinality','Modular Arithmetic',
+    'Number Theory (GCD, Primes)','Combinatorics (Counting)',
+    'Graphs (Basics, Trees)','Graph Algorithms','Probability Basics','Generating Functions'
+  ],
+  la:[
+    'Vectors & Matrices','Systems of Linear Equations','Gaussian Elimination',
+    'Vector Spaces & Subspaces','Linear Independence & Basis','Dimension & Rank',
+    'Linear Maps','Matrix Representations','Determinants',
+    'Eigenvalues & Eigenvectors','Diagonalization','Inner Products & Orthogonality',
+    'Orthogonal Projections','Singular Value Decomposition'
+  ],
+  ad:[
+    'Asymptotic Notation (O, Ω, Θ)','Sorting (Merge, Quick, Heap)',
+    'Search Trees (BST, AVL)','Hashing','Graphs (BFS, DFS)',
+    'Shortest Paths (Dijkstra, BF)','MST (Kruskal, Prim)',
+    'Dynamic Programming','Greedy Algorithms','Divide & Conquer',
+    'Data Structures (Stacks, Queues, Heaps)','Complexity (P, NP)',
+    'String Algorithms'
+  ],
+  ep:[
+    'Variables, Types, Operators','Control Flow (if/else, loops)',
+    'Functions & Recursion','Arrays & Strings','OOP (Classes, Objects)',
+    'Inheritance & Polymorphism','Collections & Generics',
+    'Exceptions & I/O','Algorithms in Practice','Program Design'
+  ],
+};
+
+function getS1State(){try{return JSON.parse(localStorage.getItem(S1_KEY)||'{}');}catch(e){return {};}}
+function saveS1State(s){localStorage.setItem(S1_KEY,JSON.stringify(s));}
+
+function buildS1Track(course){
+  const container=document.getElementById('s1track-'+course);
+  if(!container) return;
+  const state=getS1State();
+  const cs=state[course]||{};
+  const topics=s1Topics[course];
+  
+  let html='';
+  topics.forEach((topic,i)=>{
+    const reviewed=cs[i+'_rev']||false;
+    const practiced=cs[i+'_prac']||false;
+    const opacity=(reviewed&&practiced)?'opacity:0.4;':reviewed?'opacity:0.7;':'';
+    html+=`<div style="display:flex;align-items:center;gap:8px;padding:7px 10px;border-radius:8px;${opacity}background:var(--stone);margin-bottom:3px;">
+      <input type="checkbox" ${reviewed?'checked':''} onchange="toggleS1('${course}',${i},'rev',this)" style="width:16px;height:16px;accent-color:var(--moss);cursor:pointer;" title="Reviewed">
+      <span style="font-size:13px;flex:1;">${topic}</span>
+      <label style="display:flex;align-items:center;gap:3px;font-size:11px;color:var(--muted);cursor:pointer;" title="Practiced exercises">
+        <input type="checkbox" ${practiced?'checked':''} onchange="toggleS1('${course}',${i},'prac',this)" style="width:14px;height:14px;accent-color:var(--terra);cursor:pointer;">
+        practiced
+      </label>
+    </div>`;
+  });
+  container.innerHTML=html;
+  updateS1Progress(course);
+}
+
+function toggleS1(course,idx,type,el){
+  const state=getS1State();
+  if(!state[course]) state[course]={};
+  state[course][idx+'_'+type]=el.checked;
+  saveS1State(state);
+  const row=el.closest('div');
+  const cs=state[course];
+  const rev=cs[idx+'_rev']||false;
+  const prac=cs[idx+'_prac']||false;
+  row.style.opacity=(rev&&prac)?'0.4':rev?'0.7':'1';
+  updateS1Progress(course);
+}
+
+function updateS1Progress(course){
+  const state=getS1State();
+  const cs=state[course]||{};
+  const total=s1Topics[course].length;
+  const reviewed=Object.keys(cs).filter(k=>k.endsWith('_rev')&&cs[k]).length;
+  
+  const bar=document.getElementById('s1bar-'+course);
+  const prog=document.getElementById('s1p-'+course);
+  const cnt=document.getElementById('s1cnt-'+course);
+  if(bar) bar.style.width=(reviewed/total*100)+'%';
+  if(prog) prog.textContent=reviewed+'/'+total+' topics';
+  if(cnt) cnt.textContent=reviewed+'/'+total;
+}
+
+['dm','la','ad','ep'].forEach(c=>buildS1Track(c));
 
 </script>
 </body>
