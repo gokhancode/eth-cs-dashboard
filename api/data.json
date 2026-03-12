@@ -1,0 +1,39 @@
+{
+  "gkhn-plan": {
+    "date": "2026-03-12",
+    "slots": [
+      {
+        "time": "08:00",
+        "task": "",
+        "done": false
+      },
+      {
+        "time": "10:00",
+        "task": "test",
+        "done": false
+      },
+      {
+        "time": "12:00",
+        "task": "Lunch",
+        "done": false
+      },
+      {
+        "time": "13:00",
+        "task": "",
+        "done": false
+      },
+      {
+        "time": "15:00",
+        "task": "",
+        "done": false
+      },
+      {
+        "time": "17:00",
+        "task": "",
+        "done": false
+      }
+    ],
+    "goals": "",
+    "weekly": ""
+  }
+}

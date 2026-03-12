@@ -1351,6 +1351,72 @@ setInterval(()=>{
 const wk=Math.max(1,Math.min(Math.floor((new Date()-new Date('2026-02-16'))/(7*864e5))+1,14));
 document.getElementById('wk').textContent='Week '+wk+' of 14';
 
+// === SERVER SYNC LAYER ===
+const SYNC_API = 'https://64.227.119.101/api/data';
+const SYNC_TOKEN = 'gkhn-sync-2026';
+let _syncQueue = {};
+let _syncTimer = null;
+
+function syncSave(key, value) {
+  // Save to localStorage immediately (fast)
+  localStorage.setItem(key, JSON.stringify(value));
+  // Queue server save (debounced)
+  _syncQueue[key] = value;
+  if (_syncTimer) clearTimeout(_syncTimer);
+  _syncTimer = setTimeout(() => {
+    const payload = { ..._syncQueue };
+    _syncQueue = {};
+    fetch(SYNC_API, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + SYNC_TOKEN },
+      body: JSON.stringify(payload)
+    }).catch(e => console.warn('Sync save failed:', e));
+  }, 500);
+}
+
+function syncGet(key) {
+  try { return JSON.parse(localStorage.getItem(key) || 'null'); } catch { return null; }
+}
+
+// On load: pull from server and merge into localStorage
+async function syncInit() {
+  try {
+    const res = await fetch(SYNC_API, {
+      headers: { 'Authorization': 'Bearer ' + SYNC_TOKEN }
+    });
+    if (!res.ok) return;
+    const serverData = await res.json();
+    for (const [key, value] of Object.entries(serverData)) {
+      localStorage.setItem(key, JSON.stringify(value));
+    }
+    // Re-render everything with server data
+    loadPlan();
+    ['pp','aw','an','ddca'].forEach(c => { buildTracker(c); buildSheets(c); });
+    ['dm','la','ad','ep'].forEach(c => buildS1Track(c));
+    console.log('✅ Synced from server');
+  } catch (e) {
+    console.warn('Sync init failed (using local):', e);
+  }
+}
+
+// Also push current localStorage to server on first load (migration)
+async function syncMigrate() {
+  const keys = ['gkhn-plan', 'gkhn-lectures', 'gkhn-sheets', 'gkhn-s1review'];
+  const payload = {};
+  let hasData = false;
+  keys.forEach(k => {
+    const v = localStorage.getItem(k);
+    if (v) { payload[k] = JSON.parse(v); hasData = true; }
+  });
+  if (hasData) {
+    fetch(SYNC_API, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + SYNC_TOKEN },
+      body: JSON.stringify(payload)
+    }).catch(() => {});
+  }
+}
+
 // === DAILY PLANNER ===
 const PLAN_KEY='gkhn-plan';
 const today=new Date().toISOString().slice(0,10);
@@ -1373,7 +1439,7 @@ function savePlan(){
     if(time||task) slots.push({time,task,done});
   });
   const data={date:today,slots,goals:document.getElementById('daily-goals').value,weekly:document.getElementById('weekly-goals').value};
-  localStorage.setItem(PLAN_KEY,JSON.stringify(data));
+  syncSave(PLAN_KEY,data);
 }
 
 function renderSlot(slot={time:'',task:'',done:false}){
@@ -1496,7 +1562,7 @@ function getTrackerState(){
 }
 
 function saveTrackerState(state){
-  localStorage.setItem(TRACK_KEY,JSON.stringify(state));
+  syncSave(TRACK_KEY,state);
 }
 
 function updateProgress(course){
@@ -1628,7 +1694,7 @@ const sheetLabels={
 function getSheetState(){
   try{return JSON.parse(localStorage.getItem(SHEET_KEY)||'{}');}catch(e){return {};}
 }
-function saveSheetState(s){localStorage.setItem(SHEET_KEY,JSON.stringify(s));}
+function saveSheetState(s){syncSave(SHEET_KEY,s);}
 
 function buildSheets(course){
   const container=document.getElementById('sheets-'+course);
@@ -1727,7 +1793,7 @@ const s1Topics={
 };
 
 function getS1State(){try{return JSON.parse(localStorage.getItem(S1_KEY)||'{}');}catch(e){return {};}}
-function saveS1State(s){localStorage.setItem(S1_KEY,JSON.stringify(s));}
+function saveS1State(s){syncSave(S1_KEY,s);}
 
 function buildS1Track(course){
   const container=document.getElementById('s1track-'+course);
@@ -1811,6 +1877,9 @@ function updateS1Progress(course){
     if(cnt2) cnt2.textContent=reviewed2+'/'+topics.length;
   }
 });
+
+// Boot: migrate local data to server, then pull server data
+syncMigrate().then(() => syncInit());
 
 // Sync between home and course page trackers
 function syncS1(course){
