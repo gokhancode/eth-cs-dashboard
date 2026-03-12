@@ -3,11 +3,6 @@
     "date": "2026-03-12",
     "slots": [
       {
-        "time": "08:00",
-        "task": "",
-        "done": false
-      },
-      {
         "time": "10:00",
         "task": "test",
         "done": false
@@ -35,5 +30,19 @@
     ],
     "goals": "",
     "weekly": ""
+  },
+  "gkhn-lectures": {
+    "pp": {
+      "0": false,
+      "1": false
+    }
+  },
+  "gkhn-s1review": {
+    "dm": {
+      "0_prac": false,
+      "0_rev": true,
+      "1_rev": true,
+      "2_rev": true
+    }
   }
 }
