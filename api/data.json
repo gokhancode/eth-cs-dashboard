@@ -1,25 +1,10 @@
 {
   "gkhn-plan": {
-    "date": "2026-03-14",
+    "date": "2026-03-10",
     "slots": [
       {
-        "time": "08:00",
-        "task": "",
-        "done": false
-      },
-      {
-        "time": "10:00",
-        "task": "",
-        "done": false
-      },
-      {
-        "time": "12:00",
-        "task": "Lunch",
-        "done": false
-      },
-      {
-        "time": "13:00",
-        "task": "",
+        "time": "14:00",
+        "task": "Start catching up on Parallel Programming",
         "done": false
       },
       {
@@ -45,9 +30,14 @@
   "gkhn-s1review": {
     "dm": {
       "0_prac": false,
-      "0_rev": true,
-      "1_rev": true,
-      "2_rev": true
+      "0_rev": false,
+      "1_rev": false,
+      "2_rev": false
+    }
+  },
+  "gkhn-sheets": {
+    "pp": {
+      "5_done": false
     }
   }
 }

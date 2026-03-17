@@ -88,6 +88,20 @@ body {
   overflow-x:hidden;
 }
 
+/* POLAROID */
+.polaroid-bg {
+  position:fixed;
+  bottom:-18px;
+  right:-10px;
+  width:clamp(160px,18vw,240px);
+  transform:rotate(6deg);
+  opacity:0.18;
+  pointer-events:none;
+  z-index:0;
+  filter:grayscale(0.3);
+  transition:opacity 0.4s ease;
+}
+
 /* GRAIN TEXTURE */
 body::after {
   content:'';
@@ -789,6 +803,7 @@ tr:hover td { background:var(--moss-light); border-radius:8px; }
 </head>
 <body>
 
+<img src="polaroid.png" class="polaroid-bg" alt="">
 <nav>
   <div class="nav-pill">
     <div class="logo">👨🏻‍💻 ETH CS</div>
