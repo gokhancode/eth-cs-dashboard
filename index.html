@@ -145,6 +145,8 @@ nav {
   display:flex;
   align-items:center;
   gap:8px;
+  white-space:nowrap;
+  flex-shrink:0;
 }
 .logo-dot {
   width:28px;
@@ -159,13 +161,15 @@ nav {
   font-family:'Nunito',sans-serif;
   font-weight:700;
 }
-.tabs { display:flex; gap:2px; margin-left:auto; }
+.tabs { display:flex; gap:1px; margin-left:auto; flex-shrink:1; flex-wrap:nowrap; }
 .tab {
-  padding:6px 14px;
+  padding:6px 10px;
   border-radius:9999px;
   cursor:pointer;
   font-size:13px;
   font-weight:600;
+  white-space:nowrap;
+  flex-shrink:0;
   color:var(--muted);
   transition:all 0.3s ease;
 }
@@ -609,10 +613,10 @@ tr:hover td { background:var(--moss-light); border-radius:8px; }
 /* RESPONSIVE */
 @media(max-width:768px) {
   nav { top:8px; padding:0 12px; }
-  .nav-pill { padding:0 16px; height:46px; gap:4px; }
+  .nav-pill { padding:0 12px; height:46px; gap:4px; overflow:hidden; }
   .logo { font-size:15px; }
   .logo-dot { width:24px; height:24px; font-size:10px; }
-  .tab { padding:5px 10px; font-size:11px; }
+  .tab { padding:5px 7px; font-size:11px; }
   .clock { display:none; }
   .wrap { padding:0 16px; }
   .courses { grid-template-columns:1fr; }
@@ -628,9 +632,158 @@ tr:hover td { background:var(--moss-light); border-radius:8px; }
   .moss-section { padding:24px 20px; border-radius:1.5rem; }
 }
 @media(max-width:400px) {
-  .tab { padding:4px 7px; font-size:10px; }
+  .tab { padding:4px 6px; font-size:9px; }
   .sched { grid-template-columns:36px repeat(5,1fr); }
   .sh { font-size:8px; padding:6px 1px; }
+}
+
+/* POMODORO FLOATING */
+.pomo-fab {
+  position:fixed;
+  bottom:24px;
+  right:24px;
+  width:56px;
+  height:56px;
+  border-radius:50%;
+  background:var(--moss);
+  border:none;
+  cursor:pointer;
+  font-size:26px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  box-shadow:0 4px 16px rgba(93,112,82,0.3);
+  z-index:1000;
+  transition:transform 0.2s ease, box-shadow 0.2s ease;
+}
+.pomo-fab:hover { transform:scale(1.08); box-shadow:0 6px 24px rgba(93,112,82,0.4); }
+.pomo-fab-timer {
+  position:absolute;
+  bottom:-6px;
+  right:-6px;
+  background:var(--terracotta);
+  color:white;
+  font-size:9px;
+  font-weight:700;
+  padding:2px 5px;
+  border-radius:9999px;
+  font-family:'Nunito',sans-serif;
+  display:none;
+}
+.pomo-overlay {
+  position:fixed;
+  bottom:90px;
+  right:24px;
+  width:300px;
+  background:rgba(255,255,255,0.95);
+  backdrop-filter:blur(20px);
+  border:1px solid rgba(222,216,207,0.5);
+  border-radius:20px;
+  padding:24px;
+  z-index:1000;
+  box-shadow:0 8px 40px rgba(93,112,82,0.15);
+  display:none;
+  text-align:center;
+}
+.pomo-overlay.open { display:block; }
+.pomo-ring-wrap {
+  position:relative;
+  width:180px;
+  height:180px;
+  margin:0 auto 20px;
+}
+.pomo-ring { width:100%; height:100%; }
+.pomo-time {
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-58%);
+  font-family:'Fraunces',serif;
+  font-size:36px;
+  font-weight:700;
+  color:var(--fg);
+}
+.pomo-label {
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,60%);
+  font-size:12px;
+  color:var(--muted);
+  font-weight:600;
+  text-transform:uppercase;
+  letter-spacing:1px;
+}
+.pomo-controls {
+  display:flex;
+  gap:8px;
+  justify-content:center;
+  margin-bottom:16px;
+}
+.pomo-btn {
+  padding:8px 20px;
+  border:none;
+  border-radius:9999px;
+  font-size:13px;
+  font-weight:700;
+  cursor:pointer;
+  background:var(--moss);
+  color:white;
+  font-family:'Nunito',sans-serif;
+  transition:all 0.2s ease;
+}
+.pomo-btn:hover { opacity:0.85; }
+.pomo-btn-secondary {
+  background:var(--sand);
+  color:var(--fg);
+}
+.pomo-modes {
+  display:flex;
+  gap:4px;
+  justify-content:center;
+  margin-bottom:16px;
+}
+.pomo-mode {
+  padding:5px 12px;
+  border:1.5px solid var(--sand);
+  border-radius:9999px;
+  background:transparent;
+  font-size:11px;
+  font-weight:600;
+  cursor:pointer;
+  color:var(--muted);
+  font-family:'Nunito',sans-serif;
+  transition:all 0.2s ease;
+}
+.pomo-mode.active {
+  background:var(--moss);
+  color:white;
+  border-color:var(--moss);
+}
+.pomo-stats {
+  display:flex;
+  gap:24px;
+  justify-content:center;
+}
+.pomo-stat {
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+}
+.pomo-stat span {
+  font-family:'Fraunces',serif;
+  font-size:22px;
+  font-weight:700;
+  color:var(--fg);
+}
+.pomo-stat small {
+  font-size:11px;
+  color:var(--muted);
+  font-weight:600;
+}
+@media(max-width:400px) {
+  .pomo-overlay { right:12px; left:12px; width:auto; bottom:86px; }
+  .pomo-fab { bottom:18px; right:18px; }
 }
 </style>
 </head>
@@ -638,20 +791,20 @@ tr:hover td { background:var(--moss-light); border-radius:8px; }
 
 <nav>
   <div class="nav-pill">
-    <div class="logo"><div class="logo-dot">E</div> ETH CS</div>
+    <div class="logo">👨🏻‍💻 ETH CS</div>
     <div class="tabs">
-      <div class="tab active" onclick="go('home')">Home</div>
-      <div class="tab" onclick="go('schedule')">Schedule</div>
+      <div class="tab active" onclick="go('home')">🏠</div>
+      <div class="tab" onclick="go('schedule')">📅</div>
       <div class="tab" onclick="go('pp')">PP</div>
       <div class="tab" onclick="go('aw')">A&P</div>
-      <div class="tab" onclick="go('an')">Analysis</div>
+      <div class="tab" onclick="go('an')">Ana</div>
       <div class="tab" onclick="go('ddca')">DDCA</div>
-      <div class="tab" style="opacity:0.4;font-size:10px;pointer-events:none;">|</div>
       <div class="tab" onclick="go('dm')">DM</div>
       <div class="tab" onclick="go('la')">LA</div>
       <div class="tab" onclick="go('ad')">A&D</div>
-      <div class="tab" onclick="go('ep')">eProg</div>
-      <div class="tab" onclick="go('res')">Resources</div>
+      <div class="tab" onclick="go('ep')">eP</div>
+      <div class="tab" onclick="go('res')">📚</div>
+
     </div>
     <div class="clock" id="clock"></div>
   </div>
@@ -798,7 +951,7 @@ tr:hover td { background:var(--moss-light); border-radius:8px; }
       <div style="font-weight:700;margin-bottom:10px;color:rgba(255,255,255,0.9);">🗓️ Recovery Plan — 8 Courses, 147 Days</div>
       <div style="font-size:12px;color:rgba(255,255,255,0.7);line-height:1.9;">
         <strong style="color:rgba(255,255,255,0.9);">Phase 1 — Now → Easter (4 weeks):</strong><br>
-        🔵 Catch up on S2 lectures (4 weeks behind = ~8 per course)<br>
+        <!-- HIDDEN: 🔵 Catch up on S2 lectures (4 weeks behind = ~8 per course)<br> -->
         🔵 Start attending ALL lectures from now on<br>
         🔵 Weekends: 2h S1 review (DM + A&D first — they overlap with S2)<br><br>
         
@@ -1021,9 +1174,9 @@ tr:hover td { background:var(--moss-light); border-radius:8px; }
   </details>
   <details><summary><span class="chevron">›</span><span class="label">Textbooks</span></summary>
     <div class="dd-content">
-      <div class="row"><span class="l">Primary</span><span class="v">Java Concurrency in Practice</span></div>
-      <div class="row"><span class="l">Reference</span><span class="v">Art of Multiprocessor Programming</span></div>
-      <div class="row"><span class="l">Supplement</span><span class="v">Intro to Java Programming — Liang</span></div>
+      <div class="row"><span class="l">Primary</span><span class="v"><a href="https://raw.githubusercontent.com/wususu/effective-resourses/master/Java/Java%20Concurrency%20in%20Practice.pdf" target="_blank" style="color:var(--moss);text-decoration:underline;">Java Concurrency in Practice</a></span></div>
+      <div class="row"><span class="l">Reference</span><span class="v"><a href="https://raw.githubusercontent.com/amilajack/reading/master/Computer_Science/The%20Art%20of%20Multiprocessor%20Programming.pdf" target="_blank" style="color:var(--moss);text-decoration:underline;">Art of Multiprocessor Programming</a></span></div>
+      <div class="row"><span class="l">Supplement</span><span class="v"><a href="https://github.com/Nikhil-Vinay/E-Books/blob/master/Y.Daniel.Liang.-.Introduction.to.Java.Programming.Comprehensive.Version.10th.Edition.-.2014.pdf" target="_blank" style="color:var(--moss);text-decoration:underline;">Intro to Java Programming — Liang</a></span></div>
     </div>
   </details>
 </div>
@@ -1382,10 +1535,12 @@ tr:hover td { background:var(--moss-light); border-radius:8px; }
   </div>
 </div>
 
+
+
 </div>
 
 <script>
-const map={home:'Home',schedule:'Schedule',pp:'PP',aw:'A&P',an:'Analysis',ddca:'DDCA',dm:'DM',la:'LA',ad:'A&D',ep:'eProg',res:'Resources'};
+const map={home:'🏠',schedule:'📅',pp:'PP',aw:'A&P',an:'Ana',ddca:'DDCA',dm:'DM',la:'LA',ad:'A&D',ep:'eP',res:'📚'};
 function go(id){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
@@ -1950,6 +2105,145 @@ function syncS1(course){
   if(cnt2) cnt2.textContent=reviewed+'/'+total;
 }
 
+// === POMODORO ===
+const POMO_DURATIONS = { focus:25*60, short:5*60, long:15*60 };
+const POMO_LABELS = { focus:'Focus', short:'Break', long:'Long Break' };
+const POMO_CIRCUMF = 2 * Math.PI * 90; // ~565.49
+let pomoMode = 'focus';
+let pomoTime = POMO_DURATIONS.focus;
+let pomoTotal = POMO_DURATIONS.focus;
+let pomoRunning = false;
+let pomoInterval = null;
+let pomoSessionCount = syncGet('pomo-sessions') || 0;
+let pomoTotalMin = syncGet('pomo-total-min') || 0;
+
+function pomoRender() {
+  const m = String(Math.floor(pomoTime/60)).padStart(2,'0');
+  const s = String(pomoTime%60).padStart(2,'0');
+  document.getElementById('pomo-time').textContent = m+':'+s;
+  document.getElementById('pomo-label').textContent = POMO_LABELS[pomoMode];
+  const pct = 1 - pomoTime/pomoTotal;
+  document.getElementById('pomo-progress').setAttribute('stroke-dashoffset', POMO_CIRCUMF*(1-pct));
+  document.getElementById('pomo-progress').setAttribute('stroke', pomoMode==='focus'?'var(--moss)':'var(--terracotta)');
+  document.getElementById('pomo-sessions').textContent = pomoSessionCount;
+  const h = Math.floor(pomoTotalMin/60);
+  const rm = pomoTotalMin%60;
+  document.getElementById('pomo-total').textContent = h+'h '+rm+'m';
+  // FAB mini timer
+  const fabTimer = document.getElementById('pomo-fab-timer');
+  if(pomoRunning) {
+    fabTimer.style.display = 'block';
+    fabTimer.textContent = m+':'+s;
+  } else {
+    fabTimer.style.display = 'none';
+  }
+}
+
+function pomoToggle() {
+  if(pomoRunning) {
+    clearInterval(pomoInterval);
+    pomoRunning = false;
+    document.getElementById('pomo-start').textContent = 'Start';
+  } else {
+    pomoRunning = true;
+    document.getElementById('pomo-start').textContent = 'Pause';
+    pomoInterval = setInterval(()=>{
+      if(pomoTime<=0) {
+        clearInterval(pomoInterval);
+        pomoRunning = false;
+        document.getElementById('pomo-start').textContent = 'Start';
+        if(pomoMode==='focus') {
+          pomoSessionCount++;
+          pomoTotalMin += Math.round(pomoTotal/60);
+          syncSave('pomo-sessions', pomoSessionCount);
+          syncSave('pomo-total-min', pomoTotalMin);
+        }
+        // notification
+        if(Notification.permission==='granted'){
+          new Notification(pomoMode==='focus'?'🍅 Focus done! Take a break.':'⏰ Break over! Back to work.');
+        }
+        // auto-switch
+        if(pomoMode==='focus'){
+          pomoSetMode(pomoSessionCount%4===0?'long':'short');
+        } else {
+          pomoSetMode('focus');
+        }
+        pomoRender();
+        return;
+      }
+      pomoTime--;
+      pomoRender();
+    },1000);
+  }
+}
+
+function pomoReset() {
+  clearInterval(pomoInterval);
+  pomoRunning = false;
+  pomoTime = POMO_DURATIONS[pomoMode];
+  pomoTotal = POMO_DURATIONS[pomoMode];
+  document.getElementById('pomo-start').textContent = 'Start';
+  pomoRender();
+}
+
+function pomoSkip() {
+  clearInterval(pomoInterval);
+  pomoRunning = false;
+  if(pomoMode==='focus'){
+    pomoSetMode(pomoSessionCount%4===0?'long':'short');
+  } else {
+    pomoSetMode('focus');
+  }
+  pomoRender();
+}
+
+function pomoSetMode(mode, btn) {
+  pomoMode = mode;
+  pomoTime = POMO_DURATIONS[mode];
+  pomoTotal = POMO_DURATIONS[mode];
+  clearInterval(pomoInterval);
+  pomoRunning = false;
+  document.getElementById('pomo-start').textContent = 'Start';
+  document.querySelectorAll('.pomo-mode').forEach(b=>b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  else document.querySelectorAll('.pomo-mode').forEach(b=>{if(b.textContent.toLowerCase().includes(mode==='focus'?'focus':mode==='short'?'short':'long'))b.classList.add('active')});
+  pomoRender();
+}
+
+// request notification permission
+if('Notification' in window && Notification.permission==='default') Notification.requestPermission();
+pomoRender();
+
 </script>
+
+<!-- POMODORO FLOATING WIDGET -->
+<button class="pomo-fab" onclick="document.getElementById('pomo-panel').classList.toggle('open')">
+  🍅<span class="pomo-fab-timer" id="pomo-fab-timer"></span>
+</button>
+<div class="pomo-overlay" id="pomo-panel">
+  <div class="pomo-ring-wrap">
+    <svg class="pomo-ring" viewBox="0 0 200 200">
+      <circle cx="100" cy="100" r="90" fill="none" stroke="var(--sand)" stroke-width="6"/>
+      <circle id="pomo-progress" cx="100" cy="100" r="90" fill="none" stroke="var(--moss)" stroke-width="6" stroke-linecap="round" stroke-dasharray="565.49" stroke-dashoffset="0" transform="rotate(-90 100 100)" style="transition:stroke-dashoffset 0.5s ease;"/>
+    </svg>
+    <div class="pomo-time" id="pomo-time">25:00</div>
+    <div class="pomo-label" id="pomo-label">Focus</div>
+  </div>
+  <div class="pomo-controls">
+    <button class="pomo-btn" id="pomo-start" onclick="pomoToggle()">Start</button>
+    <button class="pomo-btn pomo-btn-secondary" onclick="pomoReset()">Reset</button>
+    <button class="pomo-btn pomo-btn-secondary" onclick="pomoSkip()">Skip</button>
+  </div>
+  <div class="pomo-modes">
+    <button class="pomo-mode active" onclick="pomoSetMode('focus',this)">Focus · 25m</button>
+    <button class="pomo-mode" onclick="pomoSetMode('short',this)">Short · 5m</button>
+    <button class="pomo-mode" onclick="pomoSetMode('long',this)">Long · 15m</button>
+  </div>
+  <div class="pomo-stats">
+    <div class="pomo-stat"><span id="pomo-sessions">0</span><small>sessions</small></div>
+    <div class="pomo-stat"><span id="pomo-total">0h 0m</span><small>focused</small></div>
+  </div>
+</div>
+
 </body>
 </html>
