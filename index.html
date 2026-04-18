@@ -818,6 +818,95 @@ tr:hover td { background:var(--moss-light); border-radius:8px; }
   .pomo-overlay { right:12px; left:12px; width:auto; bottom:86px; }
   .pomo-fab { bottom:18px; right:18px; }
 }
+
+/* CRYPTO */
+.crypto-card {
+  background:var(--card);
+  border:1px solid rgba(222,216,207,0.5);
+  padding:clamp(16px,2.5vw,22px);
+  transition:all 0.3s ease;
+  position:relative;
+  overflow:hidden;
+}
+.crypto-card:nth-child(1) { border-radius:2rem 1.5rem 1rem 2.5rem; }
+.crypto-card:nth-child(2) { border-radius:1rem 2.5rem 2rem 1rem; }
+.crypto-card:nth-child(3) { border-radius:2.5rem 1rem 1.5rem 2rem; }
+.crypto-card:nth-child(4) { border-radius:1.5rem 2rem 2.5rem 1rem; }
+.crypto-card:nth-child(5) { border-radius:2rem 1rem 2rem 1.5rem; }
+.crypto-card:nth-child(n+6) { border-radius:1.5rem; }
+.crypto-card:hover {
+  transform:translateY(-3px);
+  box-shadow:0 16px 32px -8px rgba(93,112,82,0.14);
+}
+.crypto-card-header {
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-bottom:10px;
+}
+.crypto-card-icon {
+  width:38px;
+  height:38px;
+  border-radius:50%;
+  background:var(--moss-light);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:16px;
+  flex-shrink:0;
+  overflow:hidden;
+}
+.crypto-card-icon img {
+  width:100%;
+  height:100%;
+  border-radius:50%;
+  object-fit:cover;
+}
+.crypto-card-name {
+  font-family:'Fraunces',serif;
+  font-size:clamp(0.95rem,1.5vw,1.1rem);
+  font-weight:700;
+  line-height:1.2;
+}
+.crypto-card-symbol {
+  font-size:11px;
+  color:var(--muted);
+  font-weight:600;
+}
+.crypto-card-price {
+  font-size:clamp(1.1rem,2vw,1.35rem);
+  font-weight:700;
+  font-family:'Fraunces',serif;
+  line-height:1.2;
+}
+.crypto-card-row {
+  display:flex;
+  justify-content:space-between;
+  align-items:baseline;
+  padding:5px 0;
+  font-size:12px;
+  border-bottom:1px dashed rgba(222,216,207,0.4);
+}
+.crypto-card-row:last-of-type { border-bottom:none; }
+.crypto-card-row .l { color:var(--muted); font-size:11px; }
+.crypto-card-row .v { font-weight:700; }
+.crypto-pnl-up { color:#4d8c3f; }
+.crypto-pnl-down { color:var(--burnt); }
+.crypto-chart-wrap {
+  border-radius:1.2rem;
+  overflow:hidden;
+  border:1px solid rgba(222,216,207,0.5);
+  background:var(--card);
+}
+.crypto-chart-wrap iframe {
+  width:100%;
+  height:100%;
+  border:none;
+}
+@media(max-width:768px) {
+  #crypto-charts .crypto-grid { grid-template-columns:1fr !important; }
+  .crypto-card-price { font-size:1.1rem; }
+}
 </style>
 </head>
 <body>
@@ -838,6 +927,7 @@ tr:hover td { background:var(--moss-light); border-radius:8px; }
       <div class="tab" onclick="go('ad')">A&D</div>
       <div class="tab" onclick="go('ep')">eP</div>
       <div class="tab" onclick="go('res')">📚</div>
+      <div class="tab" onclick="go('crypto')">📈</div>
 
     </div>
     <button class="sync-btn" id="force-sync-btn" onclick="forceSync()" title="Push all trackers to cloud now">☁ Sync</button>
@@ -1397,6 +1487,31 @@ tr:hover td { background:var(--moss-light); border-radius:8px; }
       <div class="sheet-tracker" id="sheets-ddca" data-course="ddca"></div>
     </div>
   </details>
+  <details><summary><span class="chevron">›</span><span class="label">Lab Tracker</span><span class="cnt" id="ddca-lab-progress">0/20</span></summary>
+    <div class="dd-content">
+      <table class="mini-table" style="width:100%">
+        <tr style="border-bottom:1px solid var(--border)">
+          <th style="text-align:left;padding:6px 8px;font-size:12px;color:var(--muted)">Lab</th>
+          <th style="text-align:left;padding:6px 8px;font-size:12px;color:var(--muted)">Topic</th>
+          <th style="text-align:center;padding:6px 8px;font-size:12px;color:var(--muted)">Files</th>
+          <th style="text-align:center;padding:6px 8px;font-size:12px;color:var(--muted)">Manual Due</th>
+          <th style="text-align:center;padding:6px 8px;font-size:12px;color:var(--muted)">Manual</th>
+          <th style="text-align:center;padding:6px 8px;font-size:12px;color:var(--muted)">Report Due</th>
+          <th style="text-align:center;padding:6px 8px;font-size:12px;color:var(--muted)">Report</th>
+        </tr>
+        <tr><td style="padding:6px 8px;font-weight:600">1</td><td style="padding:6px 8px">Drawing a Basic Circuit</td><td style="padding:6px 8px;text-align:center"><a href="https://safari.ethz.ch/ddca/spring2026/lib/exe/fetch.php?media=ddca_ss26_lab1_manual.pdf" target="_blank" title="Manual">📄</a> <a href="https://safari.ethz.ch/ddca/spring2026/lib/exe/fetch.php?media=ddca_ss26_lab1_report.pdf" target="_blank" title="Report PDF">📝</a> <a href="https://safari.ethz.ch/ddca/spring2026/lib/exe/fetch.php?media=ddca_ss26_lab1_report.docx" target="_blank" title="Report DOC">📋</a> <a href="https://safari.ethz.ch/ddca/spring2026/lib/exe/fetch.php?media=ddca_s26_lab1_supplement.pdf" target="_blank" title="Supplement PDF">📊</a> <a href="https://safari.ethz.ch/ddca/spring2026/lib/exe/fetch.php?media=ddca_s26_lab1_supplement.pptx" target="_blank" title="Supplement PPTX">🎞️</a></td><td style="padding:6px 8px;text-align:center;font-size:13px">13.03</td><td style="padding:6px 8px;text-align:center"><input type="checkbox" class="ddca-lab-check" data-lab="1-manual"></td><td style="padding:6px 8px;text-align:center;font-size:13px">20.03</td><td style="padding:6px 8px;text-align:center"><input type="checkbox" class="ddca-lab-check" data-lab="1-report"></td></tr>
+        <tr><td style="padding:6px 8px;font-weight:600">2</td><td style="padding:6px 8px">Mapping Circuit to FPGA</td><td style="padding:6px 8px;text-align:center"><a href="https://safari.ethz.ch/ddca/spring2026/lib/exe/fetch.php?media=ddca_ss26_lab2_manual.pdf" target="_blank" title="Manual">📄</a> <a href="https://safari.ethz.ch/ddca/spring2026/lib/exe/fetch.php?media=ddca_ss26_lab2_report.pdf" target="_blank" title="Report PDF">📝</a> <a href="https://safari.ethz.ch/ddca/spring2026/lib/exe/fetch.php?media=ddca_ss26_lab2_report.docx" target="_blank" title="Report DOC">📋</a> <a href="https://safari.ethz.ch/ddca/spring2026/lib/exe/fetch.php?media=ddca_ss26_lab2_supplement.pdf" target="_blank" title="Supplement PDF">📊</a> <a href="https://safari.ethz.ch/ddca/spring2026/lib/exe/fetch.php?media=ddca_ss26_lab2_supplement.pptx" target="_blank" title="Supplement PPTX">🎞️</a></td><td style="padding:6px 8px;text-align:center;font-size:13px">20.03</td><td style="padding:6px 8px;text-align:center"><input type="checkbox" class="ddca-lab-check" data-lab="2-manual"></td><td style="padding:6px 8px;text-align:center;font-size:13px">27.03</td><td style="padding:6px 8px;text-align:center"><input type="checkbox" class="ddca-lab-check" data-lab="2-report"></td></tr>
+        <tr><td style="padding:6px 8px;font-weight:600">3</td><td style="padding:6px 8px">Verilog Combinational</td><td style="padding:6px 8px;text-align:center"><a href="https://safari.ethz.ch/ddca/spring2026/lib/exe/fetch.php?media=ddca_ss26_lab3_manual.pdf" target="_blank" title="Manual">📄</a> <a href="https://safari.ethz.ch/ddca/spring2026/lib/exe/fetch.php?media=ddca_ss26_lab3_report.pdf" target="_blank" title="Report PDF">📝</a> <a href="https://safari.ethz.ch/ddca/spring2026/lib/exe/fetch.php?media=ddca_ss26_lab3_report.docx" target="_blank" title="Report DOC">📋</a> <a href="https://safari.ethz.ch/ddca/spring2026/lib/exe/fetch.php?media=ddca_ss26_lab3_supplement.pdf" target="_blank" title="Supplement PDF">📊</a> <a href="https://safari.ethz.ch/ddca/spring2026/lib/exe/fetch.php?media=ddca_ss26_lab3_supplement.pptx" target="_blank" title="Supplement PPTX">🎞️</a></td><td style="padding:6px 8px;text-align:center;font-size:13px">27.03</td><td style="padding:6px 8px;text-align:center"><input type="checkbox" class="ddca-lab-check" data-lab="3-manual"></td><td style="padding:6px 8px;text-align:center;font-size:13px">03.04</td><td style="padding:6px 8px;text-align:center"><input type="checkbox" class="ddca-lab-check" data-lab="3-report"></td></tr>
+        <tr><td style="padding:6px 8px;font-weight:600">4</td><td style="padding:6px 8px">Finite State Machines</td><td style="padding:6px 8px;text-align:center"><a href="https://safari.ethz.ch/ddca/spring2026/lib/exe/fetch.php?media=ddca_ss26_lab4_manual.pdf" target="_blank" title="Manual">📄</a> <a href="https://safari.ethz.ch/ddca/spring2026/lib/exe/fetch.php?media=ddca_ss26_lab4_report.pdf" target="_blank" title="Report PDF">📝</a> <a href="https://safari.ethz.ch/ddca/spring2026/lib/exe/fetch.php?media=ddca_ss26_lab4_report.docx" target="_blank" title="Report DOC">📋</a> <a href="https://safari.ethz.ch/ddca/spring2026/lib/exe/fetch.php?media=ddca_ss26_lab4_supplement.pdf" target="_blank" title="Supplement PDF">📊</a> <a href="https://safari.ethz.ch/ddca/spring2026/lib/exe/fetch.php?media=ddca_ss26_lab4_supplement.pptx" target="_blank" title="Supplement PPTX">🎞️</a></td><td style="padding:6px 8px;text-align:center;font-size:13px">17.04</td><td style="padding:6px 8px;text-align:center"><input type="checkbox" class="ddca-lab-check" data-lab="4-manual"></td><td style="padding:6px 8px;text-align:center;font-size:13px">17.04</td><td style="padding:6px 8px;text-align:center"><input type="checkbox" class="ddca-lab-check" data-lab="4-report"></td></tr>
+        <tr><td style="padding:6px 8px;font-weight:600">5</td><td style="padding:6px 8px">Implementing an ALU</td><td style="padding:6px 8px;text-align:center"><a href="https://safari.ethz.ch/ddca/spring2026/lib/exe/fetch.php?media=ddca_ss25_lab5_manual.pdf" target="_blank" title="Manual">📄</a> <a href="https://safari.ethz.ch/ddca/spring2026/lib/exe/fetch.php?media=ddca_ss25_lab5_report.pdf" target="_blank" title="Report PDF">📝</a> <a href="https://safari.ethz.ch/ddca/spring2026/lib/exe/fetch.php?media=ddca_ss25_lab5_report.docx" target="_blank" title="Report DOC">📋</a> <a href="https://safari.ethz.ch/ddca/spring2026/lib/exe/fetch.php?media=ddca_ss25_lab5_supplement.pdf" target="_blank" title="Supplement PDF">📊</a> <a href="https://safari.ethz.ch/ddca/spring2026/lib/exe/fetch.php?media=ddca_ss25_lab5_supplement.pptx" target="_blank" title="Supplement PPTX">🎞️</a></td><td style="padding:6px 8px;text-align:center;font-size:13px">24.04</td><td style="padding:6px 8px;text-align:center"><input type="checkbox" class="ddca-lab-check" data-lab="5-manual"></td><td style="padding:6px 8px;text-align:center;font-size:13px">01.05</td><td style="padding:6px 8px;text-align:center"><input type="checkbox" class="ddca-lab-check" data-lab="5-report"></td></tr>
+        <tr><td style="padding:6px 8px;font-weight:600">6</td><td style="padding:6px 8px">Testing the ALU</td><td style="padding:6px 8px;text-align:center"><a href="https://safari.ethz.ch/ddca/spring2026/lib/exe/fetch.php?media=ddca_ss25_lab6_manual.pdf" target="_blank" title="Manual">📄</a> <a href="https://safari.ethz.ch/ddca/spring2026/lib/exe/fetch.php?media=ddca_ss25_lab6_report.pdf" target="_blank" title="Report PDF">📝</a> <a href="https://safari.ethz.ch/ddca/spring2026/lib/exe/fetch.php?media=ddca_ss25_lab6_report.docx" target="_blank" title="Report DOC">📋</a> <a href="https://safari.ethz.ch/ddca/spring2026/lib/exe/fetch.php?media=ddca_ss25_lab6_supplement.pdf" target="_blank" title="Supplement PDF">📊</a> <a href="https://safari.ethz.ch/ddca/spring2026/lib/exe/fetch.php?media=ddca_ss25_lab6_supplement.pptx" target="_blank" title="Supplement PPTX">🎞️</a> <a href="https://safari.ethz.ch/ddca/spring2026/lib/exe/fetch.php?media=lab6_files.zip" target="_blank" title="Lab files">📦</a></td><td style="padding:6px 8px;text-align:center;font-size:13px">08.05</td><td style="padding:6px 8px;text-align:center"><input type="checkbox" class="ddca-lab-check" data-lab="6-manual"></td><td style="padding:6px 8px;text-align:center;font-size:13px">08.05</td><td style="padding:6px 8px;text-align:center"><input type="checkbox" class="ddca-lab-check" data-lab="6-report"></td></tr>
+        <tr><td style="padding:6px 8px;font-weight:600">7</td><td style="padding:6px 8px">Writing Assembly Code</td><td style="padding:6px 8px;text-align:center"><a href="https://safari.ethz.ch/ddca/spring2026/lib/exe/fetch.php?media=ddca_ss25_lab7_manual.pdf" target="_blank" title="Manual">📄</a> <a href="https://safari.ethz.ch/ddca/spring2026/lib/exe/fetch.php?media=ddca_ss25_lab7_report.pdf" target="_blank" title="Report PDF">📝</a> <a href="https://safari.ethz.ch/ddca/spring2026/lib/exe/fetch.php?media=ddca_ss25_lab7_report.docx" target="_blank" title="Report DOC">📋</a> <a href="https://safari.ethz.ch/ddca/spring2026/lib/exe/fetch.php?media=ddca_ss25_lab7_supplement.pdf" target="_blank" title="Supplement PDF">📊</a> <a href="https://safari.ethz.ch/ddca/spring2026/lib/exe/fetch.php?media=ddca_ss25_lab7_supplement.pptx" target="_blank" title="Supplement PPTX">🎞️</a> <a href="https://safari.ethz.ch/ddca/spring2026/lib/exe/fetch.php?media=lab7_files.zip" target="_blank" title="Lab files">📦</a></td><td style="padding:6px 8px;text-align:center;font-size:13px">15.05</td><td style="padding:6px 8px;text-align:center"><input type="checkbox" class="ddca-lab-check" data-lab="7-manual"></td><td style="padding:6px 8px;text-align:center;font-size:13px">22.05</td><td style="padding:6px 8px;text-align:center"><input type="checkbox" class="ddca-lab-check" data-lab="7-report"></td></tr>
+        <tr><td style="padding:6px 8px;font-weight:600">8.1</td><td style="padding:6px 8px">System Integration (I)</td><td style="padding:6px 8px;text-align:center"><a href="https://safari.ethz.ch/ddca/spring2026/lib/exe/fetch.php?media=ddca_ss25_lab8-1_manual.pdf" target="_blank" title="Manual">📄</a> <a href="https://safari.ethz.ch/ddca/spring2026/lib/exe/fetch.php?media=ddca_ss25_lab8-1_report.pdf" target="_blank" title="Report PDF">📝</a> <a href="https://safari.ethz.ch/ddca/spring2026/lib/exe/fetch.php?media=ddca_ss25_lab8-1_report.docx" target="_blank" title="Report DOC">📋</a> <a href="https://safari.ethz.ch/ddca/spring2026/lib/exe/fetch.php?media=ddca_ss25_lab8-1_supplement.pdf" target="_blank" title="Supplement PDF">📊</a> <a href="https://safari.ethz.ch/ddca/spring2026/lib/exe/fetch.php?media=ddca_ss25_lab8-1_supplement.pptx" target="_blank" title="Supplement PPTX">🎞️</a> <a href="https://safari.ethz.ch/ddca/spring2026/lib/exe/fetch.php?media=lab8_files.zip" target="_blank" title="Lab files">📦</a></td><td style="padding:6px 8px;text-align:center;font-size:13px">22.05</td><td style="padding:6px 8px;text-align:center"><input type="checkbox" class="ddca-lab-check" data-lab="8.1-manual"></td><td style="padding:6px 8px;text-align:center;font-size:13px">29.05</td><td style="padding:6px 8px;text-align:center"><input type="checkbox" class="ddca-lab-check" data-lab="8.1-report"></td></tr>
+        <tr><td style="padding:6px 8px;font-weight:600">8.2</td><td style="padding:6px 8px">System Integration (II)</td><td style="padding:6px 8px;text-align:center"><a href="https://safari.ethz.ch/ddca/spring2026/lib/exe/fetch.php?media=ddca_ss25_lab8-2_manual.pdf" target="_blank" title="Manual">📄</a> <a href="https://safari.ethz.ch/ddca/spring2026/lib/exe/fetch.php?media=ddca_ss25_lab8-2_report.pdf" target="_blank" title="Report PDF">📝</a> <a href="https://safari.ethz.ch/ddca/spring2026/lib/exe/fetch.php?media=ddca_ss25_lab8-2_report.docx" target="_blank" title="Report DOC">📋</a> <a href="https://safari.ethz.ch/ddca/spring2026/lib/exe/fetch.php?media=ddca_ss25_lab8-2_supplement.pdf" target="_blank" title="Supplement PDF">📊</a> <a href="https://safari.ethz.ch/ddca/spring2026/lib/exe/fetch.php?media=ddca_ss25_lab8-2_supplement.pptx" target="_blank" title="Supplement PPTX">🎞️</a> <a href="https://safari.ethz.ch/ddca/spring2026/lib/exe/fetch.php?media=lab8_files.zip" target="_blank" title="Lab files">📦</a></td><td style="padding:6px 8px;text-align:center;font-size:13px">29.05</td><td style="padding:6px 8px;text-align:center"><input type="checkbox" class="ddca-lab-check" data-lab="8.2-manual"></td><td style="padding:6px 8px;text-align:center;font-size:13px">05.06</td><td style="padding:6px 8px;text-align:center"><input type="checkbox" class="ddca-lab-check" data-lab="8.2-report"></td></tr>
+        <tr><td style="padding:6px 8px;font-weight:600">9</td><td style="padding:6px 8px">Performance of MIPS</td><td style="padding:6px 8px;text-align:center"><a href="https://safari.ethz.ch/ddca/spring2026/lib/exe/fetch.php?media=ddca_ss25_lab9_manual.pdf" target="_blank" title="Manual">📄</a> <a href="https://safari.ethz.ch/ddca/spring2026/lib/exe/fetch.php?media=ddca_ss25_lab9_report.pdf" target="_blank" title="Report PDF">📝</a> <a href="https://safari.ethz.ch/ddca/spring2026/lib/exe/fetch.php?media=ddca_ss25_lab9_report.docx" target="_blank" title="Report DOC">📋</a> <a href="https://safari.ethz.ch/ddca/spring2026/lib/exe/fetch.php?media=ddca_ss25_lab9_supplement.pdf" target="_blank" title="Supplement PDF">📊</a> <a href="https://safari.ethz.ch/ddca/spring2026/lib/exe/fetch.php?media=ddca_ss25_lab9_supplement.pptx" target="_blank" title="Supplement PPTX">🎞️</a> <a href="https://safari.ethz.ch/ddca/spring2026/lib/exe/fetch.php?media=lab9_files.zip" target="_blank" title="Lab files">📦</a></td><td style="padding:6px 8px;text-align:center;font-size:13px">—</td><td style="padding:6px 8px;text-align:center"><input type="checkbox" class="ddca-lab-check" data-lab="9-manual"></td><td style="padding:6px 8px;text-align:center;font-size:13px">12.06</td><td style="padding:6px 8px;text-align:center"><input type="checkbox" class="ddca-lab-check" data-lab="9-report"></td></tr>
+      </table>
+    </div>
+  </details>
 </div>
 
 <!-- DISCRETE MATH -->
@@ -1570,18 +1685,85 @@ tr:hover td { background:var(--moss-light); border-radius:8px; }
   </div>
 </div>
 
+<!-- CRYPTO PORTFOLIO -->
+<div class="page" id="p-crypto">
+  <div class="hero" style="padding-bottom:clamp(20px,3vw,32px);">
+    <div class="blob blob-moss" style="width:250px;height:250px;top:-40px;right:-60px"></div>
+    <div class="blob blob-terra" style="width:180px;height:180px;bottom:0;left:-40px;border-radius:30% 70% 70% 30%/30% 30% 70% 70%"></div>
+    <div style="position:relative;z-index:1">
+      <div class="hero-overline">Portfolio</div>
+      <h1>Crypto <em>Holdings</em></h1>
+      <p class="hero-sub">Live from your Solana wallets. Auto-scans for new tokens.</p>
+    </div>
+  </div>
 
+  <!-- PORTFOLIO SUMMARY -->
+  <div class="moss-section" style="margin:0 0 24px 0;">
+    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
+      <div>
+        <div style="font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;color:rgba(255,255,255,0.5);">Total Value</div>
+        <div style="font-family:'Fraunces',serif;font-size:clamp(2rem,4.5vw,3.2rem);font-weight:800;line-height:1.1;" id="crypto-total">$—</div>
+        <div style="font-size:14px;margin-top:6px;" id="crypto-pnl"></div>
+      </div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;">
+        <button onclick="cryptoRefresh()" id="crypto-refresh-btn" style="background:rgba(255,255,255,0.12);color:white;border:1px solid rgba(255,255,255,0.2);border-radius:9999px;padding:10px 20px;font-size:13px;font-weight:600;cursor:pointer;font-family:'Nunito',sans-serif;transition:all 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.2)'" onmouseout="this.style.background='rgba(255,255,255,0.12)'">🔄 Refresh</button>
+        <button onclick="cryptoEditCostBasis()" style="background:rgba(255,255,255,0.12);color:white;border:1px solid rgba(255,255,255,0.2);border-radius:9999px;padding:10px 20px;font-size:13px;font-weight:600;cursor:pointer;font-family:'Nunito',sans-serif;transition:all 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.2)'" onmouseout="this.style.background='rgba(255,255,255,0.12)'">💰 Cost Basis</button>
+      </div>
+    </div>
+    <div style="margin-top:16px;display:flex;gap:10px;flex-wrap:wrap;" id="crypto-wallet-pills">
+      <div style="background:rgba(255,255,255,0.06);border-radius:9999px;padding:6px 14px;font-size:11px;font-weight:600;">
+        <span style="color:rgba(255,255,255,0.4);">W1</span> Hgp2s…ByVYb
+      </div>
+      <div style="background:rgba(255,255,255,0.06);border-radius:9999px;padding:6px 14px;font-size:11px;font-weight:600;">
+        <span style="color:rgba(255,255,255,0.4);">W2</span> 9Qzhn…Hsi2
+      </div>
+    </div>
+  </div>
+
+  <!-- TOKEN HOLDINGS (grid) -->
+  <div id="crypto-holdings" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;margin-bottom:28px;">
+    <div style="text-align:center;padding:40px;color:var(--muted);grid-column:1/-1;">Loading wallet data...</div>
+  </div>
+
+  <!-- CHARTS SECTION -->
+  <div style="margin-bottom:28px;">
+    <div style="font-family:'Fraunces',serif;font-size:1.2rem;font-weight:700;margin-bottom:14px;">📊 Charts</div>
+    <div id="crypto-charts"></div>
+  </div>
+
+  <!-- DEAD TOKENS -->
+  <details style="margin-bottom:16px;">
+    <summary><span class="chevron">›</span><span class="label">Dead / No Liquidity</span><span class="cnt" id="crypto-dead-cnt">0</span></summary>
+    <div class="dd-content" id="crypto-dead-list">
+      <div style="font-size:13px;color:var(--muted);">Tokens with no DEX pairs or price data</div>
+    </div>
+  </details>
+
+  <!-- WALLET MANAGEMENT -->
+  <details style="margin-bottom:32px;">
+    <summary><span class="chevron">›</span><span class="label">Wallet Management</span></summary>
+    <div class="dd-content">
+      <div style="font-size:13px;color:var(--muted);margin-bottom:12px;">Add or remove wallets to track</div>
+      <div id="crypto-wallet-list" style="display:flex;flex-direction:column;gap:6px;margin-bottom:12px;"></div>
+      <div style="display:flex;gap:8px;">
+        <input id="crypto-new-wallet" placeholder="Solana wallet address" style="flex:1;border:1px solid var(--border);border-radius:10px;padding:10px 14px;font-family:'Nunito',sans-serif;font-size:13px;background:var(--stone);color:var(--fg);outline:none;">
+        <button onclick="cryptoAddWallet()" style="background:var(--moss);color:white;border:none;border-radius:10px;padding:10px 18px;font-size:13px;font-weight:600;cursor:pointer;font-family:'Nunito',sans-serif;">Add</button>
+      </div>
+    </div>
+  </details>
+</div>
 
 </div>
 
 <script>
-const map={home:'🏠',schedule:'📅',pp:'PP',aw:'A&P',an:'Ana',ddca:'DDCA',dm:'DM',la:'LA',ad:'A&D',ep:'eP',res:'📚'};
+const map={home:'🏠',schedule:'📅',pp:'PP',aw:'A&P',an:'Ana',ddca:'DDCA',dm:'DM',la:'LA',ad:'A&D',ep:'eP',res:'📚',crypto:'📈'};
 function go(id){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
   document.getElementById('p-'+id).classList.add('active');
   document.querySelectorAll('.tab').forEach(t=>{if(t.textContent===map[id])t.classList.add('active')});
   window.scrollTo({top:0,behavior:'smooth'});
+  if (id === 'crypto') cryptoInit();
 }
 function filter(q){
   q=q.toLowerCase();
@@ -1638,6 +1820,8 @@ async function syncInit() {
     loadPlan();
     ['pp','aw','an','ddca'].forEach(c => { buildTracker(c); buildSheets(c); });
     renderAllS1();
+    if (typeof renderDDCALabs === 'function') renderDDCALabs();
+    if (typeof renderWalletList === 'function') renderWalletList();
     console.log('✅ Synced from server');
     return serverData;
   } catch (e) {
@@ -1651,7 +1835,7 @@ async function syncInit() {
 // unconditionally on every load clobbers other devices' updates.
 async function syncMigrate(serverData) {
   if (serverData === null) return; // offline — don't push stale local over unknown server state
-  const keys = ['gkhn-plan', 'gkhn-lectures', 'gkhn-sheets', 'gkhn-s1review'];
+  const keys = ['gkhn-plan', 'gkhn-lectures', 'gkhn-sheets', 'gkhn-s1review', 'gkhn-crypto-wallets', 'gkhn-crypto-cost', 'gkhn-ddca-labs'];
   const payload = {};
   let hasData = false;
   keys.forEach(k => {
@@ -1681,7 +1865,7 @@ async function forceSync() {
   if (_syncTimer) { clearTimeout(_syncTimer); _syncTimer = null; }
   const payload = { ..._syncQueue };
   _syncQueue = {};
-  ['gkhn-plan', 'gkhn-lectures', 'gkhn-sheets', 'gkhn-s1review'].forEach(k => {
+  ['gkhn-plan', 'gkhn-lectures', 'gkhn-sheets', 'gkhn-s1review', 'gkhn-crypto-wallets', 'gkhn-crypto-cost', 'gkhn-ddca-labs'].forEach(k => {
     const v = localStorage.getItem(k);
     if (v) { try { payload[k] = JSON.parse(v); } catch {} }
   });
@@ -2290,6 +2474,303 @@ function pomoSetMode(mode, btn) {
 // request notification permission
 if('Notification' in window && Notification.permission==='default') Notification.requestPermission();
 pomoRender();
+
+
+// === CRYPTO PORTFOLIO ===
+const CRYPTO_WALLETS_KEY = 'gkhn-crypto-wallets';
+const CRYPTO_COST_KEY = 'gkhn-crypto-cost';
+const CRYPTO_CACHE_KEY = 'gkhn-crypto-cache';
+
+const DEFAULT_WALLETS = [
+  'Hgp2sYRELqnr4ZckP6qcqTmXUdRzaUhiatsLLcxByVYb',
+  '9QzhnF5yEatdmQMKqUVJz31KBAEUu8rDk4LMJGU6Hsi2'
+];
+
+function getCryptoWallets() {
+  return syncGet(CRYPTO_WALLETS_KEY) || DEFAULT_WALLETS;
+}
+function getCostBasis() {
+  return syncGet(CRYPTO_COST_KEY) || {};
+}
+function saveCostBasis(cb) {
+  syncSave(CRYPTO_COST_KEY, cb);
+}
+
+const CRYPTO_SCAN_API = SYNC_API.replace('/data', '/crypto-scan');
+
+function formatUsd(n) {
+  if (n >= 1) return '$' + n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  if (n >= 0.01) return '$' + n.toFixed(4);
+  if (n >= 0.0001) return '$' + n.toFixed(6);
+  return '$' + n.toFixed(10);
+}
+
+function formatAmount(n) {
+  if (n >= 1e6) return (n/1e6).toFixed(2) + 'M';
+  if (n >= 1e3) return (n/1e3).toFixed(1) + 'K';
+  return n.toFixed(n < 1 ? 4 : 2);
+}
+
+async function cryptoRefresh() {
+  const btn = document.getElementById('crypto-refresh-btn');
+  btn.textContent = '⏳ Scanning...';
+  btn.disabled = true;
+  
+  try {
+    const wallets = getCryptoWallets();
+    const url = CRYPTO_SCAN_API + '?wallets=' + wallets.join(',');
+    const res = await fetch(url, { headers: { 'Authorization': 'Bearer ' + SYNC_TOKEN } });
+    if (!res.ok) throw new Error('Server returned ' + res.status);
+    const cache = await res.json();
+    if (cache.error) throw new Error(cache.error);
+    
+    // Cache locally
+    localStorage.setItem(CRYPTO_CACHE_KEY, JSON.stringify(cache));
+    renderCrypto(cache);
+  } catch (e) {
+    console.error('Crypto refresh error:', e);
+    document.getElementById('crypto-holdings').innerHTML = `<div style="text-align:center;padding:20px;color:var(--burnt);">Error scanning wallets: ${e.message}</div>`;
+  }
+  
+  btn.textContent = '🔄 Refresh';
+  btn.disabled = false;
+}
+
+function renderCrypto(cache) {
+  const { live, dead, solPrice } = cache;
+  const costBasis = getCostBasis();
+  
+  // Total value
+  const totalValue = live.reduce((s, t) => s + (t.value || 0), 0);
+  document.getElementById('crypto-total').textContent = '$' + totalValue.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  
+  // Total PnL
+  const totalCost = Object.values(costBasis).reduce((s, v) => s + (parseFloat(v) || 0), 0);
+  const pnlEl = document.getElementById('crypto-pnl');
+  if (totalCost > 0) {
+    const pnl = totalValue - totalCost;
+    const pnlPct = ((pnl / totalCost) * 100).toFixed(1);
+    const cls = pnl >= 0 ? 'crypto-pnl-up' : 'crypto-pnl-down';
+    const arrow = pnl >= 0 ? '▲' : '▼';
+    pnlEl.innerHTML = `<span class="${cls}">${arrow} ${pnl >= 0 ? '+' : ''}${formatUsd(Math.abs(pnl))} (${pnl >= 0 ? '+' : ''}${pnlPct}%)</span> <span style="color:rgba(255,255,255,0.4);font-size:12px;">vs cost basis</span>`;
+  } else {
+    pnlEl.innerHTML = '<span style="color:rgba(255,255,255,0.5);font-size:12px;">Set cost basis to track PnL</span>';
+  }
+  
+  // Render holdings
+  const holdingsEl = document.getElementById('crypto-holdings');
+  if (live.length === 0) {
+    holdingsEl.innerHTML = '<div style="text-align:center;padding:20px;color:var(--muted);">No tokens with value found</div>';
+  } else {
+    holdingsEl.innerHTML = live.map(t => {
+      const cb = costBasis[t.mint];
+      let pnlHtml = '';
+      if (cb) {
+        const pnl = t.value - parseFloat(cb);
+        const cls = pnl >= 0 ? 'crypto-pnl-up' : 'crypto-pnl-down';
+        const arrow = pnl >= 0 ? '▲' : '▼';
+        pnlHtml = `<div class="crypto-card-row"><span class="l">PnL</span><span class="v ${cls}">${arrow} ${pnl >= 0 ? '+' : ''}${formatUsd(Math.abs(pnl))}</span></div>`;
+      }
+      const change24h = t.priceChange24h ? parseFloat(t.priceChange24h) : 0;
+      const changeCls = change24h >= 0 ? 'crypto-pnl-up' : 'crypto-pnl-down';
+      const iconContent = t.imageUrl 
+        ? `<img src="${t.imageUrl}" onerror="this.parentElement.textContent='🪙'">` 
+        : '🪙';
+      const pctOfTotal = totalValue > 0 ? ((t.value / totalValue) * 100).toFixed(1) : 0;
+      
+      return `<div class="crypto-card">
+        <div class="crypto-card-header">
+          <div class="crypto-card-icon">${iconContent}</div>
+          <div style="flex:1;min-width:0;">
+            <div class="crypto-card-name">${t.symbol}</div>
+            <div class="crypto-card-symbol">${t.name}</div>
+          </div>
+          <div style="text-align:right;flex-shrink:0;">
+            <div class="crypto-card-price">${formatUsd(t.value)}</div>
+            ${change24h !== 0 ? `<div style="font-size:11px;font-weight:600;" class="${changeCls}">${change24h >= 0 ? '+' : ''}${change24h.toFixed(1)}%</div>` : `<div style="font-size:11px;color:var(--muted);">${pctOfTotal}%</div>`}
+          </div>
+        </div>
+        <div style="height:3px;background:var(--stone);border-radius:2px;margin-bottom:8px;"><div style="height:100%;width:${pctOfTotal}%;background:var(--moss);border-radius:2px;transition:width 0.5s;"></div></div>
+        <div class="crypto-card-row"><span class="l">Amount</span><span class="v">${formatAmount(t.amount)} ${t.symbol}</span></div>
+        <div class="crypto-card-row"><span class="l">Price</span><span class="v">${formatUsd(t.price)}</span></div>
+        ${pnlHtml}
+        ${t.mint !== 'SOL' && t.pairAddress ? `<div style="margin-top:6px;text-align:right;"><a href="${t.url || 'https://dexscreener.com/solana/' + t.pairAddress}" target="_blank" style="font-size:11px;font-weight:700;color:var(--moss);text-decoration:none;">DexScreener ↗</a></div>` : ''}
+      </div>`;
+    }).join('');
+  }
+  
+  // Render charts in 2-column grid for live tokens (not SOL)
+  // Stagger iframe loading to avoid DexScreener rate-limiting
+  const chartsEl = document.getElementById('crypto-charts');
+  const chartTokens = live.filter(t => t.mint !== 'SOL' && t.pairAddress);
+  if (chartTokens.length > 0) {
+    chartsEl.innerHTML = `<div class="crypto-grid" style="display:grid;grid-template-columns:repeat(2,1fr);gap:16px;">${chartTokens.map((t, i) => `
+      <div>
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;padding-left:4px;">
+          <div style="font-family:'Fraunces',serif;font-size:1rem;font-weight:700;">${t.symbol}</div>
+          <div style="font-size:11px;color:var(--muted);font-weight:600;">${formatUsd(t.price)}</div>
+        </div>
+        <div class="crypto-chart-wrap" style="aspect-ratio:1/1;">
+          <iframe data-chart-src="https://dexscreener.com/solana/${t.pairAddress}?embed=1&loadChartSettings=0&tabs=0&info=0&chartLeftToolbar=0&chartDefaultOnMobile=1&chartTheme=light&theme=light&chartStyle=0&chartType=usd&interval=15" data-chart-idx="${i}" style="width:100%;height:100%;border:none;background:var(--stone);"></iframe>
+        </div>
+      </div>
+    `).join('')}</div>`;
+    // Stagger: load each iframe 800ms apart to avoid rate limits
+    chartsEl.querySelectorAll('iframe[data-chart-src]').forEach((iframe, i) => {
+      setTimeout(() => { iframe.src = iframe.dataset.chartSrc; }, i * 800);
+    });
+  } else {
+    chartsEl.innerHTML = '';
+  }
+  
+  // Dead tokens
+  const deadEl = document.getElementById('crypto-dead-list');
+  const deadCnt = document.getElementById('crypto-dead-cnt');
+  deadCnt.textContent = dead.length;
+  if (dead.length > 0) {
+    deadEl.innerHTML = dead.map(t => `
+      <div style="display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:8px;background:var(--stone);margin-bottom:4px;">
+        <div style="flex:1;min-width:0;">
+          <span style="font-size:13px;font-weight:600;">${t.name && t.name !== 'Unknown' ? t.name : t.symbol}</span>
+          ${t.name && t.name !== 'Unknown' ? `<span style="font-size:11px;color:var(--muted);margin-left:6px;">${t.symbol}</span>` : ''}
+          <div style="font-size:10px;color:var(--muted);font-family:monospace;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${t.mint}</div>
+        </div>
+        <span style="font-size:12px;font-weight:600;white-space:nowrap;">${formatAmount(t.amount)}</span>
+        <a href="https://solscan.io/token/${t.mint}" target="_blank" style="font-size:11px;color:var(--moss);white-space:nowrap;">Solscan ↗</a>
+      </div>
+    `).join('');
+  }
+  
+  // Render wallet list
+  renderWalletList();
+  
+  // Update timestamp
+  const ts = new Date(cache.timestamp);
+  const timeStr = ts.toLocaleTimeString('en-GB', { timeZone: 'Europe/Zurich', hour: '2-digit', minute: '2-digit' });
+  const existing = document.querySelector('#crypto-wallet-pills .crypto-ts');
+  if (existing) existing.remove();
+  document.getElementById('crypto-wallet-pills').insertAdjacentHTML('beforeend',
+    `<div class="crypto-ts" style="background:rgba(255,255,255,0.08);border-radius:10px;padding:8px 14px;font-size:12px;color:rgba(255,255,255,0.5);">Updated: ${timeStr}</div>`
+  );
+}
+
+function cryptoEditCostBasis() {
+  const cache = JSON.parse(localStorage.getItem(CRYPTO_CACHE_KEY) || '{}');
+  const live = cache.live || [];
+  const cb = getCostBasis();
+  
+  let html = '<div style="font-size:14px;font-weight:600;margin-bottom:12px;">Set your total cost (USD) for each token:</div>';
+  for (const t of live) {
+    html += `<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
+      <span style="font-size:13px;font-weight:600;width:60px;">${t.symbol}</span>
+      <span style="font-size:12px;color:var(--muted);width:80px;">Val: ${formatUsd(t.value)}</span>
+      <input type="number" step="0.01" placeholder="Cost in USD" value="${cb[t.mint] || ''}" data-mint="${t.mint}"
+        style="flex:1;border:1px solid var(--border);border-radius:8px;padding:6px 10px;font-family:'Nunito',sans-serif;font-size:13px;background:var(--stone);color:var(--fg);outline:none;"
+        class="cost-input">
+    </div>`;
+  }
+  
+  const overlay = document.createElement('div');
+  overlay.id = 'cost-overlay';
+  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:2000;display:flex;align-items:center;justify-content:center;padding:20px;';
+  overlay.innerHTML = `<div style="background:var(--card);border-radius:1.2rem;padding:24px;max-width:400px;width:100%;max-height:80vh;overflow-y:auto;">
+    ${html}
+    <div style="display:flex;gap:8px;margin-top:16px;">
+      <button onclick="saveCostInputs()" style="flex:1;background:var(--moss);color:white;border:none;border-radius:10px;padding:10px;font-weight:600;cursor:pointer;font-family:'Nunito',sans-serif;">Save</button>
+      <button onclick="document.getElementById('cost-overlay').remove()" style="flex:1;background:var(--stone);border:none;border-radius:10px;padding:10px;font-weight:600;cursor:pointer;font-family:'Nunito',sans-serif;color:var(--fg);">Cancel</button>
+    </div>
+  </div>`;
+  document.body.appendChild(overlay);
+}
+
+function saveCostInputs() {
+  const cb = getCostBasis();
+  document.querySelectorAll('.cost-input').forEach(el => {
+    const mint = el.dataset.mint;
+    const val = parseFloat(el.value);
+    if (!isNaN(val) && val > 0) cb[mint] = val;
+    else delete cb[mint];
+  });
+  saveCostBasis(cb);
+  document.getElementById('cost-overlay').remove();
+  const cache = JSON.parse(localStorage.getItem(CRYPTO_CACHE_KEY) || '{}');
+  if (cache.live) renderCrypto(cache);
+}
+
+function cryptoAddWallet() {
+  const input = document.getElementById('crypto-new-wallet');
+  const addr = input.value.trim();
+  if (!addr || addr.length < 32) return;
+  const wallets = getCryptoWallets();
+  if (!wallets.includes(addr)) {
+    wallets.push(addr);
+    syncSave(CRYPTO_WALLETS_KEY, wallets);
+    input.value = '';
+    renderWalletList();
+    cryptoRefresh();
+  }
+}
+
+function cryptoRemoveWallet(addr) {
+  let wallets = getCryptoWallets();
+  wallets = wallets.filter(w => w !== addr);
+  syncSave(CRYPTO_WALLETS_KEY, wallets);
+  renderWalletList();
+}
+
+function renderWalletList() {
+  const el = document.getElementById('crypto-wallet-list');
+  if (!el) return;
+  const wallets = getCryptoWallets();
+  el.innerHTML = wallets.map(w => `
+    <div style="display:flex;align-items:center;gap:8px;padding:8px 12px;background:var(--stone);border-radius:10px;">
+      <span style="font-size:12px;font-family:monospace;flex:1;word-break:break-all;">${w}</span>
+      <a href="https://solscan.io/account/${w}" target="_blank" style="font-size:11px;color:var(--moss);flex-shrink:0;">Solscan ↗</a>
+      <button onclick="cryptoRemoveWallet('${w}')" style="background:none;border:none;cursor:pointer;font-size:14px;color:var(--muted);flex-shrink:0;">×</button>
+    </div>
+  `).join('');
+}
+
+// Load cached data on page load, auto-refresh when visiting crypto tab
+function cryptoInit() {
+  const cache = JSON.parse(localStorage.getItem(CRYPTO_CACHE_KEY) || 'null');
+  if (cache && cache.live) {
+    renderCrypto(cache);
+    // Auto-refresh if cache older than 5 min
+    if (Date.now() - cache.timestamp > 5 * 60 * 1000) cryptoRefresh();
+  } else {
+    cryptoRefresh();
+  }
+}
+
+
+// DDCA Lab Tracker
+function initDDCALabs() {
+  const checks = document.querySelectorAll('.ddca-lab-check');
+  const counter = document.getElementById('ddca-lab-progress');
+  const KEY = 'gkhn-ddca-labs';
+  let done = syncGet(KEY) || {};
+  function refreshCount(){
+    let n=0; checks.forEach(c=>{if(c.checked)n++});
+    if(counter) counter.textContent = n + '/' + checks.length;
+  }
+  checks.forEach(c=>{
+    const lab = c.getAttribute('data-lab');
+    if(done[lab]) c.checked = true;
+    c.addEventListener('change', () => {
+      if(c.checked) done[lab] = 1; else delete done[lab];
+      syncSave(KEY, done);
+      refreshCount();
+    });
+  });
+  refreshCount();
+  window.renderDDCALabs = function(){
+    done = syncGet(KEY) || {};
+    checks.forEach(c => { c.checked = !!done[c.getAttribute('data-lab')]; });
+    refreshCount();
+  };
+}
+initDDCALabs();
 
 </script>
 
