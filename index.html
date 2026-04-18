@@ -1603,13 +1603,13 @@ function syncGet(key) {
   try { return JSON.parse(localStorage.getItem(key) || 'null'); } catch { return null; }
 }
 
-// On load: pull from server and merge into localStorage
+// On load: pull from server (source of truth) and overwrite localStorage
 async function syncInit() {
   try {
     const res = await fetch(SYNC_API, {
       headers: { 'Authorization': 'Bearer ' + SYNC_TOKEN }
     });
-    if (!res.ok) return;
+    if (!res.ok) return null;
     const serverData = await res.json();
     for (const [key, value] of Object.entries(serverData)) {
       localStorage.setItem(key, JSON.stringify(value));
@@ -1617,21 +1617,29 @@ async function syncInit() {
     // Re-render everything with server data
     loadPlan();
     ['pp','aw','an','ddca'].forEach(c => { buildTracker(c); buildSheets(c); });
-    ['dm','la','ad','ep'].forEach(c => buildS1Track(c));
+    renderAllS1();
     console.log('✅ Synced from server');
+    return serverData;
   } catch (e) {
     console.warn('Sync init failed (using local):', e);
+    return null;
   }
 }
 
-// Also push current localStorage to server on first load (migration)
-async function syncMigrate() {
+// One-time migration: push only keys the server is missing, so the server
+// (shared across devices) wins whenever both sides have the key. Running this
+// unconditionally on every load clobbers other devices' updates.
+async function syncMigrate(serverData) {
+  if (serverData === null) return; // offline — don't push stale local over unknown server state
   const keys = ['gkhn-plan', 'gkhn-lectures', 'gkhn-sheets', 'gkhn-s1review'];
   const payload = {};
   let hasData = false;
   keys.forEach(k => {
+    if (serverData[k] !== undefined) return;
     const v = localStorage.getItem(k);
-    if (v) { payload[k] = JSON.parse(v); hasData = true; }
+    if (v) {
+      try { payload[k] = JSON.parse(v); hasData = true; } catch {}
+    }
   });
   if (hasData) {
     fetch(SYNC_API, {
@@ -2072,39 +2080,42 @@ function updateS1Progress(course){
   if(cnt) cnt.textContent=reviewed+'/'+total;
 }
 
-['dm','la','ad','ep'].forEach(c=>{
-  buildS1Track(c);
-  // Also build in course pages (s1track2-*)
-  const container2=document.getElementById('s1track2-'+c);
-  if(container2){
-    const state=getS1State();
-    const cs=state[c]||{};
-    const topics=s1Topics[c];
-    let html='<div style="margin-bottom:10px;height:6px;background:var(--stone);border-radius:3px;overflow:hidden;"><div id="s1bar2-'+c+'" style="height:100%;background:var(--moss);border-radius:3px;width:0%;transition:width 0.3s;"></div></div>';
-    topics.forEach((topic,i)=>{
-      const reviewed=cs[i+'_rev']||false;
-      const practiced=cs[i+'_prac']||false;
-      const opacity=(reviewed&&practiced)?'opacity:0.4;':reviewed?'opacity:0.7;':'';
-      html+=`<div style="display:flex;align-items:center;gap:8px;padding:7px 10px;border-radius:8px;${opacity}background:var(--stone);margin-bottom:3px;">
-        <input type="checkbox" ${reviewed?'checked':''} onchange="toggleS1('${c}',${i},'rev',this);syncS1('${c}')" style="width:16px;height:16px;accent-color:var(--moss);cursor:pointer;" title="Reviewed">
-        <span style="font-size:13px;flex:1;">${topic}</span>
-        <label style="display:flex;align-items:center;gap:3px;font-size:11px;color:var(--muted);cursor:pointer;" title="Practiced exercises">
-          <input type="checkbox" ${practiced?'checked':''} onchange="toggleS1('${c}',${i},'prac',this);syncS1('${c}')" style="width:14px;height:14px;accent-color:var(--terra);cursor:pointer;">
-          practiced
-        </label>
-      </div>`;
-    });
-    container2.innerHTML=html;
-    const reviewed2=Object.keys(cs).filter(k=>k.endsWith('_rev')&&cs[k]).length;
-    const bar2=document.getElementById('s1bar2-'+c);
-    const cnt2=document.getElementById('s1cnt2-'+c);
-    if(bar2) bar2.style.width=(reviewed2/topics.length*100)+'%';
-    if(cnt2) cnt2.textContent=reviewed2+'/'+topics.length;
-  }
-});
+function renderAllS1(){
+  ['dm','la','ad','ep'].forEach(c=>{
+    buildS1Track(c);
+    // Also build in course pages (s1track2-*)
+    const container2=document.getElementById('s1track2-'+c);
+    if(container2){
+      const state=getS1State();
+      const cs=state[c]||{};
+      const topics=s1Topics[c];
+      let html='<div style="margin-bottom:10px;height:6px;background:var(--stone);border-radius:3px;overflow:hidden;"><div id="s1bar2-'+c+'" style="height:100%;background:var(--moss);border-radius:3px;width:0%;transition:width 0.3s;"></div></div>';
+      topics.forEach((topic,i)=>{
+        const reviewed=cs[i+'_rev']||false;
+        const practiced=cs[i+'_prac']||false;
+        const opacity=(reviewed&&practiced)?'opacity:0.4;':reviewed?'opacity:0.7;':'';
+        html+=`<div style="display:flex;align-items:center;gap:8px;padding:7px 10px;border-radius:8px;${opacity}background:var(--stone);margin-bottom:3px;">
+          <input type="checkbox" ${reviewed?'checked':''} onchange="toggleS1('${c}',${i},'rev',this);syncS1('${c}')" style="width:16px;height:16px;accent-color:var(--moss);cursor:pointer;" title="Reviewed">
+          <span style="font-size:13px;flex:1;">${topic}</span>
+          <label style="display:flex;align-items:center;gap:3px;font-size:11px;color:var(--muted);cursor:pointer;" title="Practiced exercises">
+            <input type="checkbox" ${practiced?'checked':''} onchange="toggleS1('${c}',${i},'prac',this);syncS1('${c}')" style="width:14px;height:14px;accent-color:var(--terra);cursor:pointer;">
+            practiced
+          </label>
+        </div>`;
+      });
+      container2.innerHTML=html;
+      const reviewed2=Object.keys(cs).filter(k=>k.endsWith('_rev')&&cs[k]).length;
+      const bar2=document.getElementById('s1bar2-'+c);
+      const cnt2=document.getElementById('s1cnt2-'+c);
+      if(bar2) bar2.style.width=(reviewed2/topics.length*100)+'%';
+      if(cnt2) cnt2.textContent=reviewed2+'/'+topics.length;
+    }
+  });
+}
+renderAllS1();
 
-// Boot: migrate local data to server, then pull server data
-syncMigrate().then(() => syncInit());
+// Boot: pull server data first (source of truth), then push any local-only keys
+syncInit().then(serverData => syncMigrate(serverData));
 
 // Sync between home and course page trackers
 function syncS1(course){
