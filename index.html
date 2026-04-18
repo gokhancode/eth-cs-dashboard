@@ -196,6 +196,25 @@ nav {
   margin-left:8px;
   white-space:nowrap;
 }
+.sync-btn {
+  font-size:11px;
+  font-weight:600;
+  color:var(--muted);
+  background:transparent;
+  border:1px solid var(--border);
+  border-radius:8px;
+  padding:4px 10px;
+  margin-left:8px;
+  white-space:nowrap;
+  cursor:pointer;
+  font-family:inherit;
+  transition:all 0.2s ease;
+}
+.sync-btn:hover:not(:disabled) { color:var(--fg); background:var(--moss-light); }
+.sync-btn:disabled { cursor:default; opacity:0.9; }
+.sync-btn.saving { color:var(--terra); border-color:var(--terra); }
+.sync-btn.ok { color:var(--moss); border-color:var(--moss); }
+.sync-btn.err { color:var(--burnt); border-color:var(--burnt); }
 
 /* LAYOUT */
 .wrap {
@@ -821,6 +840,7 @@ tr:hover td { background:var(--moss-light); border-radius:8px; }
       <div class="tab" onclick="go('res')">📚</div>
 
     </div>
+    <button class="sync-btn" id="force-sync-btn" onclick="forceSync()" title="Push all trackers to cloud now">☁ Sync</button>
     <div class="clock" id="clock"></div>
   </div>
 </nav>
@@ -1648,6 +1668,37 @@ async function syncMigrate(serverData) {
       body: JSON.stringify(payload)
     }).catch(() => {});
   }
+}
+
+// Manual push: flush any debounced queue and POST every tracker key immediately.
+async function forceSync() {
+  const btn = document.getElementById('force-sync-btn');
+  const setBtn = (cls, text) => { if (btn) { btn.className = 'sync-btn' + (cls ? ' ' + cls : ''); btn.textContent = text; } };
+  if (btn) btn.disabled = true;
+  setBtn('saving', '⏳ Saving…');
+
+  // Drain the debounced queue so we don't race with it
+  if (_syncTimer) { clearTimeout(_syncTimer); _syncTimer = null; }
+  const payload = { ..._syncQueue };
+  _syncQueue = {};
+  ['gkhn-plan', 'gkhn-lectures', 'gkhn-sheets', 'gkhn-s1review'].forEach(k => {
+    const v = localStorage.getItem(k);
+    if (v) { try { payload[k] = JSON.parse(v); } catch {} }
+  });
+
+  try {
+    const res = await fetch(SYNC_API, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + SYNC_TOKEN },
+      body: JSON.stringify(payload)
+    });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    setBtn('ok', '✓ Saved');
+  } catch (e) {
+    console.warn('Force sync failed:', e);
+    setBtn('err', '✕ Failed');
+  }
+  setTimeout(() => { setBtn('', '☁ Sync'); if (btn) btn.disabled = false; }, 2000);
 }
 
 // === DAILY PLANNER ===
